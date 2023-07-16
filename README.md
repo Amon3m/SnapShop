@@ -1,4 +1,4 @@
-# shopify
+# Snap Shop
 ### Android SDK
 minSdk 24  
 targetSdk 34
