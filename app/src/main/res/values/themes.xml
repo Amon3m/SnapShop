@@ -26,5 +26,25 @@
         <item name="colorOnSurfaceInverse">@color/md_theme_light_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_light_inversePrimary</item>
+
+        <item name="materialButtonStyle">@style/CommonButton</item>
+
     </style>
+
+
+    <style name="CommonButton" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/black</item>
+        <item name="elevation">4dp</item>
+    </style>
+
+
+    <style name="OnBoardingButton" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="elevation">4dp</item>
+
+    </style>
+
+
+
 </resources>
