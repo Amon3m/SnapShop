@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">SnapShop</string>
+    <string name="app_name">Snap Shop</string>
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="shopping_cart">Shopping Cart</string>
     <string name="settings">Settings</string>
     <string name="checkout_now">Checkout now</string>
@@ -32,4 +33,20 @@
     <string name="sale">SALE!</string>
     <string name="special_offer">Special Offer</string>
 
+    <string name="enter_email">Enter Email</string>
+    <string name="enter_username">Enter Username</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="forget_password">Forget Password ?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="don_t_have_an_account">Don\'t have an account ?</string>
+    <string name="login">Login</string>
+    <string name="as_guest">As guest</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="sign_in_with_your_email_and_password_or_continue_with_social_media">Sign in with your email and password or continue with social media</string>
+    <string name="email">Email :</string>
+    <string name="password">Password :</string>
+    <string name="username">Username :</string>
+    <string name="register_account">Register Account</string>
+    <string name="complete_your_details_or_continue_with_social_media">Complete your details or continue with social media</string>
+    <string name="already_have_an_account">Already have an account ?</string>
 </resources>

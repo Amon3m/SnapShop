@@ -70,4 +70,6 @@
 
     <color name="light_outline_grey">#D6D6D6</color>
     <color name="dim_grey_text">#878787</color>
+    <color name="secondary_text_color">#757575</color>
+
 </resources>
