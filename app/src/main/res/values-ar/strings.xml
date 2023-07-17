@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Snap Shop</string>
     <string name="shopping_cart">سلة التسوق</string>
     <string name="settings">الإعدادات</string>
-    <string name="home">Home</string>
-    <string name="wishlist">Wishlist</string>
-    <string name="cart">Cart</string>
-    <string name="profile">Profile</string>
+    <string name="profile">الملف الشخصي</string>
+
+    <string name="checkout_now">الدفع الآن</string>
+    <string name="payment_summary">ملخص الدفع</string>
+    <string name="total_items">مجموع العناصر</string>
+    <string name="total_items_price">380,99$</string>
+    <string name="discount">خصم</string>
+    <string name="discount_price">-20,00$</string>
+    <string name="total">المجموع</string>
+    <string name="total_price">360,99$</string>
+    <string name="promo_code">كود الخصم</string>
+    <string name="apply" >تطبيق</string>
+    <string name="your_location">موقعك</string>
+    <string name="home">الرئيسية</string>
+    <string name="change_location">تغيير الموقع</string>
+    <string name="wishlist">المفضلة</string>
+    <string name="cart">سلة التسوق</string>
 </resources>
