@@ -2,4 +2,8 @@
 <resources>
     <string name="shopping_cart">سلة التسوق</string>
     <string name="settings">الإعدادات</string>
+    <string name="home">Home</string>
+    <string name="wishlist">Wishlist</string>
+    <string name="cart">Cart</string>
+    <string name="profile">Profile</string>
 </resources>

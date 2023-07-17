@@ -1,7 +1,7 @@
 package com.itigradteamsix.snapshop
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -18,21 +18,46 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
+        NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
+
         setSupportActionBar(binding.topAppBar)
+
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.shoppingCartFragment -> {
-                    binding.topAppBar.title = getString(R.string.shopping_cart)
+                    binding.topAppBar.title = getString(R.string.cart)
+                    supportActionBar?.setDisplayHomeAsUpEnabled(false);
+                    supportActionBar?.setDisplayShowHomeEnabled(false);
                 }
-                R.id.settingsFragment -> {
-                    binding.topAppBar.title = getString(R.string.settings)
+                R.id.homeFragment -> {
+                    binding.topAppBar.title = getString(R.string.home)
+                    supportActionBar?.setDisplayHomeAsUpEnabled(false);
+                    supportActionBar?.setDisplayShowHomeEnabled(false);
                 }
+                R.id.profileFragment -> {
+                    binding.topAppBar.title = getString(R.string.profile)
+                    supportActionBar?.setDisplayHomeAsUpEnabled(false);
+                    supportActionBar?.setDisplayShowHomeEnabled(false);
+                }
+                R.id.wishlistFragment -> {
+                    binding.topAppBar.title = getString(R.string.wishlist)
+                    supportActionBar?.setDisplayHomeAsUpEnabled(false);
+                    supportActionBar?.setDisplayShowHomeEnabled(false);
+                }
+
                 else -> {
                     binding.topAppBar.title = getString(R.string.app_name)
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true);
+                    supportActionBar?.setDisplayShowHomeEnabled(true);
                 }
             }
+
         }
 
+    }
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }
