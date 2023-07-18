@@ -34,4 +34,11 @@
         android:name="com.itigradteamsix.snapshop.wishlist.view.WishlistFragment"
         android:label="@string/wishlist"
         tools:layout="@layout/fragment_wishlist" />
+
+
+    <!--    <activity-->
+<!--        android:id="@+id/start_activity"-->
+<!--        android:name="com.itigradteamsix.snapshop.StartActivity"-->
+<!--        app:startDestination="@id/wishlistFragment"-->
+<!--    />-->
 </navigation>
