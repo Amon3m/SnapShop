@@ -20,4 +20,14 @@
     <string name="change_location">تغيير الموقع</string>
     <string name="wishlist">المفضلة</string>
     <string name="cart">سلة التسوق</string>
+    <string name="next">Next</string>
+    <string name="browse_nand_explore">Browse \nand Explore</string>
+    <string name="dive_into_our_vast_collection_nof_products_across_various_categories">Dive into our vast collection \nof products across various categories.</string>
+    <string name="get_started">Get Started</string>
+    <string name="category">Category</string>
+    <string name="brands">Brands</string>
+    <string name="more"><![CDATA[more>>]]></string>
+    <string name="search_product">search product</string>
+    <string name="sale">SALE!</string>
+    <string name="special_offer">Special Offer</string>
 </resources>

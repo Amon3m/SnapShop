@@ -19,5 +19,17 @@
     <string name="cart">Shopping Cart</string>
     <string name="wishlist">Wishlist</string>
     <string name="profile">Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="next">Next</string>
+    <string name="browse_nand_explore">Browse \nand Explore</string>
+    <string name="dive_into_our_vast_collection_nof_products_across_various_categories">Dive into our vast collection of \nproducts across various categories.</string>
+    <string name="get_started">Get Started</string>
+    <string name="category">Category</string>
+    <string name="brands">Brands</string>
+    <string name="more"><![CDATA[more>>]]></string>
+    <string name="search_product">search product</string>
+    <string name="sale">SALE!</string>
+    <string name="special_offer">Special Offer</string>
 
 </resources>
