@@ -37,7 +37,7 @@
         android:text="@string/login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordLayout_signup" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordLayout_login" />
 
     <TextView
         android:id="@+id/headText1"
@@ -81,8 +81,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="7dp"
         android:text="@string/password"
-        app:layout_constraintBottom_toTopOf="@+id/passwordLayout_signup"
-        app:layout_constraintStart_toStartOf="@+id/passwordLayout_signup" />
+        app:layout_constraintBottom_toTopOf="@+id/passwordLayout_login"
+        app:layout_constraintStart_toStartOf="@+id/passwordLayout_login" />
 
 
     <LinearLayout
@@ -122,9 +122,8 @@
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:hint="@string/enter_email"
         app:boxBackgroundMode="outline"
-
+        app:hintEnabled="false"
         app:boxCornerRadiusBottomEnd="10dp"
         app:boxCornerRadiusBottomStart="10dp"
         app:boxCornerRadiusTopEnd="10dp"
@@ -141,17 +140,19 @@
             android:layout_height="wrap_content"
             android:maxLines="2"
             android:textSize="18sp"
+            android:hint="@string/enter_email"
+
 
             />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/passwordLayout_signup"
+        android:id="@+id/passwordLayout_login"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:hint="@string/enter_password"
+        app:hintEnabled="false"
         app:boxBackgroundMode="outline"
         app:boxCornerRadiusBottomEnd="10dp"
         app:boxCornerRadiusBottomStart="10dp"
@@ -166,11 +167,13 @@
         app:startIconDrawable="@drawable/lock">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/passwordEdit_signup"
+            android:id="@+id/passwordEdit_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:maxLines="2"
+            android:hint="@string/enter_password"
+
             android:textSize="18sp" />
     </com.google.android.material.textfield.TextInputLayout>
 

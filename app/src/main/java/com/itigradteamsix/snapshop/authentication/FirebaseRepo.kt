@@ -1,5 +1,7 @@
 package com.itigradteamsix.snapshop.authentication
 
+import android.util.Log
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.itigradteamsix.snapshop.authentication.signup.model.SignupUser
 import kotlinx.coroutines.tasks.await
@@ -9,7 +11,10 @@ class FirebaseRepo (val auth : FirebaseAuth) : FirebaseRepoInterface {
         return try {
             auth.signInWithEmailAndPassword(email, pass).await()
             if (auth.currentUser?.isEmailVerified == false) {
-                auth.currentUser?.sendEmailVerification()?.await()
+//                auth.currentUser?.sendEmailVerification()?.await()
+
+                Log.d("insideLoginRepo","email verification sent")
+                return AuthState.Success(false)
             }
             auth.currentUser?.isEmailVerified?.let { AuthState.Success(true) }
 
