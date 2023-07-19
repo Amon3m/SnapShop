@@ -1,7 +1,8 @@
 package com.itigradteamsix.snapshop.data.repository.remote
 
+import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
+import com.itigradteamsix.snapshop.authentication.login.model.CustomersLoginResponse
 import com.itigradteamsix.snapshop.data.models.Customer
-import com.itigradteamsix.snapshop.data.models.CustomerResponse
 import com.itigradteamsix.snapshop.data.models.Product
 import com.itigradteamsix.snapshop.data.models.ProductListResponse
 import com.itigradteamsix.snapshop.data.models.SmartCollectionResponse
@@ -37,10 +38,10 @@ interface ApiService {
     suspend fun getSmartCollectionById(@Path("id") id: Long): SmartCollectionResponse
     //used in signup fragment to create the customer by the info added
     @POST("customers.json")
-    suspend fun createCustomer(@Body customer: Customer): CustomerResponse
+    suspend fun createCustomer(@Body customer: CustomerResponse): CustomerResponse
     //used in login to get the pojo of the customer by the email inserted
     @GET("customers/search.json")
-    suspend fun getCustomerByEmail(@Query("email") email:String):CustomerResponse
+    suspend fun getCustomerByEmail(@Query("email") email:String): CustomersLoginResponse
 
 
 

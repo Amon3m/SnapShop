@@ -21,11 +21,14 @@ import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import com.itigradteamsix.snapshop.MainActivity
 import com.itigradteamsix.snapshop.R
+import com.itigradteamsix.snapshop.authentication.ApiCustomerState
 import com.itigradteamsix.snapshop.authentication.AuthState
 import com.itigradteamsix.snapshop.authentication.FirebaseRepo
+import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
 import com.itigradteamsix.snapshop.authentication.signup.model.SignupUser
 import com.itigradteamsix.snapshop.authentication.signup.viewModel.SignupViewModel
 import com.itigradteamsix.snapshop.authentication.signup.viewModel.SignupViewModelFactory
+import com.itigradteamsix.snapshop.data.models.Customer
 import com.itigradteamsix.snapshop.databinding.FragmentSignupBinding
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -115,13 +118,13 @@ class SignupFragment : Fragment() {
                     }
 
                     is AuthState.Success -> {
+                        loadingDialog.dismiss()
+                        viewModel.createCustomer(CustomerResponse( Customer(email = email, first_name = userNAme)))
                         Toast.makeText(
                             requireContext(),
-                            "Please verify your email and login",
+                            "Sorry "+userNAme+ ", Please verify your email and login",
                             Toast.LENGTH_SHORT
                         ).show()
-                        Navigation.findNavController(requireView())
-                            .navigate(R.id.action_signupFragment2_to_loginFragment2)
 
                     }
 
@@ -139,6 +142,35 @@ class SignupFragment : Fragment() {
 
 
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+
+            viewModel.createCustomerResultFlow.collect { result ->
+                when (result) {
+
+                    is ApiCustomerState.Loading -> {
+                        Log.d("createCustomerFlowCollect", "Loading")
+
+                    }
+
+                    is ApiCustomerState.Success -> {
+                        Log.d("customerDataInSuccessSignup",result.customerData.toString())
+
+
+                    }
+
+                    is ApiCustomerState.Failure -> {
+                        loadingDialog.dismiss()
+                        Log.d("createCustomerFlowFailure", result.exception.message.toString())
+                        showMsgDialog("\n"+result.exception.message.toString())
+
+
+                    }
+                }
+
+            }
+        }
+
     }
     private fun showMsgDialog(message: String) {
         val builder = AlertDialog.Builder(requireContext())

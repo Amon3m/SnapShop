@@ -41,6 +41,4 @@ data class SmartCollectionsResponse(
 data class SmartCollectionResponse(
     val smart_collection: SmartCollection
 )
-data class CustomerResponse(
-    var customer: Customer
-    )
+

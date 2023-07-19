@@ -21,6 +21,8 @@ import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import com.itigradteamsix.snapshop.MainActivity
 import com.itigradteamsix.snapshop.R
+import com.itigradteamsix.snapshop.authentication.ApiCustomerLoginState
+import com.itigradteamsix.snapshop.authentication.ApiCustomerState
 import com.itigradteamsix.snapshop.authentication.AuthState
 import com.itigradteamsix.snapshop.authentication.FirebaseRepo
 import com.itigradteamsix.snapshop.authentication.login.viewModel.LoginViewModel
@@ -112,9 +114,11 @@ class LoginFragment : Fragment() {
                             loadingDialog.dismiss()
                             if (result.data) {
 
-                                val intent = Intent(activity, MainActivity::class.java)
-                                startActivity(intent)
-                                activity?.finish()
+//                                val intent = Intent(activity, MainActivity::class.java)
+//                                startActivity(intent)
+//                                activity?.finish()
+                                Log.d("emailBeforeGetBYEmail", email)
+                                viewModel.getCustomerByEmail(email)
                             }
                             else{
                                 Toast.makeText(requireContext(),"Your email isn't verified",Toast.LENGTH_SHORT).show()
@@ -133,6 +137,37 @@ class LoginFragment : Fragment() {
 
             }
         }
+        viewLifecycleOwner.lifecycleScope.launch {
+
+            viewModel.customerByEmailFlow.collect { result  ->
+                when (result) {
+
+                    is ApiCustomerLoginState.Loading -> {
+                        Log.d("loginApiFlowCollect", "Loading")
+
+                    }
+
+                    is ApiCustomerLoginState.Success -> {
+                        Toast.makeText(requireContext(),"Welcome "+result.customerData?.get(0)?.first_name,Toast.LENGTH_SHORT).show()
+                        Log.d("customerDataInSuccess",result.customerData.toString())
+                        val intent = Intent(activity, MainActivity::class.java)
+                        intent.putExtra("ID",result.customerData?.get(0)?.id)
+                        startActivity(intent)
+                        activity?.finish()
+
+                    }
+
+                    is ApiCustomerLoginState.Failure -> {
+                        Log.d("loginApiFlowCollect", result.exception.message.toString())
+                        showMsgDialog("\n"+result.exception.message.toString())
+                    }
+                }
+
+            }
+
+
+        }
+
     }
     private fun showMsgDialog(message: String) {
         val builder = AlertDialog.Builder(requireContext())

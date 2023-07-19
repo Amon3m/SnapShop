@@ -1,7 +1,8 @@
 package com.itigradteamsix.snapshop.data.repository.remote
 
+import android.util.Log
+import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
 import com.itigradteamsix.snapshop.data.models.Customer
-import com.itigradteamsix.snapshop.data.models.CustomerResponse
 import com.itigradteamsix.snapshop.data.models.Product
 import com.itigradteamsix.snapshop.data.models.SmartCollection
 import com.itigradteamsix.snapshop.data.models.SmartCollectionResponse
@@ -96,25 +97,32 @@ object ShopifyApiClient {
         return response
     }
 
-    suspend fun createCustomer(customer: Customer): Customer? {
+    suspend fun createCustomer(customer: CustomerResponse): Customer? {
         var response: Customer? = null
         try {
             val wholeResponse = apiService.createCustomer(customer)
-            response =  wholeResponse.customer
+            response =  wholeResponse.customers
         } catch (e: Exception) {
             e.printStackTrace()
+            Log.d("rfCreateCustException",e.message.toString())
+
         }
+        Log.d("retrofitCreateCust", response?.email.toString())
         return response
     }
 
-    suspend fun getCustomerByEmail(email: String): Customer? {
-        var response: Customer? = null
+    suspend fun getCustomerByEmail(email: String): List<Customer>? {
+        var response: List<Customer>? = null
         try {
             val wholeResponse = apiService.getCustomerByEmail(email)
-            response =  wholeResponse.customer
+            Log.d("retrofitCreateCustres", wholeResponse.toString())
+            response =  wholeResponse.customers
         } catch (e: Exception) {
             e.printStackTrace()
+            Log.d("rfGetCustException",e.message.toString())
+
         }
+        Log.d("retrofitCreateCust", response?.get(0)?.email.toString())
         return response
     }
 
