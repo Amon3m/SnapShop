@@ -17,4 +17,5 @@ class SignupViewModel(private val iRepo: FirebaseRepoInterface) : ViewModel() {
             _signupResultFlow.value = iRepo.signUpUser(user)
         }
     }
+
 }

@@ -1,11 +1,15 @@
 package com.itigradteamsix.snapshop.data.repository.remote
 
+import com.itigradteamsix.snapshop.data.models.Customer
+import com.itigradteamsix.snapshop.data.models.CustomerResponse
 import com.itigradteamsix.snapshop.data.models.Product
 import com.itigradteamsix.snapshop.data.models.ProductListResponse
 import com.itigradteamsix.snapshop.data.models.SmartCollectionResponse
 import com.itigradteamsix.snapshop.data.models.SmartCollectionsResponse
 import kotlinx.coroutines.flow.Flow
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -31,6 +35,12 @@ interface ApiService {
     //get Only one smart collection (brand) by id
     @GET("smart_collections/{id}.json")
     suspend fun getSmartCollectionById(@Path("id") id: Long): SmartCollectionResponse
+    //used in signup fragment to create the customer by the info added
+    @POST("customers.json")
+    suspend fun createCustomer(@Body customer: Customer): CustomerResponse
+    //used in login to get the pojo of the customer by the email inserted
+    @GET("customers/search.json")
+    suspend fun getCustomerByEmail(@Query("email") email:String):CustomerResponse
 
 
 

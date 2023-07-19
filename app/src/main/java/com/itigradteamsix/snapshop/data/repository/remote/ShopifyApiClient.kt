@@ -1,5 +1,7 @@
 package com.itigradteamsix.snapshop.data.repository.remote
 
+import com.itigradteamsix.snapshop.data.models.Customer
+import com.itigradteamsix.snapshop.data.models.CustomerResponse
 import com.itigradteamsix.snapshop.data.models.Product
 import com.itigradteamsix.snapshop.data.models.SmartCollection
 import com.itigradteamsix.snapshop.data.models.SmartCollectionResponse
@@ -88,6 +90,28 @@ object ShopifyApiClient {
         try {
             val wholeResponse = apiService.getSmartCollections()
             response =  wholeResponse.smart_collections
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return response
+    }
+
+    suspend fun createCustomer(customer: Customer): Customer? {
+        var response: Customer? = null
+        try {
+            val wholeResponse = apiService.createCustomer(customer)
+            response =  wholeResponse.customer
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return response
+    }
+
+    suspend fun getCustomerByEmail(email: String): Customer? {
+        var response: Customer? = null
+        try {
+            val wholeResponse = apiService.getCustomerByEmail(email)
+            response =  wholeResponse.customer
         } catch (e: Exception) {
             e.printStackTrace()
         }

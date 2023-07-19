@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/shoppingCartFragment"
@@ -41,28 +41,4 @@
 <!--        android:name="com.itigradteamsix.snapshop.StartActivity"-->
 <!--        app:startDestination="@id/wishlistFragment"-->
 <!--    />-->
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.itigradteamsix.snapshop.authentication.login.view.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
-        <action
-            android:id="@+id/action_loginFragment_to_signupFragment"
-            app:destination="@id/signupFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_shoppingCartFragment"
-            app:destination="@id/shoppingCartFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/signupFragment"
-        android:name="com.itigradteamsix.snapshop.authentication.signup.view.SignupFragment"
-        android:label="fragment_signup"
-        tools:layout="@layout/fragment_signup" >
-        <action
-            android:id="@+id/action_signupFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
-        <action
-            android:id="@+id/action_signupFragment_to_shoppingCartFragment"
-            app:destination="@id/shoppingCartFragment" />
-    </fragment>
 </navigation>

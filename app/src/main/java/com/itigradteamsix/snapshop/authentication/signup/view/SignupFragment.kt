@@ -2,6 +2,7 @@ package com.itigradteamsix.snapshop.authentication.signup.view
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
@@ -18,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
+import com.itigradteamsix.snapshop.MainActivity
 import com.itigradteamsix.snapshop.R
 import com.itigradteamsix.snapshop.authentication.AuthState
 import com.itigradteamsix.snapshop.authentication.FirebaseRepo
@@ -62,11 +64,13 @@ class SignupFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity(),signupViewModelFactory).get(SignupViewModel::class.java)
         binding.txtLogin.setOnClickListener {
             Navigation.findNavController(requireView())
-                .navigate(R.id.action_signupFragment_to_loginFragment)
+                .navigate(R.id.action_signupFragment2_to_loginFragment2)
         }
         binding.asGuestSignup.setOnClickListener {
-            Navigation.findNavController(requireView())
-                .navigate(R.id.action_signupFragment_to_homeFragment)
+
+            val intent = Intent(activity, MainActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
         }
         binding.signupBtn.setOnClickListener {
             email = binding.emailEditSignup.text.toString().trim()
@@ -117,7 +121,7 @@ class SignupFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()
                         Navigation.findNavController(requireView())
-                            .navigate(R.id.action_signupFragment_to_loginFragment)
+                            .navigate(R.id.action_signupFragment2_to_loginFragment2)
 
                     }
 

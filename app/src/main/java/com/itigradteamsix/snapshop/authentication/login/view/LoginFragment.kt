@@ -2,6 +2,7 @@ package com.itigradteamsix.snapshop.authentication.login.view
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
@@ -18,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
+import com.itigradteamsix.snapshop.MainActivity
 import com.itigradteamsix.snapshop.R
 import com.itigradteamsix.snapshop.authentication.AuthState
 import com.itigradteamsix.snapshop.authentication.FirebaseRepo
@@ -67,12 +69,14 @@ class LoginFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity(),loginViewModelFactory).get(LoginViewModel::class.java)
         binding.txtSignUp.setOnClickListener {
             Navigation.findNavController(requireView())
-                .navigate(R.id.action_loginFragment_to_signupFragment)
+                .navigate(R.id.action_loginFragment2_to_signupFragment2)
         }
 
         binding.asGuest.setOnClickListener {
-            Navigation.findNavController(requireView())
-                .navigate(R.id.action_loginFragment_to_homeFragment)
+
+            val intent = Intent(activity, MainActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
         }
         binding.loginBtn.setOnClickListener {
 
@@ -107,8 +111,10 @@ class LoginFragment : Fragment() {
                         is AuthState.Success -> {
                             loadingDialog.dismiss()
                             if (result.data) {
-                                Navigation.findNavController(requireView())
-                                    .navigate(R.id.action_loginFragment_to_homeFragment)
+
+                                val intent = Intent(activity, MainActivity::class.java)
+                                startActivity(intent)
+                                activity?.finish()
                             }
                             else{
                                 Toast.makeText(requireContext(),"Your email isn't verified",Toast.LENGTH_SHORT).show()

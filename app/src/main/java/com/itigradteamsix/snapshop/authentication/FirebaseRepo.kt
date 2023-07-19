@@ -4,6 +4,7 @@ import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.itigradteamsix.snapshop.authentication.signup.model.SignupUser
+import com.itigradteamsix.snapshop.data.models.Customer
 import kotlinx.coroutines.tasks.await
 
 class FirebaseRepo (val auth : FirebaseAuth) : FirebaseRepoInterface {
@@ -31,6 +32,10 @@ class FirebaseRepo (val auth : FirebaseAuth) : FirebaseRepoInterface {
         } catch (e: Exception) {
             AuthState.Failure(e)
         }
+    }
+
+    override suspend fun createCustomer(customer: Customer): Customer {
+        TODO("Not yet implemented")
     }
 
 
