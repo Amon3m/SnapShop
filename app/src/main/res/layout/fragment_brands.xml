@@ -47,6 +47,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/brand_recycler"
         android:layout_width="409dp"
         android:layout_height="644dp"
         android:layout_marginStart="1dp"
@@ -56,6 +57,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_card" />
+        app:layout_constraintTop_toBottomOf="@+id/search_card"
+        tools:listitem="@layout/brand_item"
+        app:spanCount="2"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+
+
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
