@@ -1,10 +1,10 @@
-package com.itigradteamsix.snapshop.data.repository.local
+package com.itigradteamsix.snapshop.database
 
 import android.content.Context
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
-class ConcreteLocalSource(context: Context): LocalSource{
+class ConcreteLocalSource(context: Context): LocalSource {
 
     companion object {
         private var concreteLocalSource: ConcreteLocalSource? = null

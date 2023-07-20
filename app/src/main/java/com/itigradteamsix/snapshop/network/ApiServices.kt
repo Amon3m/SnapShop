@@ -1,15 +1,16 @@
-package com.itigradteamsix.snapshop.data.repository.remote
+package com.example.productsmvvm.network
 
-import com.itigradteamsix.snapshop.data.models.Product
-import com.itigradteamsix.snapshop.data.models.ProductListResponse
-import com.itigradteamsix.snapshop.data.models.SmartCollectionResponse
-import com.itigradteamsix.snapshop.data.models.SmartCollectionsResponse
-import kotlinx.coroutines.flow.Flow
+
+import com.itigradteamsix.snapshop.model.ProductListResponse
+import com.itigradteamsix.snapshop.model.SmartCollectionResponse
+import com.itigradteamsix.snapshop.model.SmartCollectionsResponse
+
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface ApiService {
+
+interface ApiServices {
 
     //https://shopify.dev/docs/api/admin-rest/2023-07/resources/product#get-products
     //Retrieve list of all products ✅
@@ -31,7 +32,4 @@ interface ApiService {
     //get Only one smart collection (brand) by id
     @GET("smart_collections/{id}.json")
     suspend fun getSmartCollectionById(@Path("id") id: Long): SmartCollectionResponse
-
-
-
 }
