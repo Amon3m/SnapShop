@@ -11,10 +11,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.itigradteamsix.snapshop.database.ConcreteLocalSource
 import com.itigradteamsix.snapshop.databinding.FragmentShoppingCartBinding
+import com.itigradteamsix.snapshop.model.ProductListResponse
 import com.itigradteamsix.snapshop.model.Repository
+import com.itigradteamsix.snapshop.model.SmartCollectionResponse
 import com.itigradteamsix.snapshop.network.ApiClient
-import com.itigradteamsix.snapshop.network.ApiStateProductList
-import com.itigradteamsix.snapshop.network.ApiStateSmartCollection
+import com.itigradteamsix.snapshop.network.ApiState
+
 import com.itigradteamsix.snapshop.shoppingcart.viewmodel.ShoppingCartViewModel
 import com.itigradteamsix.snapshop.shoppingcart.viewmodel.ShoppingCartViewModelFactory
 import kotlinx.coroutines.launch
@@ -51,17 +53,17 @@ lateinit var shoppingCartviewModelFactory: ShoppingCartViewModelFactory
         lifecycleScope.launch {
             shoppingCartViewModel.productList.collect {
                 when (it) {
-                    is ApiStateProductList.Success -> {
+                    is ApiState.Success<*> -> {
 
-                        val data = it.data.products
+                        val data = it.data as? ProductListResponse
 
 
-
-                        Log.e("Success","${data.get(0).title}")
+                        val product=data?.products
+                        Log.e("Success ******","${product?.get(0)?.title}")
                         Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
 
                     }
-                    is ApiStateProductList.Failure -> {
+                    is ApiState.Failure -> {
                         Toast.makeText(requireContext(), it.msg, Toast.LENGTH_SHORT).show()
                     }
 
@@ -84,16 +86,15 @@ lateinit var shoppingCartviewModelFactory: ShoppingCartViewModelFactory
         lifecycleScope.launch {
             shoppingCartViewModel.smartCollection.collect {
                 when (it) {
-                    is ApiStateSmartCollection.Success -> {
+                    is ApiState.Success<*> -> {
+                        val data = it.data as? SmartCollectionResponse
 
-                        val data = it.data.smart_collection
 
-
-                        Log.e("Success", data.title)
+                        Log.e("Success xxxxxxx","${data?.smart_collection?.title}" )
                         Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
 
                     }
-                    is ApiStateSmartCollection.Failure -> {
+                    is ApiState.Failure -> {
                         Toast.makeText(requireContext(), it.msg, Toast.LENGTH_SHORT).show()
                     }
 

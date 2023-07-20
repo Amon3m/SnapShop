@@ -2,11 +2,10 @@ package com.itigradteamsix.snapshop.shoppingcart.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.itigradteamsix.snapshop.model.Product
-import com.itigradteamsix.snapshop.model.SmartCollection
+
 import com.itigradteamsix.snapshop.model.RepoInterface
-import com.itigradteamsix.snapshop.network.ApiStateProductList
-import com.itigradteamsix.snapshop.network.ApiStateSmartCollection
+import com.itigradteamsix.snapshop.network.ApiState
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,22 +19,22 @@ class ShoppingCartViewModel(private val repoInterface: RepoInterface):  ViewMode
         getSmartCollections()
     }
 
-    private val _productList = MutableStateFlow<ApiStateProductList>(ApiStateProductList.Loading)
-    val productList: StateFlow<ApiStateProductList>
+    private val _productList = MutableStateFlow<ApiState>(ApiState.Loading)
+    val productList: StateFlow<ApiState>
         get() = _productList
 
 
-    private val _smartCollection = MutableStateFlow<ApiStateSmartCollection>(ApiStateSmartCollection.Loading)
-    val smartCollection: StateFlow<ApiStateSmartCollection>
+    private val _smartCollection = MutableStateFlow<ApiState>(ApiState.Loading)
+    val smartCollection: StateFlow<ApiState>
         get()=_smartCollection
 
 
     fun getAllProducts() {
         viewModelScope.launch(Dispatchers.IO) {
             repoInterface.getAllProducts().catch { e ->
-                _productList.emit(ApiStateProductList.Failure(e.message ?: "")) }.collect{
+                _productList.emit(ApiState.Failure(e.message ?: "")) }.collect{
                 var products=it
-                _productList.emit(ApiStateProductList.Success(products))
+                _productList.emit(ApiState.Success(products))
 
             }
 
@@ -45,9 +44,9 @@ class ShoppingCartViewModel(private val repoInterface: RepoInterface):  ViewMode
     fun getSmartCollections() {
         viewModelScope.launch(Dispatchers.IO) {
           repoInterface.getSmartCollectionById(453400101165).catch {e->
-              _smartCollection.emit(ApiStateSmartCollection.Failure(e.message ?: ""))
+              _smartCollection.emit(ApiState.Failure(e.message ?: ""))
           }.collect{
-              _smartCollection.emit(ApiStateSmartCollection.Success(it))
+              _smartCollection.emit(ApiState.Success(it))
           }
         }
     }
