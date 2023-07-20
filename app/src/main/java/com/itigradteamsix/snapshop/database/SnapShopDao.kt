@@ -1,4 +1,4 @@
-package com.itigradteamsix.snapshop.data.repository.local
+package com.itigradteamsix.snapshop.database
 
 import androidx.room.Dao
 
