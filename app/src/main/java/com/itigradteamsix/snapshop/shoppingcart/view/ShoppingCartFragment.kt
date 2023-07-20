@@ -44,6 +44,10 @@ lateinit var shoppingCartviewModelFactory: ShoppingCartViewModelFactory
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        shoppingCartViewModel.getAllProducts(requireContext())
+
+         shoppingCartViewModel.getSmartCollections(requireContext())
+
         // Inflate the layout for this fragment
         binding= FragmentShoppingCartBinding.inflate(inflater,container,false)
         return binding.root}
@@ -65,6 +69,9 @@ lateinit var shoppingCartviewModelFactory: ShoppingCartViewModelFactory
                     }
                     is ApiState.Failure -> {
                         Toast.makeText(requireContext(), it.msg, Toast.LENGTH_SHORT).show()
+
+                        Log.e("Failure ******","Failure")
+
                     }
 
                     else -> {

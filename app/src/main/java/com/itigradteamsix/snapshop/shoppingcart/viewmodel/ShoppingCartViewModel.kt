@@ -1,5 +1,8 @@
 package com.itigradteamsix.snapshop.shoppingcart.viewmodel
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
@@ -15,8 +18,7 @@ import kotlinx.coroutines.launch
 class ShoppingCartViewModel(private val repoInterface: RepoInterface):  ViewModel() {
 
     init {
-        getAllProducts()
-        getSmartCollections()
+     //   getSmartCollections()
     }
 
     private val _productList = MutableStateFlow<ApiState>(ApiState.Loading)
@@ -29,28 +31,40 @@ class ShoppingCartViewModel(private val repoInterface: RepoInterface):  ViewMode
         get()=_smartCollection
 
 
-    fun getAllProducts() {
+    fun getAllProducts(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
+            if (isNetworkAvailable(context)){
             repoInterface.getAllProducts().catch { e ->
                 _productList.emit(ApiState.Failure(e.message ?: "")) }.collect{
                 var products=it
-                _productList.emit(ApiState.Success(products))
 
-            }
-
+                _productList.emit(ApiState.Success(products))}
+            }else{
+                Log.e("fail","fail")
+                _productList.emit(ApiState.Failure("eeeeeee"))}
         }
-    }
+        }
 
-    fun getSmartCollections() {
+
+
+
+    fun getSmartCollections(context: Context) {
+
         viewModelScope.launch(Dispatchers.IO) {
+            if (isNetworkAvailable(context)){
           repoInterface.getSmartCollectionById(453400101165).catch {e->
               _smartCollection.emit(ApiState.Failure(e.message ?: ""))
           }.collect{
+
               _smartCollection.emit(ApiState.Success(it))
           }
-        }
+        }else{_smartCollection.emit(ApiState.Failure( "fail;"))}
+    }}
+    fun isNetworkAvailable(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetworkInfo = connectivityManager.activeNetworkInfo
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected
     }
-
 
 
 }
