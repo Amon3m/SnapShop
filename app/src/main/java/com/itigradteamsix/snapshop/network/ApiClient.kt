@@ -1,12 +1,16 @@
 package com.itigradteamsix.snapshop.network
 
-import com.example.productsmvvm.network.ApiServices
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
+import com.itigradteamsix.snapshop.data.models.Customer
+import com.itigradteamsix.snapshop.data.repository.remote.ApiServices
 
 import com.itigradteamsix.snapshop.model.ProductListResponse
 import com.itigradteamsix.snapshop.model.SmartCollectionResponse
 import com.itigradteamsix.snapshop.model.SmartCollectionsResponse
+import com.itigradteamsix.snapshop.network.Api.apiService
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -46,6 +50,33 @@ object ApiClient : RemoteSource {
         return Api.apiService.getSmartCollections()
 
      }
+    override suspend fun createCustomer(customer: CustomerResponse): Customer? {
+        var response: Customer? = null
+        try {
+            val wholeResponse = apiService.createCustomer(customer)
+            response =  wholeResponse.customers
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfCreateCustException",e.message.toString())
+
+        }
+        Log.d("retrofitCreateCust", response?.email.toString())
+        return response
+    }
+    override suspend fun getCustomerByEmail(email: String): List<Customer>? {
+        var response: List<Customer>? = null
+        try {
+            val wholeResponse = apiService.getCustomerByEmail(email)
+            Log.d("retrofitCreateCustres", wholeResponse.toString())
+            response =  wholeResponse.customers
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfGetCustException",e.message.toString())
+
+        }
+        Log.d("retrofitCreateCust", response?.get(0)?.email.toString())
+        return response
+    }
 
 
 }

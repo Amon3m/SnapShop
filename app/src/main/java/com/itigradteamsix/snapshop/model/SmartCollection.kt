@@ -39,3 +39,4 @@ data class SmartCollectionsResponse(
 data class SmartCollectionResponse(
     val smart_collection: SmartCollection
 )
+

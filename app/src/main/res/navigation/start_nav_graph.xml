@@ -9,5 +9,27 @@
         android:id="@+id/viewPagerFragment2"
         android:name="com.itigradteamsix.snapshop.onboarding.ViewPagerFragment"
         android:label="fragment_view_pager"
-        tools:layout="@layout/fragment_view_pager" />
+        tools:layout="@layout/fragment_view_pager" >
+        <action
+            android:id="@+id/action_viewPagerFragment2_to_loginFragment2"
+            app:destination="@id/loginFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment2"
+        android:name="com.itigradteamsix.snapshop.authentication.login.view.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment2_to_signupFragment2"
+            app:destination="@id/signupFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/signupFragment2"
+        android:name="com.itigradteamsix.snapshop.authentication.signup.view.SignupFragment"
+        android:label="fragment_signup"
+        tools:layout="@layout/fragment_signup" >
+        <action
+            android:id="@+id/action_signupFragment2_to_loginFragment2"
+            app:destination="@id/loginFragment2" />
+    </fragment>
 </navigation>

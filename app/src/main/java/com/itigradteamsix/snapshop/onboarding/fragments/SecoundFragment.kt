@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.itigradteamsix.snapshop.MainActivity
@@ -38,9 +39,11 @@ lateinit var binding: FragmentSecoundBinding
         super.onViewCreated(view, savedInstanceState)
         val viewPager=activity?.findViewById<ViewPager2>(R.id.view_pager)
         binding.button3.setOnClickListener {
-            val intent = Intent(activity, MainActivity::class.java)
-            startActivity(intent)
-            activity?.finish()
+//            val intent = Intent(activity, MainActivity::class.java)
+//            startActivity(intent)
+//            activity?.finish()
+            Navigation.findNavController(requireView())
+                .navigate(R.id.action_viewPagerFragment2_to_loginFragment2)
         }
         binding.nextSec.setOnClickListener {
             viewPager?.currentItem=3

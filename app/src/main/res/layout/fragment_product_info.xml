@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/mealImagedetails"
+            android:layout_width="413dp"
+            android:layout_height="360dp"
+            android:src="@drawable/image_grape"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_oval="false" />
+
+        <ImageView
+            android:id="@+id/cardView2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="350dp"
+            android:background="@drawable/background_detail"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/mealImagedetails" />
+
+        <ImageView
+            android:id="@+id/imageViewAddToCalendarItemDetails"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="28dp"
+            android:src="@drawable/star_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/mealImagedetails" />
+
+
+        <ImageView
+            android:id="@+id/adding_quantity_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/image_background_rounded"
+            android:padding="5dp"
+            android:src="@drawable/baseline_add_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.978"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/details_tv" />
+
+        <ImageView
+            android:id="@+id/decreasing_quantity_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="50dp"
+            android:background="@drawable/image_background_rounded"
+            android:padding="5dp"
+            android:src="@drawable/baseline_horizontal_rule_24"
+            app:layout_constraintBottom_toBottomOf="@+id/adding_quantity_btn"
+            app:layout_constraintEnd_toStartOf="@+id/adding_quantity_btn"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintTop_toTopOf="@+id/adding_quantity_btn" />
+
+        <TextView
+            android:id="@+id/product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/mulish_semibold"
+            android:gravity="left"
+            android:textSize="27sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.168"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/cardView2"
+            tools:text="Wirless Controller For PS4™ " />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/mulish_bold"
+            android:text="$64.99"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/product_name" />
+
+        <TextView
+            android:id="@+id/details_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:padding="10dp"
+            android:text="Wireless Controller for PS4™ gives you what you want in your gaming from over precision control your games to sharing …"
+            android:textColor="@color/grey"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/price" />
+
+        <Button
+            android:id="@+id/addToCart_btn"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="55dp"
+            android:text="Add to Cart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/decreasing_quantity_btn" />
+
+        <Button
+            android:id="@+id/button_color1"
+            android:layout_width="40dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="15dp"
+            android:backgroundTint="#FF0000"
+            app:layout_constraintBottom_toBottomOf="@+id/decreasing_quantity_btn"
+            app:layout_constraintStart_toEndOf="@+id/button_color2"
+            app:layout_constraintTop_toTopOf="@+id/decreasing_quantity_btn" />
+
+        <Button
+            android:id="@+id/button_color2"
+            android:layout_width="40dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="15dp"
+            android:backgroundTint="#FFEB3B"
+            app:layout_constraintBottom_toBottomOf="@+id/decreasing_quantity_btn"
+            app:layout_constraintStart_toEndOf="@+id/button_color3"
+            app:layout_constraintTop_toTopOf="@+id/decreasing_quantity_btn" />
+
+        <Button
+            android:id="@+id/button_color3"
+            android:layout_width="40dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="15dp"
+            android:backgroundTint="#2196F3"
+            android:textColorLink="#8A2A2A"
+            app:layout_constraintBottom_toBottomOf="@+id/decreasing_quantity_btn"
+            app:layout_constraintStart_toEndOf="@+id/button_color4"
+            app:layout_constraintTop_toTopOf="@+id/decreasing_quantity_btn" />
+
+        <Button
+            android:id="@+id/button_color4"
+            android:layout_width="40dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="15dp"
+            app:layout_constraintBottom_toBottomOf="@+id/decreasing_quantity_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/decreasing_quantity_btn" />
+
+        <ImageView
+            android:id="@+id/favorite_btn"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/image_background_rounded"
+            app:layout_constraintBottom_toBottomOf="@+id/price"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/price"
+            app:srcCompat="@drawable/baseline_favorite_24" />
+
+        <TextView
+            android:id="@+id/rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:text="4.5"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/imageViewAddToCalendarItemDetails"
+            app:layout_constraintEnd_toStartOf="@+id/imageViewAddToCalendarItemDetails"
+            app:layout_constraintTop_toTopOf="@+id/imageViewAddToCalendarItemDetails" />
+
+        <TextView
+            android:id="@+id/quantity_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/decreasing_quantity_btn"
+            app:layout_constraintEnd_toStartOf="@+id/adding_quantity_btn"
+            app:layout_constraintStart_toEndOf="@+id/decreasing_quantity_btn"
+            app:layout_constraintTop_toTopOf="@+id/decreasing_quantity_btn" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="100dp"
+            app:layout_constraintBottom_toTopOf="@+id/cardView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/product4" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:layout_constraintBottom_toTopOf="@+id/cardView2"
+            app:layout_constraintEnd_toStartOf="@+id/imageView3"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:srcCompat="@drawable/product4" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="100dp"
+            app:layout_constraintBottom_toTopOf="@+id/cardView2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/product4" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.core.widget.NestedScrollView>
