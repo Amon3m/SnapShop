@@ -22,21 +22,21 @@ class ProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding= FragmentProfileBinding.inflate(inflater,container,false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.button.setOnClickListener {
-
-
-            val action=ProfileFragmentDirections.actionProfileFragmentToSettingsFragment()
-            Navigation.findNavController(view).navigate(action)
-
-        }
-    }
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//        binding.button.setOnClickListener {
+//
+//
+//            val action=ProfileFragmentDirections.actionProfileFragmentToSettingsFragment()
+//            Navigation.findNavController(view).navigate(action)
+//
+//        }
+//    }
 
 }

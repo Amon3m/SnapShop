@@ -30,4 +30,8 @@
     <string name="search_product">search product</string>
     <string name="sale">SALE!</string>
     <string name="special_offer">Special Offer</string>
+    <string name="personal_data">البيانات الشخصية</string>
+    <string name="addresses">العناوين</string>
+    <string name="see_all">مشاهدة الكل</string>
+    <string name="sign_out">تسجيل الخروج</string>
 </resources>
