@@ -5,11 +5,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
 import com.itigradteamsix.snapshop.authentication.signup.model.SignupUser
 import com.itigradteamsix.snapshop.data.models.Customer
-import com.itigradteamsix.snapshop.data.repository.remote.ShopifyApiClient
+import com.itigradteamsix.snapshop.network.ApiClient
 import kotlinx.coroutines.tasks.await
 
 class FirebaseRepo (val auth : FirebaseAuth) : FirebaseRepoInterface {
-    private val retrofit : ShopifyApiClient = ShopifyApiClient
+    private val retrofit : ApiClient = ApiClient
     override suspend fun loginUser(email: String, pass: String): AuthState? {
         return try {
             auth.signInWithEmailAndPassword(email, pass).await()
