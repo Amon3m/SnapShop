@@ -79,6 +79,36 @@ object ApiClient : RemoteSource {
     }
 
 
+    override suspend fun createDraftOrder(customer: CustomerResponse): Customer? {
+        var response: Customer? = null
+        try {
+            val wholeResponse = apiService.createCustomer(customer)
+            response =  wholeResponse.customers
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfCreateCustException",e.message.toString())
+
+        }
+        Log.d("retrofitCreateCust", response?.email.toString())
+        return response
+    }
+    override suspend fun getDraftOrder(email: String): List<Customer>? {
+        var response: List<Customer>? = null
+        try {
+            val wholeResponse = apiService.getCustomerByEmail(email)
+            Log.d("retrofitCreateCustres", wholeResponse.toString())
+            response =  wholeResponse.customers
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfGetCustException",e.message.toString())
+
+        }
+        Log.d("retrofitCreateCust", response?.get(0)?.email.toString())
+        return response
+    }
+
+
+
 }
 
 object RetrofitHelper {
