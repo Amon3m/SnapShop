@@ -1,4 +1,4 @@
-package com.itigradteamsix.snapshop.data.models
+package com.itigradteamsix.snapshop.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
