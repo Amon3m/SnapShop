@@ -1,6 +1,4 @@
-package com.itigradteamsix.snapshop.data.models
-
-import com.google.gson.annotations.SerializedName
+package com.itigradteamsix.snapshop.model
 
 data class SmartCollection(
     val id: Long,

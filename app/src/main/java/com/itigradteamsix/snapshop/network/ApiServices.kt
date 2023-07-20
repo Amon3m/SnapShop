@@ -1,5 +1,9 @@
 package com.itigradteamsix.snapshop.data.repository.remote
 
+import com.itigradteamsix.snapshop.model.ProductListResponse
+import com.itigradteamsix.snapshop.model.SmartCollectionResponse
+import com.itigradteamsix.snapshop.model.SmartCollectionsResponse
+
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
 import com.itigradteamsix.snapshop.authentication.login.model.CustomersLoginResponse
 import com.itigradteamsix.snapshop.data.models.Customer
@@ -14,7 +18,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface ApiService {
+interface ApiServices {
 
     //https://shopify.dev/docs/api/admin-rest/2023-07/resources/product#get-products
     //Retrieve list of all products ✅
