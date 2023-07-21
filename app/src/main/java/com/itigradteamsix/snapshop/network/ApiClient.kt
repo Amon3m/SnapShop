@@ -12,6 +12,8 @@ import com.itigradteamsix.snapshop.model.SmartCollectionResponse
 import com.itigradteamsix.snapshop.model.SmartCollectionsResponse
 import com.itigradteamsix.snapshop.network.Api.apiService
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -20,6 +22,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 const val BASE_URL = "https://itp-sv-and6.myshopify.com/admin/api/2023-07/"
 
 object ApiClient : RemoteSource {
+
+
 
     override suspend fun getAllProducts(): ProductListResponse {
 
@@ -63,6 +67,7 @@ object ApiClient : RemoteSource {
         Log.d("retrofitCreateCust", response?.email.toString())
         return response
     }
+
     override suspend fun getCustomerByEmail(email: String): List<Customer>? {
         var response: List<Customer>? = null
         try {
@@ -75,6 +80,20 @@ object ApiClient : RemoteSource {
 
         }
         Log.d("retrofitCreateCust", response?.get(0)?.email.toString())
+        return response
+    }
+
+    override suspend fun newGetCustomerByEmail(email: String): Flow<Customer>? {
+        var response: Flow<Customer>? = null
+        try{
+            val customerListMaybe= apiService.getCustomerByEmail(email)
+            if (customerListMaybe.customers.isNotEmpty()){
+                response = flowOf(customerListMaybe.customers[0])
+            }
+        }catch (e:Exception){
+            e.printStackTrace()
+            Log.d("rfGetCustException",e.message.toString())
+        }
         return response
     }
 
