@@ -19,7 +19,14 @@
         android:id="@+id/homeFragment"
         android:name="com.itigradteamsix.snapshop.home.view.HomeFragment"
         android:label="@string/home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_brandsFragment"
+            app:destination="@id/brandsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_productsFragment"
+            app:destination="@id/productsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.itigradteamsix.snapshop.profile.view.ProfileFragment"
@@ -34,6 +41,23 @@
         android:name="com.itigradteamsix.snapshop.wishlist.view.WishlistFragment"
         android:label="@string/wishlist"
         tools:layout="@layout/fragment_wishlist" />
+    <fragment
+        android:id="@+id/brandsFragment"
+        android:name="com.itigradteamsix.snapshop.brands.view.BrandsFragment"
+        android:label="fragment_brands"
+        tools:layout="@layout/fragment_brands" >
+        <action
+            android:id="@+id/action_brandsFragment_to_productsFragment"
+            app:destination="@id/productsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productsFragment"
+        android:name="com.itigradteamsix.snapshop.products.view.ProductsFragment"
+        android:label="ProductsFragment" >
+        <argument
+            android:name="collection_id"
+            app:argType="long" />
+    </fragment>
 
 
     <!--    <activity-->

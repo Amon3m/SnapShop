@@ -7,7 +7,7 @@ interface RepoInterface {
     suspend fun getAllProducts(): Flow<ProductListResponse>
 
     suspend fun getANumberOfProducts(limit: Int): Flow<ProductListResponse>
-    suspend fun getProductsByCollectionId(id: Long): Flow<ProductListResponse>
+    suspend fun getProductsByCollectionId(id: Long): Flow<ListProductsResponse>
 
     suspend fun getSmartCollectionById(id: Long): Flow<SmartCollectionResponse>
     suspend fun getSmartCollections(): Flow<SmartCollectionsResponse>

@@ -2,6 +2,7 @@ package com.itigradteamsix.snapshop.network
 
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
 import com.itigradteamsix.snapshop.data.models.Customer
+import com.itigradteamsix.snapshop.model.ListProductsResponse
 import com.itigradteamsix.snapshop.model.Product
 import com.itigradteamsix.snapshop.model.ProductListResponse
 import com.itigradteamsix.snapshop.model.SmartCollection
@@ -19,7 +20,7 @@ interface RemoteSource {
 //        appid:String="ccb811f49ff661e0a43e8d8727e0387a"
 //    ): WeatherResponse
     suspend fun getAllProducts(): ProductListResponse
-    suspend fun getProductsByCollectionId(collectionId: Long): ProductListResponse
+    suspend fun getProductsByCollectionId(collectionId: Long): ListProductsResponse
     suspend fun getANumberOfProducts(number: Int): ProductListResponse
     suspend fun getSmartCollectionById(id: Long): SmartCollectionResponse
     suspend fun getSmartCollections(): SmartCollectionsResponse

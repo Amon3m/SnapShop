@@ -32,7 +32,7 @@ class Repository private constructor(
     override suspend fun getANumberOfProducts(limit: Int):Flow<ProductListResponse> {
         return flowOf(remoteSource.getANumberOfProducts(limit))
     }
-    override suspend fun getProductsByCollectionId(id: Long):Flow<ProductListResponse> {
+    override suspend fun getProductsByCollectionId(id: Long):Flow<ListProductsResponse> {
         return flowOf(remoteSource.getProductsByCollectionId(id))
     }
 
