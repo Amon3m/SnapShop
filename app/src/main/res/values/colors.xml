@@ -72,4 +72,7 @@
 
     <color name="light_outline_grey">#D6D6D6</color>
     <color name="dim_grey_text">#878787</color>
+
+    <color name="profile_back_blue">#3334cc</color>
+    <color name="error_red">#f14141</color>
 </resources>

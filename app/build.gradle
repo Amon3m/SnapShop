@@ -80,6 +80,10 @@ dependencies {
     implementation "androidx.navigation:navigation-ui:2.6.0"
 
 
+    //CircleImageView for profile picture
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+
 
 
 }
