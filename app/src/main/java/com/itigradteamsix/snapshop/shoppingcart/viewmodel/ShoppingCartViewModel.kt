@@ -21,13 +21,13 @@ class ShoppingCartViewModel(private val repoInterface: RepoInterface):  ViewMode
      //   getSmartCollections()
     }
 
-    private val _productList = MutableStateFlow<ApiState>(ApiState.Loading)
-    val productList: StateFlow<ApiState>
+    private val _productList = MutableStateFlow<ApiState<Any?>>(ApiState.Loading)
+    val productList: StateFlow<ApiState<Any?>>
         get() = _productList
 
 
-    private val _smartCollection = MutableStateFlow<ApiState>(ApiState.Loading)
-    val smartCollection: StateFlow<ApiState>
+    private val _smartCollection = MutableStateFlow<ApiState<Any?>>(ApiState.Loading)
+    val smartCollection: StateFlow<ApiState<Any?>>
         get()=_smartCollection
 
 

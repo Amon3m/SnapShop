@@ -1,6 +1,6 @@
 package com.itigradteamsix.snapshop.authentication.login.model
 
-import com.itigradteamsix.snapshop.data.models.Customer
+import com.itigradteamsix.snapshop.model.Customer
 
-data class CustomerResponse(var customers: Customer)
+data class CustomerResponse(var customer: Customer)
 

@@ -22,17 +22,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.itigradteamsix.snapshop.MainActivity
 import com.itigradteamsix.snapshop.R
 import com.itigradteamsix.snapshop.authentication.ApiCustomerLoginState
-import com.itigradteamsix.snapshop.authentication.ApiCustomerState
+import com.itigradteamsix.snapshop.authentication.ApiDraftLoginState
 import com.itigradteamsix.snapshop.authentication.AuthState
 import com.itigradteamsix.snapshop.authentication.FirebaseRepo
 import com.itigradteamsix.snapshop.authentication.login.viewModel.LoginViewModel
 import com.itigradteamsix.snapshop.authentication.login.viewModel.LoginViewModelFactory
-import com.itigradteamsix.snapshop.authentication.signup.viewModel.SignupViewModel
-import com.itigradteamsix.snapshop.authentication.signup.viewModel.SignupViewModelFactory
+import com.itigradteamsix.snapshop.model.Customer
 import com.itigradteamsix.snapshop.databinding.FragmentLoginBinding
-import com.itigradteamsix.snapshop.databinding.FragmentSignupBinding
 import kotlinx.coroutines.launch
-import kotlin.math.log
 
 class LoginFragment : Fragment() {
     private lateinit var binding : FragmentLoginBinding
@@ -42,6 +39,8 @@ class LoginFragment : Fragment() {
     private val auth : FirebaseAuth =FirebaseAuth.getInstance()
     private  lateinit var loadingDialog: AlertDialog
     private  lateinit var failureDialog: AlertDialog
+    private var customer : Customer? = null
+
 
 
 
@@ -119,6 +118,8 @@ class LoginFragment : Fragment() {
 //                                activity?.finish()
                                 Log.d("emailBeforeGetBYEmail", email)
                                 viewModel.getCustomerByEmail(email)
+                                Log.d("emailafterGetBYEmail", email)
+
                             }
                             else{
                                 Toast.makeText(requireContext(),"Your email isn't verified",Toast.LENGTH_SHORT).show()
@@ -148,16 +149,57 @@ class LoginFragment : Fragment() {
                     }
 
                     is ApiCustomerLoginState.Success -> {
-                        Toast.makeText(requireContext(),"Welcome "+result.customerData?.get(0)?.first_name,Toast.LENGTH_SHORT).show()
-                        Log.d("customerDataInSuccess",result.customerData.toString())
-                        val intent = Intent(activity, MainActivity::class.java)
-                        intent.putExtra("ID",result.customerData?.get(0)?.id)
-                        startActivity(intent)
-                        activity?.finish()
+//                        Toast.makeText(requireContext(),"Welcome "+result.customerData?.get(0)?.first_name,Toast.LENGTH_SHORT).show()
+//                        Log.d("customerDataInSuccess",result.customerData.toString())
+//                        val intent = Intent(activity, MainActivity::class.java)
+//                        intent.putExtra("ID",result.customerData?.get(0)?.id)
+//                        startActivity(intent)
+//                        activity?.finish()
+                        Log.d("draftID", "in success")
+                        Log.d("draftID", result.customerData?.get(0)?.note.toString())
+                        customer = result.customerData?.get(0)
+                        viewModel.getDraftOrder(result.customerData?.get(0)?.note.toString())
+
 
                     }
 
                     is ApiCustomerLoginState.Failure -> {
+                        Log.d("loginApiFlowCollect", result.exception.message.toString())
+                        showMsgDialog("\n"+result.exception.message.toString())
+                    }
+                }
+
+            }
+
+
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+
+            viewModel.getDraftFlow.collect { result  ->
+                when (result) {
+
+                    is ApiDraftLoginState.Loading -> {
+                        Log.d("loginApiFlowCollect", "Loading")
+
+                    }
+
+                    is ApiDraftLoginState.Success -> {
+                        Toast.makeText(requireContext(),"Welcome "+customer?.first_name,Toast.LENGTH_SHORT).show()
+                        Log.d("draftDataInSuccess",result.data?.id.toString())
+                        val intent = Intent(activity, MainActivity::class.java)
+                        intent.putExtra("customerID",customer?.id.toString())
+                        intent.putExtra("draftID",result.data?.id.toString())
+
+                        startActivity(intent)
+                        activity?.finish()
+//                        Log.d("draftID", result.customerData?.get(0)?.note.toString())
+//
+//                        viewModel.getDraftOrder(result.customerData?.get(0)?.note.toString())
+
+
+                    }
+
+                    is ApiDraftLoginState.Failure -> {
                         Log.d("loginApiFlowCollect", result.exception.message.toString())
                         showMsgDialog("\n"+result.exception.message.toString())
                     }

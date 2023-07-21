@@ -1,8 +1,6 @@
 package com.itigradteamsix.snapshop.favorite.model
 
-import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
-import com.itigradteamsix.snapshop.data.models.Customer
+import com.itigradteamsix.snapshop.model.Customer
 
 data class DraftOrderResponse(
     val draft_order: DraftOrder? = null

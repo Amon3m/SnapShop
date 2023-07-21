@@ -6,12 +6,9 @@ import com.itigradteamsix.snapshop.model.SmartCollectionsResponse
 
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
 import com.itigradteamsix.snapshop.authentication.login.model.CustomersLoginResponse
-import com.itigradteamsix.snapshop.data.models.Customer
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
-import kotlinx.coroutines.flow.Flow
 import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -46,8 +43,8 @@ interface ApiServices {
     suspend fun getCustomerByEmail(@Query("email") email:String): CustomersLoginResponse
     @POST("draft_orders.json")
     suspend fun createDraftOrder(@Body draftOrder: DraftOrderResponse): DraftOrderResponse
-    @GET("draft_orders/{Id}.json")
-    suspend fun getDraftOrder(@Path(value = "Id")Id:String): DraftOrderResponse
+    @GET("draft_orders/{draft_order_id}.json")
+    suspend fun getDraftOrder(@Path(value = "draft_order_id")draftOrderId:Long): DraftOrderResponse
 
 
 }
