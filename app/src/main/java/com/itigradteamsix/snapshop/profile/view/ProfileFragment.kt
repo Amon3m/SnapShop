@@ -56,21 +56,16 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.button.setOnClickListener {
+        binding.btnSignOut.setOnClickListener {
             val action=ProfileFragmentDirections.actionProfileFragmentToSettingsFragment()
             Navigation.findNavController(view).navigate(action)
         }
 
         listenForCustomerFlow()
 
-
-        // Initialize Firebase Authentication instance
         firebaseAuth = FirebaseAuth.getInstance()
-
         // Check if the user is logged in
         val currentUser = firebaseAuth.currentUser
-
-
 
         if (currentUser != null) {
             // User is logged in
@@ -78,7 +73,7 @@ class ProfileFragment : Fragment() {
             val email = currentUser.email
             val displayName = currentUser.displayName
             val photoUrl = currentUser.photoUrl
-            Log.d("ProfileFragment", "User is logged in with email: $email and uid: $uid and displayName: $displayName")
+            Log.d("ProfileFragment", "User is logged in with email: $email and uid: $uid and displayName: $displayName and photoUrl: $photoUrl")
 
             profileViewModel.getCustomerByEmail(email!!)
 
@@ -88,28 +83,38 @@ class ProfileFragment : Fragment() {
         }
     }
 
+
+
     private fun listenForCustomerFlow() {
         lifecycleScope.launch {
             profileViewModel.customer.collect {
                 when (it) {
                     is ApiState.Success<*> -> {
+                        binding.groupNormal.visibility = View.VISIBLE
+                        binding.groupLoading.visibility = View.GONE
+                        binding.groupNoInternet.visibility = View.GONE
                         if (it.data is Customer) {
                             Log.d("ProfileFragment", "Success: ${it.data}")
-                            binding.textView.text = it.data.first_name
-                        }else{
-                            Log.d("ProfileFragment", "Failure SUCCESSSSSS: ${it.data.toString()}")
+                            binding.tvName.text = it.data.first_name
+                            binding.tvEmail.text = it.data.email
                         }
-
                     }
 
                     is ApiState.Failure -> {
                         Log.d("ProfileFragment", "Error: ${it.msg}")
                         Toast.makeText(requireContext(), it.msg, Toast.LENGTH_SHORT).show()
+                        //show group no internet and hide the other two groups
+                        binding.groupNoInternet.visibility = View.VISIBLE
+                        binding.groupNormal.visibility = View.GONE
+                        binding.groupLoading.visibility = View.GONE
 
                     }
 
                     is ApiState.Loading -> {
                         Log.d("ProfileFragment", "Loading")
+                        binding.groupLoading.visibility = View.VISIBLE
+                        binding.groupNormal.visibility = View.GONE
+                        binding.groupNoInternet.visibility = View.GONE
                     }
 
                     else -> {}

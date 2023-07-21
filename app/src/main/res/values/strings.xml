@@ -53,5 +53,6 @@
     <string name="sign_out">Sign Out</string>
     <string name="created">created</string>
     <string name="select">Select</string>
+    <string name="no_internet">No Internet</string>
 
 </resources>
