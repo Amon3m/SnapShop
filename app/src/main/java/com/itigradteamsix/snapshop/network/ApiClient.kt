@@ -4,8 +4,10 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
-import com.itigradteamsix.snapshop.data.models.Customer
+import com.itigradteamsix.snapshop.model.Customer
 import com.itigradteamsix.snapshop.data.repository.remote.ApiServices
+import com.itigradteamsix.snapshop.favorite.model.DraftOrder
+import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 
 import com.itigradteamsix.snapshop.model.ProductListResponse
 import com.itigradteamsix.snapshop.model.SmartCollectionResponse
@@ -57,8 +59,8 @@ object ApiClient : RemoteSource {
     override suspend fun createCustomer(customer: CustomerResponse): Customer? {
         var response: Customer? = null
         try {
-            val wholeResponse = apiService.createCustomer(customer)
-            response =  wholeResponse.customers
+            val wholeResponse = Api.apiService.createCustomer(customer)
+            response =  wholeResponse.customer
         } catch (e: Exception) {
             e.printStackTrace()
             Log.d("rfCreateCustException",e.message.toString())
@@ -71,6 +73,7 @@ object ApiClient : RemoteSource {
     override suspend fun getCustomerByEmail(email: String): List<Customer>? {
         var response: List<Customer>? = null
         try {
+            Log.d("emailingetCustomerRf",email)
             val wholeResponse = apiService.getCustomerByEmail(email)
             Log.d("retrofitCreateCustres", wholeResponse.toString())
             response =  wholeResponse.customers
@@ -96,6 +99,36 @@ object ApiClient : RemoteSource {
         }
         return response
     }
+
+
+    override suspend fun createDraftOrder(draftResponse:DraftOrderResponse): DraftOrder? {
+        var response: DraftOrder? = null
+        try {
+            val wholeResponse = Api.apiService.createDraftOrder(draftResponse)
+            response =  wholeResponse.draft_order
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfCreateDraftException",e.message.toString())
+
+        }
+        Log.d("retrofitCreateDraft", response?.id.toString())
+        return response
+    }
+    override suspend fun getDraftOrder(id:String): DraftOrder?{
+        var response: DraftOrder? = null
+        try {
+            val wholeResponse = apiService.getDraftOrder(id.toLong())
+            Log.d("getDraftRFT", wholeResponse.toString())
+            response =  wholeResponse.draft_order
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfGetDraftException",e.message.toString())
+
+        }
+        Log.d("retrofitgetDraft", response?.id.toString())
+        return response
+    }
+
 
 
 }

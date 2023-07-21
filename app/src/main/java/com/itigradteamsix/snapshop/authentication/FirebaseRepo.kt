@@ -4,7 +4,7 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
 import com.itigradteamsix.snapshop.authentication.signup.model.SignupUser
-import com.itigradteamsix.snapshop.data.models.Customer
+import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import com.itigradteamsix.snapshop.network.ApiClient
 import kotlinx.coroutines.tasks.await
 
@@ -43,6 +43,15 @@ class FirebaseRepo (val auth : FirebaseAuth) : FirebaseRepoInterface {
     override suspend fun getCustomerByEmail(email: String): ApiCustomerLoginState {
         return ApiCustomerLoginState.Success(retrofit.getCustomerByEmail(email))
     }
+
+    override suspend fun createDraftOrder(draftOrderResponse: DraftOrderResponse): APiDraftState {
+        return APiDraftState.Success(retrofit.createDraftOrder(draftOrderResponse))
+    }
+    override suspend fun getDraftOrder(id : String): ApiDraftLoginState {
+        return ApiDraftLoginState.Success(retrofit.getDraftOrder(id))
+    }
+
+
 
 
 }
