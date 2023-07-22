@@ -3,7 +3,6 @@ package com.itigradteamsix.snapshop.model
 import com.itigradteamsix.snapshop.authentication.ApiCustomerLoginState
 import com.itigradteamsix.snapshop.authentication.ApiCustomerState
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
-import com.itigradteamsix.snapshop.data.models.Customer
 import com.itigradteamsix.snapshop.database.LocalSource
 import com.itigradteamsix.snapshop.network.ApiState
 import com.itigradteamsix.snapshop.network.RemoteSource

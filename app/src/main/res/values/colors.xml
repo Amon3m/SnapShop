@@ -75,4 +75,7 @@
 
     <color name="profile_back_blue">#3334cc</color>
     <color name="error_red">#f14141</color>
+
+    <color name="icon_wrapper_grey">#F7F6FF</color>
+
 </resources>

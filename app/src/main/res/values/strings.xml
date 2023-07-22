@@ -54,5 +54,13 @@
     <string name="created">created</string>
     <string name="select">Select</string>
     <string name="no_internet">No Internet</string>
+    <string name="english">English</string>
+    <string name="currency">Currency</string>
+    <string name="arabic">العربية</string>
+    <string name="egp">EGP</string>
+    <string name="choose_language">Language</string>
+    <string name="you_are_a_guest">You are a guest</string>
+    <string name="go_to_login">Go to Login Screen</string>
+
 
 </resources>
