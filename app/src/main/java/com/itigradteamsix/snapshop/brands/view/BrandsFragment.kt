@@ -97,7 +97,7 @@ class BrandsFragment : Fragment() ,OnBrandsClickListener{
 
     override fun onBrandClick(smartCollectionsItem: SmartCollectionsItem?) {
         if  (smartCollectionsItem?.id != null) {
-            val action=BrandsFragmentDirections.actionBrandsFragmentToProductsFragment(smartCollectionsItem.id)
+            val action=BrandsFragmentDirections.actionBrandsFragmentToCategoryFragment(smartCollectionsItem.id,false)
             Navigation.findNavController(requireView()).navigate(action)
             }
     }

@@ -53,6 +53,10 @@
     <string name="sign_out">Sign Out</string>
     <string name="created">created</string>
     <string name="select">Select</string>
+    <string name="a_z">A~Z</string>
+    <string name="down_arrow">↓</string>
+    <string name="up_arrow">↑</string>
+    <string name="dolar_sign">$</string>
     <string name="no_internet">No Internet</string>
     <string name="english">English</string>
     <string name="currency">Currency</string>
