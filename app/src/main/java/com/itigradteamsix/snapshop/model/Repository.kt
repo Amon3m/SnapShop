@@ -27,16 +27,7 @@ class Repository private constructor(
         }
     }
 
-//    override suspend fun getWeatherFromNetwork(
-//        lat: Double,
-//        lon: Double,
-//        exclude: String,
-//        units: String,
-//        lang: String,
-//        appid: String
-//    ): Flow<WeatherResponse> {
-//        return flowOf(remoteSource.getWeatherFromNetwork(lat,lon,exclude,units,lang,appid))
-//    }
+
 
     override suspend fun getAllProducts():Flow<ProductListResponse> {
         return flowOf(remoteSource.getAllProducts())
@@ -45,7 +36,7 @@ class Repository private constructor(
     override suspend fun getANumberOfProducts(limit: Int):Flow<ProductListResponse> {
         return flowOf(remoteSource.getANumberOfProducts(limit))
     }
-    override suspend fun getProductsByCollectionId(id: Long):Flow<ProductListResponse> {
+    override suspend fun getProductsByCollectionId(id: Long):Flow<ListProductsResponse> {
         return flowOf(remoteSource.getProductsByCollectionId(id))
     }
 

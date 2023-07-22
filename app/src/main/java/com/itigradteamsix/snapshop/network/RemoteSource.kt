@@ -22,7 +22,7 @@ interface RemoteSource {
 //        appid:String="ccb811f49ff661e0a43e8d8727e0387a"
 //    ): WeatherResponse
     suspend fun getAllProducts(): ProductListResponse
-    suspend fun getProductsByCollectionId(collectionId: Long): ProductListResponse
+    suspend fun getProductsByCollectionId(collectionId: Long): ListProductsResponse
     suspend fun getANumberOfProducts(number: Int): ProductListResponse
     suspend fun getSmartCollectionById(id: Long): SmartCollectionResponse
     suspend fun getSmartCollections(): SmartCollectionsResponse

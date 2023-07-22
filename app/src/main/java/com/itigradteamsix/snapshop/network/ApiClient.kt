@@ -25,8 +25,6 @@ const val BASE_URL = "https://itp-sv-and6.myshopify.com/admin/api/2023-07/"
 
 object ApiClient : RemoteSource {
 
-
-
     override suspend fun getAllProducts(): ProductListResponse {
 
 
@@ -59,8 +57,8 @@ object ApiClient : RemoteSource {
     override suspend fun createCustomer(customer: CustomerResponse): Customer? {
         var response: Customer? = null
         try {
-            val wholeResponse = Api.apiService.createCustomer(customer)
-            response =  wholeResponse.customer
+            val wholeResponse = apiService.createCustomer(customer)
+            response =  wholeResponse.customers
         } catch (e: Exception) {
             e.printStackTrace()
             Log.d("rfCreateCustException",e.message.toString())
@@ -69,11 +67,9 @@ object ApiClient : RemoteSource {
         Log.d("retrofitCreateCust", response?.email.toString())
         return response
     }
-
     override suspend fun getCustomerByEmail(email: String): List<Customer>? {
         var response: List<Customer>? = null
         try {
-            Log.d("emailingetCustomerRf",email)
             val wholeResponse = apiService.getCustomerByEmail(email)
             Log.d("retrofitCreateCustres", wholeResponse.toString())
             response =  wholeResponse.customers

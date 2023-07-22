@@ -32,7 +32,7 @@ data class CollectionImage(
 )
 
 
-data class SmartCollectionsResponse(
+data class SmartCollectionsResponseH(
     val smart_collections: List<SmartCollection>
 )
 

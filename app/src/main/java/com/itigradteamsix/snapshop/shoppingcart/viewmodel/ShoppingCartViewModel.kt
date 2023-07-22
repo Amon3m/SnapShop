@@ -43,7 +43,7 @@ class ShoppingCartViewModel(private val repoInterface: RepoInterface):  ViewMode
                 Log.e("fail","fail")
                 _productList.emit(ApiState.Failure("eeeeeee"))}
         }
-        }
+    }
 
 
 
