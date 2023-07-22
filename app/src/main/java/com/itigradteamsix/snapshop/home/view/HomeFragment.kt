@@ -100,7 +100,7 @@ class HomeFragment : Fragment() {
     }
 
     fun goToCategory(id: Long){
-        val action=HomeFragmentDirections.actionHomeFragmentToCategoryFragment(collectionId = id)
+        val action=HomeFragmentDirections.actionHomeFragmentToCategoryFragment(collectionId = id,true)
         Navigation.findNavController(requireView()).navigate(action)
 
     }
@@ -108,7 +108,7 @@ class HomeFragment : Fragment() {
     fun goToProduct(id: Long?) {
         if (id != null) {
             val action =
-                HomeFragmentDirections.actionHomeFragmentToProductsFragment(collectionId = id)
+                HomeFragmentDirections.actionHomeFragmentToCategoryFragment(collectionId = id,false)
             Navigation.findNavController(requireView()).navigate(action)
         }
 

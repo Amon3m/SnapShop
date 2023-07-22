@@ -24,9 +24,6 @@
             android:id="@+id/action_homeFragment_to_brandsFragment"
             app:destination="@id/brandsFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_productsFragment"
-            app:destination="@id/productsFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_categoryFragment"
             app:destination="@id/categoryFragment" />
     </fragment>
@@ -50,25 +47,20 @@
         android:label="fragment_brands"
         tools:layout="@layout/fragment_brands" >
         <action
-            android:id="@+id/action_brandsFragment_to_productsFragment"
-            app:destination="@id/productsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/productsFragment"
-        android:name="com.itigradteamsix.snapshop.products.view.ProductsFragment"
-        android:label="ProductsFragment" >
-        <argument
-            android:name="collection_id"
-            app:argType="long" />
+            android:id="@+id/action_brandsFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
-        android:name="com.itigradteamsix.snapshop.categories.view.CategoryFragment"
+        android:name="com.itigradteamsix.snapshop.products.view.CategoryFragment"
         android:label="fragment_category"
         tools:layout="@layout/fragment_category" >
         <argument
             android:name="collection_id"
             app:argType="long" />
+        <argument
+            android:name="come_from_cat"
+            app:argType="boolean" />
     </fragment>
 
 
