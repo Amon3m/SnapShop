@@ -30,4 +30,18 @@
     <string name="search_product">search product</string>
     <string name="sale">SALE!</string>
     <string name="special_offer">Special Offer</string>
+    <string name="created">created</string>
+    <string name="select">Select</string>
+    <string name="personal_data">البيانات الشخصية</string>
+    <string name="addresses">العناوين</string>
+    <string name="see_all">مشاهدة الكل</string>
+    <string name="sign_out">تسجيل الخروج</string>
+    <string name="no_internet">لا يوجد اتصال بالإنترنت</string>
+    <string name="english">English</string>
+    <string name="arabic">العربية</string>
+    <string name="currency">العملة</string>
+    <string name="egp">EGP</string>
+    <string name="choose_language">اختر اللغة</string>
+    <string name="you_are_a_guest">أنت زائر</string>
+    <string name="go_to_login">الذهاب لتسجيل الدخول</string>
 </resources>
