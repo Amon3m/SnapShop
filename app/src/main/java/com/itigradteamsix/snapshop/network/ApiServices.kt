@@ -10,6 +10,7 @@ import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -45,6 +46,9 @@ interface ApiServices {
     suspend fun createDraftOrder(@Body draftOrder: DraftOrderResponse): DraftOrderResponse
     @GET("draft_orders/{draft_order_id}.json")
     suspend fun getDraftOrder(@Path(value = "draft_order_id")draftOrderId:Long): DraftOrderResponse
-
+    @PUT("draft_orders/{draft_order_id}.json")
+    suspend fun updateDraftOrder(@Path(value = "draft_order_id")draftOrderId:Long,
+                                    @Body draftOrder: DraftOrderResponse
+    ): DraftOrderResponse
 
 }

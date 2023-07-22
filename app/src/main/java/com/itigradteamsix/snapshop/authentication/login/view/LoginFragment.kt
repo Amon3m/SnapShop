@@ -21,9 +21,9 @@ import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import com.itigradteamsix.snapshop.MainActivity
 import com.itigradteamsix.snapshop.R
-import com.itigradteamsix.snapshop.authentication.ApiCustomerLoginState
-import com.itigradteamsix.snapshop.authentication.ApiDraftLoginState
-import com.itigradteamsix.snapshop.authentication.AuthState
+import com.itigradteamsix.snapshop.authentication.login.model.ApiCustomerLoginState
+import com.itigradteamsix.snapshop.authentication.login.model.ApiDraftLoginState
+import com.itigradteamsix.snapshop.authentication.signup.model.AuthState
 import com.itigradteamsix.snapshop.authentication.FirebaseRepo
 import com.itigradteamsix.snapshop.authentication.login.viewModel.LoginViewModel
 import com.itigradteamsix.snapshop.authentication.login.viewModel.LoginViewModelFactory

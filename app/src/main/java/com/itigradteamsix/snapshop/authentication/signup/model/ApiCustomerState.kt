@@ -1,4 +1,4 @@
-package com.itigradteamsix.snapshop.authentication
+package com.itigradteamsix.snapshop.authentication.signup.model
 
 import com.itigradteamsix.snapshop.model.Customer
 

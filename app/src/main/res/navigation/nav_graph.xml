@@ -31,9 +31,21 @@
     </fragment>
     <fragment
         android:id="@+id/wishlistFragment"
-        android:name="com.itigradteamsix.snapshop.wishlist.view.WishlistFragment"
+        android:name="com.itigradteamsix.snapshop.favorite.view.WishlistFragment"
         android:label="@string/wishlist"
-        tools:layout="@layout/fragment_wishlist" />
+        tools:layout="@layout/fragment_wishlist" >
+        <action
+            android:id="@+id/action_wishlistFragment_to_productInfoFragment"
+            app:destination="@id/productInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productInfoFragment"
+        android:name="com.itigradteamsix.snapshop.productInfo.view.ProductInfoFragment"
+        android:label="ProductInfoFragment" >
+    <argument
+        android:name="productId"
+        app:argType="long" />
+    </fragment>
 
 
     <!--    <activity-->

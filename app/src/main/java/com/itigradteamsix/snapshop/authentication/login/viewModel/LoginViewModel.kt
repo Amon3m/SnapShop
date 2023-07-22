@@ -1,15 +1,12 @@
 package com.itigradteamsix.snapshop.authentication.login.viewModel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.itigradteamsix.snapshop.authentication.ApiCustomerLoginState
-import com.itigradteamsix.snapshop.authentication.ApiCustomerState
-import com.itigradteamsix.snapshop.authentication.ApiDraftLoginState
-import com.itigradteamsix.snapshop.authentication.AuthState
+import com.itigradteamsix.snapshop.authentication.login.model.ApiCustomerLoginState
+import com.itigradteamsix.snapshop.authentication.login.model.ApiDraftLoginState
+import com.itigradteamsix.snapshop.authentication.signup.model.AuthState
 import com.itigradteamsix.snapshop.authentication.FirebaseRepoInterface
-import com.itigradteamsix.snapshop.authentication.signup.model.SignupUser
-import com.itigradteamsix.snapshop.network.ApiState
+import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -27,6 +24,8 @@ class LoginViewModel(val iRepo: FirebaseRepoInterface)  : ViewModel() {
     private val _getDraftFlow : MutableStateFlow<ApiDraftLoginState> = MutableStateFlow(
         ApiDraftLoginState.Loading)
     val getDraftFlow: StateFlow<ApiDraftLoginState> = _getDraftFlow
+
+
     fun loginUser(email : String , password :String) {
         viewModelScope.launch {
             _loginResultFlow.value= iRepo.loginUser(email,password)!!
@@ -44,4 +43,5 @@ class LoginViewModel(val iRepo: FirebaseRepoInterface)  : ViewModel() {
             _getDraftFlow.value= iRepo.getDraftOrder(id)
         }
     }
+
 }

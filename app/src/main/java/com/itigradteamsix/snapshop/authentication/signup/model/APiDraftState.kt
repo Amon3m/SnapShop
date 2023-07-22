@@ -1,7 +1,6 @@
-package com.itigradteamsix.snapshop.authentication
+package com.itigradteamsix.snapshop.authentication.signup.model
 
 import com.itigradteamsix.snapshop.favorite.model.DraftOrder
-import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 
 sealed class APiDraftState{
     data class Success(val data: DraftOrder?) : APiDraftState()

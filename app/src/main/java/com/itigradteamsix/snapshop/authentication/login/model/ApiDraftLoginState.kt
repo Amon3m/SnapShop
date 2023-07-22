@@ -1,4 +1,4 @@
-package com.itigradteamsix.snapshop.authentication
+package com.itigradteamsix.snapshop.authentication.login.model
 
 import com.itigradteamsix.snapshop.favorite.model.DraftOrder
 

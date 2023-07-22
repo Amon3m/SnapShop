@@ -1,5 +1,8 @@
 package com.itigradteamsix.snapshop.model
 
+import com.itigradteamsix.snapshop.favorite.model.DraftOrder
+import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
+import com.itigradteamsix.snapshop.network.ApiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
@@ -14,4 +17,6 @@ interface RepoInterface {
 
 
     suspend fun getSomeListFromDatabase(): Flow<List<String>>
+    suspend fun updateDraftOrder(draftOrderId : Long , draftResponse: DraftOrderResponse): Flow<DraftOrder?>
+
 }

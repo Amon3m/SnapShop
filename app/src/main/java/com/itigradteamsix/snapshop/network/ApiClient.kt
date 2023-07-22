@@ -109,6 +109,19 @@ object ApiClient : RemoteSource {
         Log.d("retrofitgetDraft", response?.id.toString())
         return response
     }
+    override suspend fun updateDraftOrder(draftOrderId : Long , draftResponse:DraftOrderResponse): DraftOrder? {
+        var response: DraftOrder? = null
+        try {
+            val wholeResponse = Api.apiService.updateDraftOrder(draftOrderId,draftResponse)
+            response =  wholeResponse.draft_order
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfUpdateDraftException",e.message.toString())
+
+        }
+        Log.d("retrofitUpdateDraft", response?.id.toString())
+        return response
+    }
 
 
 
