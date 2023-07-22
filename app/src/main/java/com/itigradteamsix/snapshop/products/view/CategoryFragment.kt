@@ -117,7 +117,6 @@ class CategoryFragment : Fragment(), OnProductsClickListener {
 
                         Log.e("collectionId", "${brands?.get(0)?.title}")
 
-                        Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
 //                        binding.catRecycl.scrollToPosition(1)
 
 
@@ -130,7 +129,6 @@ class CategoryFragment : Fragment(), OnProductsClickListener {
 
                     else -> {
 
-                        Toast.makeText(requireContext(), "loading", Toast.LENGTH_SHORT).show()
                     }
                 }
 

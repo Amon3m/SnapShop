@@ -76,7 +76,6 @@ class BrandsFragment : Fragment() ,OnBrandsClickListener{
 
                         Log.e("src","${brands?.get(0)?.title}")
 
-                        Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
 
                     }
                     is ApiState.Failure -> {
@@ -86,7 +85,6 @@ class BrandsFragment : Fragment() ,OnBrandsClickListener{
 
                     else -> {
 
-                        Toast.makeText(requireContext(), "loading", Toast.LENGTH_SHORT).show()
                     }
                 }
 

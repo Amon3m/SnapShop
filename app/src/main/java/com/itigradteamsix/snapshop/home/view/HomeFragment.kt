@@ -69,7 +69,6 @@ class HomeFragment : Fragment() {
                         bindingData(brands)
                         Log.e("src", "${brands?.get(0)?.title}")
 
-                        Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
 
                     }
 
@@ -80,7 +79,6 @@ class HomeFragment : Fragment() {
 
                     else -> {
 
-                        Toast.makeText(requireContext(), "loading", Toast.LENGTH_SHORT).show()
                     }
                 }
 
