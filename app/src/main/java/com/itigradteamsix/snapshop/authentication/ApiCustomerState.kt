@@ -1,6 +1,6 @@
 package com.itigradteamsix.snapshop.authentication
 
-import com.itigradteamsix.snapshop.data.models.Customer
+import com.itigradteamsix.snapshop.model.Customer
 
 sealed class ApiCustomerState{
 

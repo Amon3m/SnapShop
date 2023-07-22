@@ -4,8 +4,10 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
-import com.itigradteamsix.snapshop.data.models.Customer
 import com.itigradteamsix.snapshop.data.repository.remote.ApiServices
+import com.itigradteamsix.snapshop.model.Customer
+import com.itigradteamsix.snapshop.favorite.model.DraftOrder
+import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import com.itigradteamsix.snapshop.model.ListProductsResponse
 
 import com.itigradteamsix.snapshop.model.ProductListResponse
@@ -13,9 +15,12 @@ import com.itigradteamsix.snapshop.model.SmartCollectionResponse
 import com.itigradteamsix.snapshop.model.SmartCollectionsResponse
 import com.itigradteamsix.snapshop.network.Api.apiService
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
 
 
 const val BASE_URL = "https://itp-sv-and6.myshopify.com/admin/api/2023-07/"
@@ -55,7 +60,7 @@ object ApiClient : RemoteSource {
         var response: Customer? = null
         try {
             val wholeResponse = apiService.createCustomer(customer)
-            response =  wholeResponse.customers
+            response =  wholeResponse.customer
         } catch (e: Exception) {
             e.printStackTrace()
             Log.d("rfCreateCustException",e.message.toString())
@@ -78,6 +83,50 @@ object ApiClient : RemoteSource {
         Log.d("retrofitCreateCust", response?.get(0)?.email.toString())
         return response
     }
+
+    override suspend fun newGetCustomerByEmail(email: String): Flow<Customer>? {
+        var response: Flow<Customer>? = null
+        try{
+            val customerListMaybe= apiService.getCustomerByEmail(email)
+            if (customerListMaybe.customers.isNotEmpty()){
+                response = flowOf(customerListMaybe.customers[0])
+            }
+        }catch (e:Exception){
+            e.printStackTrace()
+            Log.d("rfGetCustException",e.message.toString())
+        }
+        return response
+    }
+
+
+    override suspend fun createDraftOrder(draftResponse:DraftOrderResponse): DraftOrder? {
+        var response: DraftOrder? = null
+        try {
+            val wholeResponse = Api.apiService.createDraftOrder(draftResponse)
+            response =  wholeResponse.draft_order
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfCreateDraftException",e.message.toString())
+
+        }
+        Log.d("retrofitCreateDraft", response?.id.toString())
+        return response
+    }
+    override suspend fun getDraftOrder(id:String): DraftOrder?{
+        var response: DraftOrder? = null
+        try {
+            val wholeResponse = apiService.getDraftOrder(id.toLong())
+            Log.d("getDraftRFT", wholeResponse.toString())
+            response =  wholeResponse.draft_order
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfGetDraftException",e.message.toString())
+
+        }
+        Log.d("retrofitgetDraft", response?.id.toString())
+        return response
+    }
+
 
 
 }

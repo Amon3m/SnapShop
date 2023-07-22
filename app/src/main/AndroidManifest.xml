@@ -12,6 +12,7 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher_snap"
         android:label="@string/app_name"
+        android:name=".MyApplication"
         android:roundIcon="@mipmap/ic_launcher_snap_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
@@ -36,6 +37,17 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+
+        <!-- Let AndroidX handle auto-store locales for pre-T devices to hold the user's selected locale -->
+        <service
+            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:enabled="false">
+            <meta-data
+                android:name="autoStoreLocales"
+                android:value="true" />
+        </service>
+
     </application>
 
 </manifest>

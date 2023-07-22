@@ -6,7 +6,7 @@ import com.itigradteamsix.snapshop.model.SmartCollectionsResponse
 
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
 import com.itigradteamsix.snapshop.authentication.login.model.CustomersLoginResponse
-import com.itigradteamsix.snapshop.data.models.Customer
+import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import com.itigradteamsix.snapshop.model.ListProductsResponse
 import kotlinx.coroutines.flow.Flow
 import retrofit2.http.Body
@@ -43,7 +43,10 @@ interface ApiServices {
     //used in login to get the pojo of the customer by the email inserted
     @GET("customers/search.json")
     suspend fun getCustomerByEmail(@Query("email") email:String): CustomersLoginResponse
-
+    @POST("draft_orders.json")
+    suspend fun createDraftOrder(@Body draftOrder: DraftOrderResponse): DraftOrderResponse
+    @GET("draft_orders/{draft_order_id}.json")
+    suspend fun getDraftOrder(@Path(value = "draft_order_id")draftOrderId:Long): DraftOrderResponse
 
 
 }

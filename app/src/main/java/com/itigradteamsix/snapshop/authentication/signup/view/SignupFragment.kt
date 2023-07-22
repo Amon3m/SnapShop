@@ -21,6 +21,7 @@ import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import com.itigradteamsix.snapshop.MainActivity
 import com.itigradteamsix.snapshop.R
+import com.itigradteamsix.snapshop.authentication.APiDraftState
 import com.itigradteamsix.snapshop.authentication.ApiCustomerState
 import com.itigradteamsix.snapshop.authentication.AuthState
 import com.itigradteamsix.snapshop.authentication.FirebaseRepo
@@ -28,10 +29,12 @@ import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
 import com.itigradteamsix.snapshop.authentication.signup.model.SignupUser
 import com.itigradteamsix.snapshop.authentication.signup.viewModel.SignupViewModel
 import com.itigradteamsix.snapshop.authentication.signup.viewModel.SignupViewModelFactory
-import com.itigradteamsix.snapshop.data.models.Customer
+import com.itigradteamsix.snapshop.model.Customer
 import com.itigradteamsix.snapshop.databinding.FragmentSignupBinding
+import com.itigradteamsix.snapshop.favorite.model.DraftOrder
+import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
+import com.itigradteamsix.snapshop.favorite.model.LineItems
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class SignupFragment : Fragment() {
     private var email = ""
@@ -41,6 +44,8 @@ class SignupFragment : Fragment() {
     lateinit var binding: FragmentSignupBinding
     private val auth : FirebaseAuth =FirebaseAuth.getInstance()
     private lateinit var loadingDialog: AlertDialog
+    private lateinit var draftId: String
+
 
 
 
@@ -119,12 +124,19 @@ class SignupFragment : Fragment() {
 
                     is AuthState.Success -> {
                         loadingDialog.dismiss()
-                        viewModel.createCustomer(CustomerResponse( Customer(email = email, first_name = userNAme)))
+//                        viewModel.createCustomer(CustomerResponse( Customer(email = email, first_name = userNAme)))
+                        viewModel.createDraftOrder(DraftOrderResponse(DraftOrder(line_items = listOf( LineItems(
+                            title = "dummy",
+                            quantity = 1,
+                            price = "50"
+                        ))
+                        )))
                         Toast.makeText(
                             requireContext(),
                             "Sorry "+userNAme+ ", Please verify your email and login",
                             Toast.LENGTH_SHORT
                         ).show()
+
 
                     }
 
@@ -145,6 +157,39 @@ class SignupFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
 
+            viewModel.createDraftFlow.collect { result ->
+                when (result) {
+
+                    is APiDraftState.Loading -> {
+                        Log.d("createCustomerFlowCollect", "Loading")
+
+                    }
+
+                    is APiDraftState.Success -> {
+//                        Log.d("customerDataInSuccessSignup",result.customerData.toString())
+//                        customerId = result.customerData?.id.toString()
+                        viewModel.createCustomer(CustomerResponse( Customer(email = email
+                            , first_name = userNAme
+                            , note = result.data?.id.toString())
+                        ))
+
+//                        viewModel.createDraftOrder(DraftOrderResponse(DraftOrder(customer = result.customerData)))
+                        Log.d("customerDataInSuccessSignup",result.data.toString())
+                    }
+
+                    is APiDraftState.Failure -> {
+//                        loadingDialog.dismiss()
+                        result.exception.message?.isValidPassword()
+                        Log.d("createDraftFlowFailure", result.exception.message.toString())
+
+
+                    }
+                }
+
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+
             viewModel.createCustomerResultFlow.collect { result ->
                 when (result) {
 
@@ -155,7 +200,8 @@ class SignupFragment : Fragment() {
 
                     is ApiCustomerState.Success -> {
                         Log.d("customerDataInSuccessSignup",result.customerData.toString())
-
+                        Navigation.findNavController(requireView())
+                            .navigate(R.id.action_signupFragment2_to_loginFragment2)
 
                     }
 
