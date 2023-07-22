@@ -1,5 +1,6 @@
 package com.itigradteamsix.snapshop.favorite.view
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -105,23 +106,30 @@ class WishlistFragment : Fragment() ,OnFavClickListener {
             WishlistFragmentDirections.actionWishlistFragmentToProductInfoFragment(product_Id)
         binding.root.findNavController().navigate(action)
     }
-
+    @SuppressLint("NotifyDataSetChanged")
     override fun onDeleteClickListener(product_Id: Long) {
-        for ( f in favoriteItems )
-        {
-            if (product_Id==f.productId)
-            {
-                favoriteItems.remove(f)
-                favLineItems.removeIf { favLineItem: LineItems -> favLineItem.id == product_Id }
+        val itemsToRemoveFromFavorite = mutableListOf<FavoritePojo>()
+        val itemsToRemoveFromFavLineItems = mutableListOf<LineItems>()
+
+        for (f in favoriteItems) {
+            if (product_Id == f.productId) {
+                itemsToRemoveFromFavorite.add(f)
+                itemsToRemoveFromFavLineItems.addAll(
+                    favLineItems.filter { favLineItem -> favLineItem.id == product_Id }
+                )
             }
-
-
-
         }
-        Log.d("favLineItems",favLineItems.toString())
-        Log.d("favItems",favoriteItems.toString())
+
+        favoriteItems.removeAll(itemsToRemoveFromFavorite)
+        favLineItems.removeAll(itemsToRemoveFromFavLineItems)
+
+        Log.d("favLineItems", favLineItems.toString())
+        Log.d("favItems", favoriteItems.toString())
 
         draftOrderResponse.draft_order?.line_items = favLineItems
         viewModel.updateDraftOrder(draftID!!.toLong(), draftOrderResponse)
+
+        favAdapter.notifyDataSetChanged()
     }
+
 }
