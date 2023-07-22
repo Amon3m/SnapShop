@@ -4,10 +4,11 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
-import com.itigradteamsix.snapshop.model.Customer
 import com.itigradteamsix.snapshop.data.repository.remote.ApiServices
+import com.itigradteamsix.snapshop.model.Customer
 import com.itigradteamsix.snapshop.favorite.model.DraftOrder
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
+import com.itigradteamsix.snapshop.model.ListProductsResponse
 
 import com.itigradteamsix.snapshop.model.ProductListResponse
 import com.itigradteamsix.snapshop.model.SmartCollectionResponse
@@ -21,6 +22,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
+
 const val BASE_URL = "https://itp-sv-and6.myshopify.com/admin/api/2023-07/"
 
 object ApiClient : RemoteSource {
@@ -31,7 +33,7 @@ object ApiClient : RemoteSource {
         return Api.apiService.getAllProducts()
     }
 
-    override suspend fun getProductsByCollectionId(collectionId: Long): ProductListResponse {
+    override suspend fun getProductsByCollectionId(collectionId: Long): ListProductsResponse {
         return Api.apiService.getProductsByCollectionId(collectionId)
 
 
@@ -58,7 +60,7 @@ object ApiClient : RemoteSource {
         var response: Customer? = null
         try {
             val wholeResponse = apiService.createCustomer(customer)
-            response =  wholeResponse.customers
+            response =  wholeResponse.customer
         } catch (e: Exception) {
             e.printStackTrace()
             Log.d("rfCreateCustException",e.message.toString())
