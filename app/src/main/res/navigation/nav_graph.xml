@@ -19,7 +19,14 @@
         android:id="@+id/homeFragment"
         android:name="com.itigradteamsix.snapshop.home.view.HomeFragment"
         android:label="@string/home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_brandsFragment"
+            app:destination="@id/brandsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.itigradteamsix.snapshop.profile.view.ProfileFragment"
@@ -45,6 +52,27 @@
     <argument
         android:name="productId"
         app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/brandsFragment"
+        android:name="com.itigradteamsix.snapshop.brands.view.BrandsFragment"
+        android:label="fragment_brands"
+        tools:layout="@layout/fragment_brands" >
+        <action
+            android:id="@+id/action_brandsFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.itigradteamsix.snapshop.products.view.CategoryFragment"
+        android:label="fragment_category"
+        tools:layout="@layout/fragment_category" >
+        <argument
+            android:name="collection_id"
+            app:argType="long" />
+        <argument
+            android:name="come_from_cat"
+            app:argType="boolean" />
     </fragment>
 
 

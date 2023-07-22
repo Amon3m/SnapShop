@@ -4,19 +4,23 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
-import com.itigradteamsix.snapshop.model.Customer
 import com.itigradteamsix.snapshop.data.repository.remote.ApiServices
+import com.itigradteamsix.snapshop.model.Customer
 import com.itigradteamsix.snapshop.favorite.model.DraftOrder
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
+import com.itigradteamsix.snapshop.model.ListProductsResponse
 
 import com.itigradteamsix.snapshop.model.ProductListResponse
 import com.itigradteamsix.snapshop.model.SmartCollectionResponse
 import com.itigradteamsix.snapshop.model.SmartCollectionsResponse
 import com.itigradteamsix.snapshop.network.Api.apiService
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
 
 
 const val BASE_URL = "https://itp-sv-and6.myshopify.com/admin/api/2023-07/"
@@ -29,7 +33,7 @@ object ApiClient : RemoteSource {
         return Api.apiService.getAllProducts()
     }
 
-    override suspend fun getProductsByCollectionId(collectionId: Long): ProductListResponse {
+    override suspend fun getProductsByCollectionId(collectionId: Long): ListProductsResponse {
         return Api.apiService.getProductsByCollectionId(collectionId)
 
 
@@ -55,7 +59,7 @@ object ApiClient : RemoteSource {
     override suspend fun createCustomer(customer: CustomerResponse): Customer? {
         var response: Customer? = null
         try {
-            val wholeResponse = Api.apiService.createCustomer(customer)
+            val wholeResponse = apiService.createCustomer(customer)
             response =  wholeResponse.customer
         } catch (e: Exception) {
             e.printStackTrace()
@@ -68,7 +72,6 @@ object ApiClient : RemoteSource {
     override suspend fun getCustomerByEmail(email: String): List<Customer>? {
         var response: List<Customer>? = null
         try {
-            Log.d("emailingetCustomerRf",email)
             val wholeResponse = apiService.getCustomerByEmail(email)
             Log.d("retrofitCreateCustres", wholeResponse.toString())
             response =  wholeResponse.customers
@@ -78,6 +81,20 @@ object ApiClient : RemoteSource {
 
         }
         Log.d("retrofitCreateCust", response?.get(0)?.email.toString())
+        return response
+    }
+
+    override suspend fun newGetCustomerByEmail(email: String): Flow<Customer>? {
+        var response: Flow<Customer>? = null
+        try{
+            val customerListMaybe= apiService.getCustomerByEmail(email)
+            if (customerListMaybe.customers.isNotEmpty()){
+                response = flowOf(customerListMaybe.customers[0])
+            }
+        }catch (e:Exception){
+            e.printStackTrace()
+            Log.d("rfGetCustException",e.message.toString())
+        }
         return response
     }
 

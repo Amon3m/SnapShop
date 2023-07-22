@@ -1,8 +1,12 @@
 package com.itigradteamsix.snapshop.model
 
+import com.itigradteamsix.snapshop.authentication.ApiCustomerLoginState
+import com.itigradteamsix.snapshop.authentication.ApiCustomerState
+import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
 import com.itigradteamsix.snapshop.database.LocalSource
 import com.itigradteamsix.snapshop.favorite.model.DraftOrder
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
+import com.itigradteamsix.snapshop.network.ApiState
 import com.itigradteamsix.snapshop.network.ApiState
 import com.itigradteamsix.snapshop.network.RemoteSource
 import kotlinx.coroutines.flow.Flow
@@ -66,6 +70,17 @@ class Repository private constructor(
         return flowOf(remoteSource.updateDraftOrder(draftOrderId,draftResponse))
 
     }
+
+
+    override suspend fun createCustomer(customer: CustomerResponse): ApiCustomerState {
+        return ApiCustomerState.Success(remoteSource.createCustomer(customer))
+    }
+
+    override suspend fun newGetCustomerByEmail(email: String): Flow<Customer>? {
+        return remoteSource.newGetCustomerByEmail(email)
+    }
+
+
 
 
 

@@ -75,9 +75,14 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
-    //navigation
-    implementation "androidx.navigation:navigation-fragment:2.6.0"
-    implementation "androidx.navigation:navigation-ui:2.6.0"
+
+    //CircleImageView for profile picture
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //datastore
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
+    implementation "androidx.datastore:datastore-preferences-core:1.0.0"
+
 
 
 

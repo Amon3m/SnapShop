@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="110dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <ImageView
+        android:id="@+id/iv_order_item"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_corners"
+        android:src="@drawable/air_jordan"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+      />
+
+    <TextView
+        android:id="@+id/tv_order_item_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Air Jordan 1 Retro High OG Air Jordan 5 Retro SE Craft "
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:maxLines="2"
+        app:layout_constraintStart_toEndOf="@id/iv_order_item"
+        app:layout_constraintTop_toTopOf="@id/iv_order_item"
+        app:layout_constraintBottom_toTopOf="@id/tv_order_item_price"
+        app:layout_constraintEnd_toStartOf="@id/tv_order_item_price"
+        app:layout_constraintHorizontal_bias="0"
+     />
+
+    <TextView
+        android:id="@+id/tv_order_item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="130.15LE"
+        android:textColor="@color/dim_grey_text"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_order_item"
+        app:layout_constraintBottom_toTopOf="@id/tv_order_created_at"/>
+
+    <TextView
+        android:id="@+id/tv_order_created_at"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="Created at "
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/iv_order_item"
+        app:layout_constraintStart_toStartOf="@id/iv_order_item"
+        />
+
+    <TextView
+        android:id="@+id/tv_order_created_at_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="12/12/2020"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/iv_order_item"
+        app:layout_constraintStart_toEndOf="@id/tv_order_created_at"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
