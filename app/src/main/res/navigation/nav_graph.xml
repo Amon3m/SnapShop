@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_homeFragment_to_productsFragment"
             app:destination="@id/productsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -54,6 +57,15 @@
         android:id="@+id/productsFragment"
         android:name="com.itigradteamsix.snapshop.products.view.ProductsFragment"
         android:label="ProductsFragment" >
+        <argument
+            android:name="collection_id"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.itigradteamsix.snapshop.categories.view.CategoryFragment"
+        android:label="fragment_category"
+        tools:layout="@layout/fragment_category" >
         <argument
             android:name="collection_id"
             app:argType="long" />
