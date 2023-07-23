@@ -3,9 +3,11 @@ package com.itigradteamsix.snapshop.model
 import com.itigradteamsix.snapshop.authentication.ApiCustomerLoginState
 import com.itigradteamsix.snapshop.authentication.ApiCustomerState
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
+import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import com.itigradteamsix.snapshop.network.ApiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import retrofit2.http.Path
 
 interface RepoInterface {
     suspend fun getAllProducts(): Flow<ProductListResponse>
@@ -24,6 +26,17 @@ interface RepoInterface {
     suspend fun newGetCustomerByEmail(email: String) : Flow<Customer>?
 
     suspend fun createCustomer(customer: CustomerResponse) : ApiCustomerState
+
+    suspend fun updateCustomerMetafield(customerId: Long, customer: MetaFieldCustomerRequest)
+
+    suspend fun getCustomerById(customerId: Long): Customer?
+
+    suspend fun getCustomerMetafields(customerId: Long): List<MetaFieldResponse>
+
+    suspend fun newCreateDraftOrder(draftOrder: DraftOrderRequest): DraftOrderResponse?
+
+
+
 
 
 }

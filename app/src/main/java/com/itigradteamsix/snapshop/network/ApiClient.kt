@@ -8,7 +8,12 @@ import com.itigradteamsix.snapshop.data.repository.remote.ApiServices
 import com.itigradteamsix.snapshop.model.Customer
 import com.itigradteamsix.snapshop.favorite.model.DraftOrder
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
+import com.itigradteamsix.snapshop.model.DraftOrderRequest
 import com.itigradteamsix.snapshop.model.ListProductsResponse
+import com.itigradteamsix.snapshop.model.MetaFieldCustomerRequest
+import com.itigradteamsix.snapshop.model.MetaFieldListResponse
+import com.itigradteamsix.snapshop.model.MetaFieldResponse
+import com.itigradteamsix.snapshop.model.MetafieldInput
 
 import com.itigradteamsix.snapshop.model.ProductListResponse
 import com.itigradteamsix.snapshop.model.SmartCollectionResponse
@@ -16,6 +21,7 @@ import com.itigradteamsix.snapshop.model.SmartCollectionsResponse
 import com.itigradteamsix.snapshop.network.Api.apiService
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOf
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -96,6 +102,56 @@ object ApiClient : RemoteSource {
             Log.d("rfGetCustException",e.message.toString())
         }
         return response
+    }
+
+    override suspend fun getCustomerById(customerId: Long): Customer? {
+        var response: Customer? = null
+        try {
+            val wholeResponse = apiService.getCustomerById(customerId)
+            Log.d("getCustomerById", wholeResponse.customer.toString())
+            response =  wholeResponse.customer
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return response
+    }
+
+
+    override suspend fun getCustomerMetafields(customerId: Long): List<MetaFieldResponse> {
+        var listOfCustomerMetafields: List<MetaFieldResponse> = emptyList()
+        try {
+            val wholeResponse = apiService.getCustomerMetafields(customerId)
+            listOfCustomerMetafields = wholeResponse.metafields
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return listOfCustomerMetafields
+
+    }
+
+    override suspend fun newCreateDraftOrder(draftOrder: DraftOrderRequest): DraftOrderResponse? {
+        var response: DraftOrderResponse? = null
+        try {
+            val wholeResponse = apiService.newCreateDraftOrder(draftOrder)
+            response =  wholeResponse
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfCreateDraftException",e.message.toString())
+
+        }
+        Log.d("retrofitCreateDraft", response?.draft_order?.id.toString())
+        return response
+    }
+
+    override suspend fun updateCustomerMetafield(
+        customerId: Long,
+        customer: MetaFieldCustomerRequest
+    ) {
+        try {
+            apiService.updateCustomerMetafield(customerId, customer)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
 

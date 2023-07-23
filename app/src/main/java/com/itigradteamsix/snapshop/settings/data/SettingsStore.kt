@@ -34,7 +34,8 @@ data class UserPreferences(
     val customerId: Long, //api
     val customerName: String, //api
     val customerEmail: String, //api
-    val userCurrency: String  // local
+    val userCurrency: String,  // local
+    val cartDraftOrderId: Long //api
 )
 
 
@@ -54,6 +55,8 @@ class SettingsStore(private val context: Context) {
         val CUSTOMER_NAME = stringPreferencesKey("customer_name")
         val CUSTOMER_EMAIL = stringPreferencesKey("customer_email")
         val USER_CURRENCY = stringPreferencesKey("user_currency")
+        val CART_DRAFT_ORDER_ID = longPreferencesKey("cart_draft_order_id")
+
     }
 
     suspend fun fetchInitialPreferences() =
@@ -99,8 +102,9 @@ class SettingsStore(private val context: Context) {
         val customerName = preferences[PreferencesKeys.CUSTOMER_NAME] ?: ""
         val customerEmail = preferences[PreferencesKeys.CUSTOMER_EMAIL] ?: ""
         val userCurrency = preferences[PreferencesKeys.USER_CURRENCY] ?: "usd"
+        val cartDraftOrderId = preferences[PreferencesKeys.CUSTOMER_ID] ?: 0
 
-        return UserPreferences(isFirstTime,isLoggedIn, isGuest, customerId, customerName, customerEmail, userCurrency)
+        return UserPreferences(isFirstTime,isLoggedIn, isGuest, customerId, customerName, customerEmail, userCurrency,cartDraftOrderId)
     }
 
 
@@ -117,6 +121,13 @@ class SettingsStore(private val context: Context) {
             preferences[PreferencesKeys.CUSTOMER_ID] = customerId
             preferences[PreferencesKeys.CUSTOMER_NAME] = customerName
             preferences[PreferencesKeys.CUSTOMER_EMAIL] = customerEmail
+        }
+    }
+
+    //method to update current draft order id
+    suspend fun updateCartDraftOrderId(cartDraftOrderId: Long) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.CART_DRAFT_ORDER_ID] = cartDraftOrderId
         }
     }
 

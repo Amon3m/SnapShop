@@ -31,6 +31,8 @@ class LoginViewModel(val iRepo: FirebaseRepoInterface)  : ViewModel() {
     private val _getDraftFlow : MutableStateFlow<ApiDraftLoginState> = MutableStateFlow(
         ApiDraftLoginState.Loading)
     val getDraftFlow: StateFlow<ApiDraftLoginState> = _getDraftFlow
+
+
     fun loginUser(email : String , password :String) {
         viewModelScope.launch {
             _loginResultFlow.value= iRepo.loginUser(email,password)!!

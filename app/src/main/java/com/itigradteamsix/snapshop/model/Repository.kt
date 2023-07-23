@@ -4,10 +4,12 @@ import com.itigradteamsix.snapshop.authentication.ApiCustomerLoginState
 import com.itigradteamsix.snapshop.authentication.ApiCustomerState
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
 import com.itigradteamsix.snapshop.database.LocalSource
+import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import com.itigradteamsix.snapshop.network.ApiState
 import com.itigradteamsix.snapshop.network.RemoteSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import retrofit2.http.Path
 
 class Repository private constructor(
     var remoteSource: RemoteSource, var concreteLocalSource: LocalSource
@@ -57,10 +59,28 @@ class Repository private constructor(
         return ApiCustomerState.Success(remoteSource.createCustomer(customer))
     }
 
+    override suspend fun updateCustomerMetafield(
+        customerId: Long,
+        customer: MetaFieldCustomerRequest
+    ) {
+        remoteSource.updateCustomerMetafield(customerId, customer)
+    }
+
     override suspend fun newGetCustomerByEmail(email: String): Flow<Customer>? {
         return remoteSource.newGetCustomerByEmail(email)
     }
 
+    override suspend fun getCustomerById(customerId: Long): Customer?{
+        return remoteSource.getCustomerById(customerId)
+    }
+
+    override suspend fun getCustomerMetafields(customerId: Long): List<MetaFieldResponse> {
+        return remoteSource.getCustomerMetafields(customerId)
+    }
+
+    override suspend fun newCreateDraftOrder(draftOrder: DraftOrderRequest): DraftOrderResponse? {
+        return remoteSource.newCreateDraftOrder(draftOrder)
+    }
 
 
 

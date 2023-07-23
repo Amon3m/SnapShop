@@ -4,17 +4,23 @@ import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
 import com.itigradteamsix.snapshop.favorite.model.DraftOrder
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import com.itigradteamsix.snapshop.model.Customer
+import com.itigradteamsix.snapshop.model.DraftOrderRequest
 import com.itigradteamsix.snapshop.model.ListProductsResponse
+import com.itigradteamsix.snapshop.model.MetaFieldCustomerRequest
+import com.itigradteamsix.snapshop.model.MetaFieldListResponse
+import com.itigradteamsix.snapshop.model.MetaFieldResponse
 import com.itigradteamsix.snapshop.model.Product
 import com.itigradteamsix.snapshop.model.ProductListResponse
 import com.itigradteamsix.snapshop.model.SmartCollection
 import com.itigradteamsix.snapshop.model.SmartCollectionResponse
 import com.itigradteamsix.snapshop.model.SmartCollectionsResponse
 import kotlinx.coroutines.flow.Flow
+import retrofit2.http.Body
+import retrofit2.http.Path
 
 interface RemoteSource {
 
-//    suspend fun getWeatherFromNetwork(
+    //    suspend fun getWeatherFromNetwork(
 //        lat: Double=0.0,
 //        lon: Double=0.0,
 //        exclude:String="",
@@ -30,8 +36,19 @@ interface RemoteSource {
     suspend fun createCustomer(customer: CustomerResponse): Customer?
     suspend fun getCustomerByEmail(email: String): List<Customer>?
     suspend fun createDraftOrder(draftResponse: DraftOrderResponse): DraftOrder?
-    suspend fun getDraftOrder(id:String): DraftOrder?
+    suspend fun getDraftOrder(id: String): DraftOrder?
 
     suspend fun newGetCustomerByEmail(email: String): Flow<Customer>?
+
+    suspend fun getCustomerById(customerId: Long): Customer?
+
+    suspend fun getCustomerMetafields(customerId: Long): List<MetaFieldResponse>
+
+    suspend fun newCreateDraftOrder(draftOrder: DraftOrderRequest): DraftOrderResponse?
+
+    suspend fun updateCustomerMetafield(
+        customerId: Long, customer: MetaFieldCustomerRequest
+    )
+
 
 }

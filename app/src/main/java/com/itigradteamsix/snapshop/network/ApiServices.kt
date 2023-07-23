@@ -7,6 +7,7 @@ import com.itigradteamsix.snapshop.model.SmartCollectionsResponse
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
 import com.itigradteamsix.snapshop.authentication.login.model.CustomersLoginResponse
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
+import com.itigradteamsix.snapshop.model.DraftOrderRequest
 import com.itigradteamsix.snapshop.model.ListProductsResponse
 import com.itigradteamsix.snapshop.model.MetaFieldCustomerRequest
 import com.itigradteamsix.snapshop.model.MetaFieldListResponse
@@ -62,7 +63,17 @@ interface ApiServices {
 
     //get the metafield of the customer by the id of the customer
     @GET("customers/{customerId}/metafields.json")
-    suspend fun getCustomerMetafields(@Path("customerId") customerId: Long): Flow<MetaFieldListResponse>
+    suspend fun getCustomerMetafields(@Path("customerId") customerId: Long): MetaFieldListResponse
+
+
+    //get customer by id
+    @GET("customers/{customerId}.json")
+    suspend fun getCustomerById(@Path("customerId") customerId: Long): CustomerResponse
+
+    @Headers("Content-Type: application/json")
+    @POST("draft_orders.json")
+    suspend fun newCreateDraftOrder(@Body draftOrder: DraftOrderRequest): DraftOrderResponse
+
 
 
 }
