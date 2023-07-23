@@ -100,7 +100,7 @@ class WishlistFragment : Fragment() ,OnFavClickListener {
             price = price,
             imageSrc = applied_discount?.description,
             title = title,
-            color = variant_title.toString()
+            color = applied_discount?.title
         )
     }
     override fun onFavClickListener(product_Id: Long) {

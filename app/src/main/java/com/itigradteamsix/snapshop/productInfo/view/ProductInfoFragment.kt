@@ -214,10 +214,9 @@ class ProductInfoFragment : Fragment() {
                 if (lineItems != null) {
                     val mutableLineItems = lineItems.toMutableList()
                     mutableLineItems.add(receivedProduct!!.toLineItems())
-                    Log.d("mutableLine",mutableLineItems.toString())
+                    Log.d("mutableLine",receivedProduct!!.toLineItems().toString())
                     draftOrderResponse.draft_order?.line_items = mutableLineItems
                 }
-
                 val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_favorite_24)
                 binding.favoriteBtn.setImageDrawable(drawable)
                 viewModel.updateDraftOrder(draftID!!.toLong(), draftOrderResponse)
@@ -282,11 +281,10 @@ class ProductInfoFragment : Fragment() {
             tax_lines = arrayListOf(),
             applied_discount = AppliedDiscount(
                 description = image.src,
-
-                value = "",
-                title = "",
-                amount = "",
-                value_type = ""
+                value = "10.0",
+                title = variants[0].option2,
+                amount = "20.00",
+                value_type = "percentage"
             ),
             name = title,
             properties = arrayListOf(),

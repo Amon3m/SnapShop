@@ -23,7 +23,7 @@ data class DraftOrder(
     val shipping_address: ShippingAddress? = null,
     val billing_address: BillingAddress? = null,
     val invoice_url: String? = null,
-    val applied_discount: AppliedDiscount? = null,
+    var applied_discount: AppliedDiscount? = null,
     val order_id: String? = null,
     val shipping_line: ShippingLine? = null,
     val tax_lines: List<TaxLine>? = null,
@@ -38,26 +38,26 @@ data class DraftOrder(
 )
 
 data class LineItems(
-    val id: Long? = null,
-    val variant_id: Long? = null,
-    val product_id: Long? = null,
-    val title: String? = null,
-    val variant_title: String? = null,
-    val sku: String? = null,
-    val vendor: String? = null,
-    val quantity: Int? = null,
-    val requires_shipping: Boolean? = null,
-    val taxable: Boolean? = null,
-    val gift_card: Boolean? = null,
-    val fulfillment_service: String? = null,
-    val grams: Int? = null,
-    val tax_lines: List<TaxLine>? = null,
-    val applied_discount: AppliedDiscount? = null,
-    val name: String? = null,
-    val properties: List<Any>? = null,
-    val custom: Boolean? = null,
-    val price: String? = null,
-    val admin_graphql_api_id: String? = null
+    var id: Long? = null,
+    var variant_id: Long? = null,
+    var product_id: Long? = null,
+    var title: String? = null,
+    var variant_title: String? = null,
+    var sku: String? = null,
+    var vendor: String? = null,
+    var quantity: Int? = null,
+    var requires_shipping: Boolean? = null,
+    var taxable: Boolean? = null,
+    var gift_card: Boolean? = null,
+    var fulfillment_service: String? = null,
+    var grams: Int? = null,
+    var tax_lines: List<TaxLine>? = null,
+    var applied_discount: AppliedDiscount? = null,
+    var name: String? = null,
+    var properties: List<Any>? = null,
+    var custom: Boolean? = null,
+    var price: String? = null,
+    var admin_graphql_api_id: String? = null
 )
 
 data class ShippingAddress(
@@ -97,11 +97,11 @@ data class BillingAddress(
 )
 
 data class AppliedDiscount(
-    val description: String? = null,
-    val value: String? = null,
-    val title: String? = null,
-    val amount: String? = null,
-    val value_type: String? = null
+    var description: String? = null,
+    var value: String? = null,
+    var title: String? = null,
+    var amount: String? = null,
+    var value_type: String? = null
 )
 
 data class ShippingLine(
