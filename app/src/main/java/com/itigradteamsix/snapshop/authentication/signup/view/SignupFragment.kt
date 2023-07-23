@@ -131,6 +131,7 @@ class SignupFragment : Fragment() {
                             price = "50"
                         ))
                         )))
+
                         Toast.makeText(
                             requireContext(),
                             "Sorry "+userNAme+ ", Please verify your email and login",

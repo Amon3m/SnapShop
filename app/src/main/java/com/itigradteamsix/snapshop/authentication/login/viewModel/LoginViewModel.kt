@@ -49,6 +49,8 @@ class LoginViewModel(val iRepo: FirebaseRepoInterface)  : ViewModel() {
         }
     }
 
+
+
     //add user to datastore to avoid login again
     fun addUserToDataStore(isGuest : Boolean , user : Customer?) {
         viewModelScope.launch {

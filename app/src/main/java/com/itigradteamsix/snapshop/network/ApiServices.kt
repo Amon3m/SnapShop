@@ -8,10 +8,14 @@ import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
 import com.itigradteamsix.snapshop.authentication.login.model.CustomersLoginResponse
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import com.itigradteamsix.snapshop.model.ListProductsResponse
+import com.itigradteamsix.snapshop.model.MetaFieldCustomerRequest
+import com.itigradteamsix.snapshop.model.MetaFieldListResponse
 import kotlinx.coroutines.flow.Flow
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -47,6 +51,18 @@ interface ApiServices {
     suspend fun createDraftOrder(@Body draftOrder: DraftOrderResponse): DraftOrderResponse
     @GET("draft_orders/{draft_order_id}.json")
     suspend fun getDraftOrder(@Path(value = "draft_order_id")draftOrderId:Long): DraftOrderResponse
+
+
+    @Headers("Content-Type: application/json")
+    @PUT("customers/{customerId}.json")
+    suspend fun updateCustomerMetafield(
+        @Path("customerId") customerId: Long,
+        @Body customer: MetaFieldCustomerRequest
+    )
+
+    //get the metafield of the customer by the id of the customer
+    @GET("customers/{customerId}/metafields.json")
+    suspend fun getCustomerMetafields(@Path("customerId") customerId: Long): Flow<MetaFieldListResponse>
 
 
 }

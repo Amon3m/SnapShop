@@ -114,6 +114,7 @@ class LoginFragment : Fragment() {
                             loadingDialog.dismiss()
                             if (result.data) {
 
+
 //                                val intent = Intent(activity, MainActivity::class.java)
 //                                startActivity(intent)
 //                                activity?.finish()
@@ -167,6 +168,7 @@ class LoginFragment : Fragment() {
                         //add user to datastore to avoid login again
                         customer?.let {
                             viewModel.addUserToDataStore(false, it)
+
                         }
 
 
