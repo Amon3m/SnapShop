@@ -29,6 +29,8 @@ import com.itigradteamsix.snapshop.network.ApiClient
 import com.itigradteamsix.snapshop.network.ApiState
 import com.itigradteamsix.snapshop.productInfo.viewmodel.ProductInfoViewModel
 import com.itigradteamsix.snapshop.productInfo.viewmodel.ProductInfoViewModelFactory
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ProductInfoFragment : Fragment() {
@@ -77,53 +79,79 @@ class ProductInfoFragment : Fragment() {
         Log.d("ProductInfoArgsId",product_Id.toString())
         viewModel.getSingleProduct(product_Id!!,requireContext())
 
-        lifecycleScope.launch {
-
-            viewModel.productFlow.collect {
-                when (it) {
-                    is ApiState.Loading -> {
-                        Log.d("ProductInfoLoading","Loading")
-
-                    }
-                    is ApiState.Success<*> -> {
-                        receivedProduct= it.data as Product
-                        setDataToViews(receivedProduct!!)
-
-                    }
-                    is ApiState.Failure -> {
-                        println(" Error ${it.msg}")
-                    }
-                }
-            }
-        }
         viewLifecycleOwner.lifecycleScope.launch {
+            launch() {
+                viewModel.productFlow.collect {
+                    when (it) {
+                        is ApiState.Loading -> {
+                            Log.d("ProductInfoLoading", "Loading")
 
-            viewModel.getDraftFlow.collect { result ->
-                when (result) {
+                        }
 
-                    is ApiDraftLoginState.Loading -> {
-                        Log.d("PIDraftFlowCollect", "Loading")
-                    }
+                        is ApiState.Success<*> -> {
+                            receivedProduct = it.data as Product
+                            setDataToViews(receivedProduct!!)
 
-                    is ApiDraftLoginState.Success -> {
-                        draftOrderResponse.draft_order=result.data
-                        for (item in draftOrderResponse.draft_order?.line_items!!)
-                            if (item.product_id == receivedProduct?.id)
-                            {
-                                val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_favorite_24)
-                                binding.favoriteBtn.setImageDrawable(drawable)
-                                isFav=true
-                                break
-                            }
-                    }
+                        }
 
-                    is ApiDraftLoginState.Failure -> {
-                        Log.d("PIDraftFlowCollect", result.exception.message.toString())
+                        is ApiState.Failure -> {
+                            println(" Error ${it.msg}")
+                        }
                     }
                 }
+            }
 
+
+            launch {
+                delay(1000)
+                viewModel.getDraftFlow.collect { result ->
+                    when (result) {
+
+                        is ApiDraftLoginState.Loading -> {
+                            Log.d("PIDraftFlowCollect", "Loading")
+                        }
+
+                        is ApiDraftLoginState.Success -> {
+                            draftOrderResponse.draft_order = result.data
+                            for (item in draftOrderResponse.draft_order?.line_items!!) {
+                                Log.d(
+                                    "outside if product=received",
+                                    "-" + item.product_id.toString() + "-" + receivedProduct?.id
+                                )
+                                Log.d("outside if product=received", receivedProduct.toString())
+                                Log.d("outside if product=received", item.toString())
+                                Log.d(
+                                    "outside if product=received",
+                                    draftOrderResponse.draft_order?.line_items!!.toString()
+                                )
+
+
+                                if (item.product_id == receivedProduct?.id) {
+                                    Log.d(
+                                        "inside if product=received",
+                                        product_Id.toString() + " " + receivedProduct?.id
+                                    )
+
+                                    val drawable = ContextCompat.getDrawable(
+                                        requireContext(),
+                                        R.drawable.baseline_favorite_24
+                                    )
+                                    binding.favoriteBtn.setImageDrawable(drawable)
+                                    isFav = true
+                                    break
+                                }
+                            }
+                        }
+
+                        is ApiDraftLoginState.Failure -> {
+                            Log.d("PIDraftFlowCollect", result.exception.message.toString())
+                        }
+                    }
+
+                }
             }
         }
+
         binding.decreasingQuantityBtn.setOnClickListener {
             if (productQuantity!! >=2){
                 productQuantity = productQuantity!! - 1
@@ -139,7 +167,7 @@ class ProductInfoFragment : Fragment() {
                 binding.quantityTv.text = productQuantity.toString()
             }
             else
-                Toast.makeText(requireContext(),"Sorry the quantity in inventory is ${receivedProduct}",
+                Toast.makeText(requireContext(),"Sorry no enough quantity in the inventory ",
                     Toast.LENGTH_SHORT).show()
         }
         binding.image1.setOnClickListener {
@@ -169,6 +197,7 @@ class ProductInfoFragment : Fragment() {
                             iterator.remove()
                         }
                     }
+                    Log.d("mutableLine",mutableLineItems.toString())
                     draftOrderResponse.draft_order?.line_items = mutableLineItems
                 }
 
@@ -201,7 +230,7 @@ class ProductInfoFragment : Fragment() {
     private fun setDataToViews(product: Product) {
 
 
-        binding.colortv.text = product.options[1].values[0]
+        binding.colortv.text = product.variants[0].option2
         binding.detailsTv.text = product.body_html
         binding.price.text = product.variants[0].price
         binding.productName.text = product.title
@@ -237,6 +266,8 @@ class ProductInfoFragment : Fragment() {
     }
 
     fun Product.toLineItems(): LineItems {
+        Log.d("imageee",image.src.toString())
+
         return LineItems(
 
             product_id = id,
@@ -251,6 +282,7 @@ class ProductInfoFragment : Fragment() {
             tax_lines = arrayListOf(),
             applied_discount = AppliedDiscount(
                 description = image.src,
+
                 value = "",
                 title = "",
                 amount = "",
