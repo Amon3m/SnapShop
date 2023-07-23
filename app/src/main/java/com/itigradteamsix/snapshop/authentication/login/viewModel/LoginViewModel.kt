@@ -1,19 +1,19 @@
 package com.itigradteamsix.snapshop.authentication.login.viewModel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.itigradteamsix.snapshop.MyApplication
-import com.itigradteamsix.snapshop.authentication.ApiCustomerLoginState
-import com.itigradteamsix.snapshop.authentication.ApiCustomerState
-import com.itigradteamsix.snapshop.authentication.ApiDraftLoginState
-import com.itigradteamsix.snapshop.authentication.AuthState
+
+import com.itigradteamsix.snapshop.authentication.login.model.ApiCustomerLoginState
+import com.itigradteamsix.snapshop.authentication.login.model.ApiDraftLoginState
+import com.itigradteamsix.snapshop.authentication.signup.model.AuthState
 import com.itigradteamsix.snapshop.authentication.FirebaseRepoInterface
 import com.itigradteamsix.snapshop.authentication.signup.model.SignupUser
 import com.itigradteamsix.snapshop.model.Customer
 import com.itigradteamsix.snapshop.network.ApiState
 import com.itigradteamsix.snapshop.settings.data.UserPreferences
 import com.itigradteamsix.snapshop.settings.data.dataStore
+import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

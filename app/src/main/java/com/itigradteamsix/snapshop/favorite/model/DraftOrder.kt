@@ -3,7 +3,7 @@ package com.itigradteamsix.snapshop.favorite.model
 import com.itigradteamsix.snapshop.model.Customer
 
 data class DraftOrderResponse(
-    val draft_order: DraftOrder? = null
+    var draft_order: DraftOrder? = null
 )
 
 data class DraftOrder(
@@ -19,7 +19,7 @@ data class DraftOrder(
     val completed_at: String? = null,
     val name: String? = null,
     val status: String? = null,
-    val line_items: List<LineItems>? = null,
+    var line_items: List<LineItems>? = null,
     val shipping_address: ShippingAddress? = null,
     val billing_address: BillingAddress? = null,
     val invoice_url: String? = null,

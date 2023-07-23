@@ -11,6 +11,7 @@ import com.itigradteamsix.snapshop.model.DraftOrderRequest
 import com.itigradteamsix.snapshop.model.ListProductsResponse
 import com.itigradteamsix.snapshop.model.MetaFieldCustomerRequest
 import com.itigradteamsix.snapshop.model.MetaFieldListResponse
+import com.itigradteamsix.snapshop.model.ProductResponse
 import kotlinx.coroutines.flow.Flow
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -52,7 +53,12 @@ interface ApiServices {
     suspend fun createDraftOrder(@Body draftOrder: DraftOrderResponse): DraftOrderResponse
     @GET("draft_orders/{draft_order_id}.json")
     suspend fun getDraftOrder(@Path(value = "draft_order_id")draftOrderId:Long): DraftOrderResponse
-
+    @PUT("draft_orders/{draft_order_id}.json")
+    suspend fun updateDraftOrder(@Path(value = "draft_order_id")draftOrderId:Long,
+                                    @Body draftOrder: DraftOrderResponse
+    ): DraftOrderResponse
+    @GET("products/{product_id}.json")
+    suspend fun getSingleProduct(@Path("product_id") product_id: Long): ProductResponse
 
     @Headers("Content-Type: application/json")
     @PUT("customers/{customerId}.json")

@@ -9,10 +9,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import com.itigradteamsix.snapshop.R
 import com.itigradteamsix.snapshop.Utilities
 import com.itigradteamsix.snapshop.database.ConcreteLocalSource
 import com.itigradteamsix.snapshop.databinding.FragmentCategoryBinding
+import com.itigradteamsix.snapshop.favorite.view.WishlistFragmentDirections
 import com.itigradteamsix.snapshop.model.ListProductsResponse
 import com.itigradteamsix.snapshop.model.ProductsItem
 import com.itigradteamsix.snapshop.model.Repository
@@ -34,6 +36,7 @@ class CategoryFragment : Fragment(), OnProductsClickListener {
     var sortPrice: Boolean = false
     var asc: Boolean = false
     var isCat:Boolean=false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         productViewModelFactory = ProductViewModelFactory(
@@ -186,9 +189,9 @@ class CategoryFragment : Fragment(), OnProductsClickListener {
 
     }
 
-    override fun onProductsClick(product: ProductsItem?) {
-        TODO("Not yet implemented")
-    }
+    override fun onProductsClick(productID: Long) {
+        val action =CategoryFragmentDirections.actionCategoryFragmentToProductInfoFragment(productID)
+        binding.root.findNavController().navigate(action)    }
 
     override fun onWishClick(product: ProductsItem?) {
         TODO("Not yet implemented")

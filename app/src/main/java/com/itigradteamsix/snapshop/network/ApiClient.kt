@@ -10,11 +10,8 @@ import com.itigradteamsix.snapshop.favorite.model.DraftOrder
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import com.itigradteamsix.snapshop.model.DraftOrderRequest
 import com.itigradteamsix.snapshop.model.ListProductsResponse
-import com.itigradteamsix.snapshop.model.MetaFieldCustomerRequest
-import com.itigradteamsix.snapshop.model.MetaFieldListResponse
-import com.itigradteamsix.snapshop.model.MetaFieldResponse
-import com.itigradteamsix.snapshop.model.MetafieldInput
 
+import com.itigradteamsix.snapshop.model.Product
 import com.itigradteamsix.snapshop.model.ProductListResponse
 import com.itigradteamsix.snapshop.model.SmartCollectionResponse
 import com.itigradteamsix.snapshop.model.SmartCollectionsResponse
@@ -180,6 +177,34 @@ object ApiClient : RemoteSource {
 
         }
         Log.d("retrofitgetDraft", response?.id.toString())
+        return response
+    }
+    override suspend fun updateDraftOrder(draftOrderId : Long , draftResponse:DraftOrderResponse): DraftOrder? {
+        var response: DraftOrder? = null
+        try {
+            val wholeResponse = Api.apiService.updateDraftOrder(draftOrderId,draftResponse)
+            response =  wholeResponse.draft_order
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfUpdateDraftException",e.message.toString())
+
+        }
+        Log.d("retrofitUpdateDraft", response?.id.toString())
+        return response
+    }
+
+    override suspend fun getSingleProduct(id:Long): Product?{
+        var response: Product? = null
+        try {
+            val wholeResponse = apiService.getSingleProduct(id)
+            Log.d("getProductRFTTry", wholeResponse.toString())
+            response =  wholeResponse.product
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfGetProductException",e.message.toString())
+
+        }
+        Log.d("retrofitgetProduct", response?.id.toString())
         return response
     }
 

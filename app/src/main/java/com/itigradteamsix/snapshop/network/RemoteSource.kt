@@ -20,7 +20,7 @@ import retrofit2.http.Path
 
 interface RemoteSource {
 
-    //    suspend fun getWeatherFromNetwork(
+//    suspend fun getWeatherFromNetwork(
 //        lat: Double=0.0,
 //        lon: Double=0.0,
 //        exclude:String="",
@@ -36,9 +36,12 @@ interface RemoteSource {
     suspend fun createCustomer(customer: CustomerResponse): Customer?
     suspend fun getCustomerByEmail(email: String): List<Customer>?
     suspend fun createDraftOrder(draftResponse: DraftOrderResponse): DraftOrder?
-    suspend fun getDraftOrder(id: String): DraftOrder?
+    suspend fun getDraftOrder(id:String): DraftOrder?
+    suspend fun updateDraftOrder(draftOrderId : Long , draftResponse:DraftOrderResponse): DraftOrder?
 
     suspend fun newGetCustomerByEmail(email: String): Flow<Customer>?
+    suspend fun getSingleProduct(id:Long): Product?
+
 
     suspend fun getCustomerById(customerId: Long): Customer?
 

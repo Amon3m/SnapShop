@@ -1,6 +1,7 @@
 package com.itigradteamsix.snapshop.products.view
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -35,9 +36,9 @@ class ProductsAdapter(val context: Context, private val listener: OnProductsClic
 
 //        holder.binding.fromDateTxt.text=currentObject.fromDate
 
-        holder.binding.favImageview.setOnClickListener {
-            listener.onProductsClick(currentObject)
-            listener.onWishClick(currentObject)
+        holder.binding.productCard.setOnClickListener {
+            Log.d("productIDAdapter",currentObject?.id.toString())
+            currentObject?.id?.let { it1 -> listener.onProductsClick(it1) }
         }
     }
 

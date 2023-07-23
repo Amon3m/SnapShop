@@ -1,10 +1,12 @@
 package com.itigradteamsix.snapshop.model
 
-import com.itigradteamsix.snapshop.authentication.ApiCustomerLoginState
-import com.itigradteamsix.snapshop.authentication.ApiCustomerState
+
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
+import com.itigradteamsix.snapshop.authentication.signup.model.ApiCustomerState
 import com.itigradteamsix.snapshop.network.ApiState
+import com.itigradteamsix.snapshop.favorite.model.DraftOrder
+import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import retrofit2.http.Path
@@ -20,12 +22,15 @@ interface RepoInterface {
 
 
     suspend fun getSomeListFromDatabase(): Flow<List<String>>
+    suspend fun updateDraftOrder(draftOrderId : Long , draftResponse: DraftOrderResponse): Flow<DraftOrder?>
+
 
 
     //Hamza (make it return a flow of customer)
     suspend fun newGetCustomerByEmail(email: String) : Flow<Customer>?
 
     suspend fun createCustomer(customer: CustomerResponse) : ApiCustomerState
+    suspend fun getSingleProduct(id:Long): Flow<Product?>
 
     suspend fun updateCustomerMetafield(customerId: Long, customer: MetaFieldCustomerRequest)
 
