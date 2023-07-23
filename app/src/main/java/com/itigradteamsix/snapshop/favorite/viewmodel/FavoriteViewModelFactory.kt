@@ -7,7 +7,7 @@ import com.itigradteamsix.snapshop.authentication.FirebaseRepoInterface
 import com.itigradteamsix.snapshop.authentication.login.viewModel.LoginViewModel
 import com.itigradteamsix.snapshop.model.RepoInterface
 
-class FavoriteViewModelFactory(private val iRepo: RepoInterface,private val iRepo2: FirebaseRepo,
+class FavoriteViewModelFactory(private val iRepo: RepoInterface,private val iRepo2: FirebaseRepo
 ): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(FavoriteViewModel::class.java)) {

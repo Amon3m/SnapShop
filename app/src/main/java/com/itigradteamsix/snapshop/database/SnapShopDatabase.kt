@@ -6,8 +6,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.itigradteamsix.snapshop.model.Product
 
-//TODO ADD ENTITIES HERE []
-@Database(entities = [Product::class], version = 1)
 abstract class SnapShopDatabase : RoomDatabase() {
     abstract fun snapShopDao(): SnapShopDao
 

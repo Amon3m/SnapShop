@@ -1,6 +1,7 @@
 package com.itigradteamsix.snapshop.favorite.view
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -35,6 +36,7 @@ class WishlistFragment : Fragment() ,OnFavClickListener {
     var draftID : String? = null
 
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,15 +53,16 @@ class WishlistFragment : Fragment() ,OnFavClickListener {
         viewModel = ViewModelProvider(requireActivity(),favoriteViewModelFactory)[FavoriteViewModel::class.java]
         favAdapter = FavoriteAdapter(ArrayList(), requireActivity(),this )
         binding.favRecycler.adapter = favAdapter
-
-        if (activity != null) {
-            val intent = requireActivity().intent
-            if (intent != null) {
-                draftID = intent.getStringExtra("draftID")
-                Log.d("draftID", draftID!!)
-
-            }
-        }
+        val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        draftID = sharedPreferences.getString("draftID","")
+//        if (activity != null) {
+//            val intent = requireActivity().intent
+//            if (intent != null) {
+//                draftID = intent.getStringExtra("draftID")
+//                Log.d("draftID", draftID!!)
+//
+//            }
+//        }
         viewModel.getDraftOrder(draftID!!)
         viewLifecycleOwner.lifecycleScope.launch {
 
@@ -93,9 +96,9 @@ class WishlistFragment : Fragment() ,OnFavClickListener {
     }
     fun LineItems.toFavoritePojo(): FavoritePojo {
         return FavoritePojo(
-            productId = id,
+            productId = product_id,
             price = price,
-            imageSrc = sku,
+            imageSrc = applied_discount?.description,
             title = title,
             color = variant_title.toString()
         )
@@ -115,8 +118,9 @@ class WishlistFragment : Fragment() ,OnFavClickListener {
             if (product_Id == f.productId) {
                 itemsToRemoveFromFavorite.add(f)
                 itemsToRemoveFromFavLineItems.addAll(
-                    favLineItems.filter { favLineItem -> favLineItem.id == product_Id }
+                    favLineItems.filter { favLineItem -> favLineItem.product_id == product_Id }
                 )
+                break
             }
         }
 

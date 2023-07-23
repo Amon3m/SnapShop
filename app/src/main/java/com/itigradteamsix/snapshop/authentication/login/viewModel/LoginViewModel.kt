@@ -3,10 +3,7 @@ package com.itigradteamsix.snapshop.authentication.login.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.itigradteamsix.snapshop.MyApplication
-import com.itigradteamsix.snapshop.authentication.ApiCustomerLoginState
-import com.itigradteamsix.snapshop.authentication.ApiCustomerState
-import com.itigradteamsix.snapshop.authentication.ApiDraftLoginState
-import com.itigradteamsix.snapshop.authentication.AuthState
+
 import com.itigradteamsix.snapshop.authentication.login.model.ApiCustomerLoginState
 import com.itigradteamsix.snapshop.authentication.login.model.ApiDraftLoginState
 import com.itigradteamsix.snapshop.authentication.signup.model.AuthState

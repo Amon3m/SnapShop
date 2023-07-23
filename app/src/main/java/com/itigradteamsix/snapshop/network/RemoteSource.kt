@@ -34,5 +34,7 @@ interface RemoteSource {
     suspend fun updateDraftOrder(draftOrderId : Long , draftResponse:DraftOrderResponse): DraftOrder?
 
     suspend fun newGetCustomerByEmail(email: String): Flow<Customer>?
+    suspend fun getSingleProduct(id:Long): Product?
+
 
 }

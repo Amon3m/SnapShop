@@ -73,6 +73,10 @@
         <argument
             android:name="come_from_cat"
             app:argType="boolean" />
+        <action
+            android:id="@+id/action_categoryFragment_to_productInfoFragment"
+            app:destination="@id/productInfoFragment" />
+
     </fragment>
 
 

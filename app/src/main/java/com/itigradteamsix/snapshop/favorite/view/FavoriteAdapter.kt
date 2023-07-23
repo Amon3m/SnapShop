@@ -29,7 +29,7 @@ class FavoriteAdapter (private var favoriteList: List<FavoritePojo>, val context
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val currentProduct = favoriteList[position]
+        val currentProduct = favoriteList[position+1]
 
         holder.binding.txtViewReviewerName.text = currentProduct.title
         //add discount feature later
@@ -38,7 +38,7 @@ class FavoriteAdapter (private var favoriteList: List<FavoritePojo>, val context
         Glide.with(context)
             .load(currentProduct.imageSrc)
             .into(holder.binding.imgViewProduct)
-        holder.binding.cardView.setOnClickListener {
+        holder.binding.root.setOnClickListener {
             onFavClickListener.onFavClickListener(currentProduct.productId!!)
 
         }
@@ -47,7 +47,7 @@ class FavoriteAdapter (private var favoriteList: List<FavoritePojo>, val context
         }
     }
 
-    override fun getItemCount() = favoriteList.size
+    override fun getItemCount() = favoriteList.size-1
 
     inner class ViewHolder(var binding: WishlistRowBinding) : RecyclerView.ViewHolder(binding.root)
 }

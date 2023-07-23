@@ -1,6 +1,8 @@
 package com.itigradteamsix.snapshop.authentication.login.view
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -42,6 +44,8 @@ class LoginFragment : Fragment() {
     private var customer: Customer? = null
 
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -54,6 +58,7 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("CommitPrefEdits")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadingDialog = AlertDialog
@@ -202,7 +207,11 @@ class LoginFragment : Fragment() {
                         val intent = Intent(activity, MainActivity::class.java)
                         intent.putExtra("customerID", customer?.id.toString())
                         intent.putExtra("draftID", result.data?.id.toString())
-
+                        val sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+                        val editor = sharedPreferences.edit()
+                        editor.putString("draftID",result.data?.id.toString())
+                        editor.apply()
+                        sharedPreferences.getString("draftID","")?.let { Log.d("draftIDLogin", it) }
                         startActivity(intent)
                         activity?.finish()
 //                        Log.d("draftID", result.customerData?.get(0)?.note.toString())

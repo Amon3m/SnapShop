@@ -1,15 +1,15 @@
 package com.itigradteamsix.snapshop.model
 
-import com.itigradteamsix.snapshop.authentication.ApiCustomerLoginState
-import com.itigradteamsix.snapshop.authentication.ApiCustomerState
+
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
+import com.itigradteamsix.snapshop.authentication.signup.model.ApiCustomerState
 import com.itigradteamsix.snapshop.database.LocalSource
 import com.itigradteamsix.snapshop.favorite.model.DraftOrder
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import com.itigradteamsix.snapshop.network.ApiState
-import com.itigradteamsix.snapshop.network.ApiState
 import com.itigradteamsix.snapshop.network.RemoteSource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 
 class Repository private constructor(
@@ -48,7 +48,7 @@ class Repository private constructor(
     override suspend fun getANumberOfProducts(limit: Int):Flow<ProductListResponse> {
         return flowOf(remoteSource.getANumberOfProducts(limit))
     }
-    override suspend fun getProductsByCollectionId(id: Long):Flow<ProductListResponse> {
+    override suspend fun getProductsByCollectionId(id: Long): Flow<ListProductsResponse> {
         return flowOf(remoteSource.getProductsByCollectionId(id))
     }
 
@@ -80,7 +80,10 @@ class Repository private constructor(
         return remoteSource.newGetCustomerByEmail(email)
     }
 
+    override suspend fun getSingleProduct(id:Long): Flow<Product?> {
+        return flowOf( remoteSource.getSingleProduct(id))
 
+    }
 
 
 

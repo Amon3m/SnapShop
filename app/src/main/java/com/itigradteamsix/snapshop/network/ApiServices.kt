@@ -8,6 +8,7 @@ import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
 import com.itigradteamsix.snapshop.authentication.login.model.CustomersLoginResponse
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import com.itigradteamsix.snapshop.model.ListProductsResponse
+import com.itigradteamsix.snapshop.model.ProductResponse
 import kotlinx.coroutines.flow.Flow
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -52,5 +53,7 @@ interface ApiServices {
     suspend fun updateDraftOrder(@Path(value = "draft_order_id")draftOrderId:Long,
                                     @Body draftOrder: DraftOrderResponse
     ): DraftOrderResponse
+    @GET("products/{product_id}.json")
+    suspend fun getSingleProduct(@Path("product_id") product_id: Long): ProductResponse
 
 }
