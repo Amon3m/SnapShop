@@ -74,6 +74,7 @@ class SettingsStore(private val context: Context) {
             preferences[PreferencesKeys.CUSTOMER_NAME] = userPreferences.customerName
             preferences[PreferencesKeys.CUSTOMER_EMAIL] = userPreferences.customerEmail
             preferences[PreferencesKeys.USER_CURRENCY] = userPreferences.userCurrency
+            preferences[PreferencesKeys.CART_DRAFT_ORDER_ID] = userPreferences.cartDraftOrderId
         }
     }
 
@@ -102,7 +103,7 @@ class SettingsStore(private val context: Context) {
         val customerName = preferences[PreferencesKeys.CUSTOMER_NAME] ?: ""
         val customerEmail = preferences[PreferencesKeys.CUSTOMER_EMAIL] ?: ""
         val userCurrency = preferences[PreferencesKeys.USER_CURRENCY] ?: "usd"
-        val cartDraftOrderId = preferences[PreferencesKeys.CUSTOMER_ID] ?: 0
+        val cartDraftOrderId = preferences[PreferencesKeys.CART_DRAFT_ORDER_ID] ?: 0
 
         return UserPreferences(isFirstTime,isLoggedIn, isGuest, customerId, customerName, customerEmail, userCurrency,cartDraftOrderId)
     }

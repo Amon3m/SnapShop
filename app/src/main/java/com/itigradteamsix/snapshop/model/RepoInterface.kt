@@ -2,7 +2,6 @@ package com.itigradteamsix.snapshop.model
 
 
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
-import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import com.itigradteamsix.snapshop.authentication.signup.model.ApiCustomerState
 import com.itigradteamsix.snapshop.network.ApiState
 import com.itigradteamsix.snapshop.favorite.model.DraftOrder

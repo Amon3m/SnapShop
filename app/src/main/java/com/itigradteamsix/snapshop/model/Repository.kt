@@ -4,15 +4,14 @@ package com.itigradteamsix.snapshop.model
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
 import com.itigradteamsix.snapshop.authentication.signup.model.ApiCustomerState
 import com.itigradteamsix.snapshop.database.LocalSource
-import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import com.itigradteamsix.snapshop.favorite.model.DraftOrder
-import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
-import com.itigradteamsix.snapshop.network.ApiState
 import com.itigradteamsix.snapshop.network.RemoteSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import retrofit2.http.Path
+//import DraftOrderResponse
+import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 
 class Repository private constructor(
     var remoteSource: RemoteSource, var concreteLocalSource: LocalSource
@@ -56,6 +55,9 @@ class Repository private constructor(
         return concreteLocalSource.getSomeListFromDatabase()
 
     }
+
+
+
     override suspend fun updateDraftOrder(
         draftOrderId: Long,
         draftResponse: DraftOrderResponse
@@ -63,6 +65,8 @@ class Repository private constructor(
         return flowOf(remoteSource.updateDraftOrder(draftOrderId,draftResponse))
 
     }
+
+
 
 
     override suspend fun createCustomer(customer: CustomerResponse): ApiCustomerState {

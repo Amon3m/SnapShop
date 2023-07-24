@@ -1,6 +1,7 @@
 package com.itigradteamsix.snapshop.network
 
 import android.util.Log
+import com.google.android.material.tabs.TabLayout.TabGravity
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
@@ -10,6 +11,8 @@ import com.itigradteamsix.snapshop.favorite.model.DraftOrder
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import com.itigradteamsix.snapshop.model.DraftOrderRequest
 import com.itigradteamsix.snapshop.model.ListProductsResponse
+import com.itigradteamsix.snapshop.model.MetaFieldCustomerRequest
+import com.itigradteamsix.snapshop.model.MetaFieldResponse
 
 import com.itigradteamsix.snapshop.model.Product
 import com.itigradteamsix.snapshop.model.ProductListResponse
@@ -27,6 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 const val BASE_URL = "https://itp-sv-and6.myshopify.com/admin/api/2023-07/"
+const val TAG = "ApiClientLOGS"
 
 object ApiClient : RemoteSource {
 
@@ -126,19 +130,6 @@ object ApiClient : RemoteSource {
 
     }
 
-    override suspend fun newCreateDraftOrder(draftOrder: DraftOrderRequest): DraftOrderResponse? {
-        var response: DraftOrderResponse? = null
-        try {
-            val wholeResponse = apiService.newCreateDraftOrder(draftOrder)
-            response =  wholeResponse
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Log.d("rfCreateDraftException",e.message.toString())
-
-        }
-        Log.d("retrofitCreateDraft", response?.draft_order?.id.toString())
-        return response
-    }
 
     override suspend fun updateCustomerMetafield(
         customerId: Long,
@@ -179,6 +170,59 @@ object ApiClient : RemoteSource {
         Log.d("retrofitgetDraft", response?.id.toString())
         return response
     }
+
+
+
+    override suspend fun newCreateDraftOrder(draftOrder: DraftOrderRequest): DraftOrderResponse? {
+        var response: DraftOrderResponse? = null
+        try {
+            val wholeResponse = apiService.newCreateDraftOrder(draftOrder)
+            response =  wholeResponse
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfCreateDraftException",e.message.toString())
+
+        }
+        Log.d("retrofitCreateDraft", response?.draft_order?.id.toString())
+        return response
+    }
+
+
+    suspend fun getDraftOrderAsFlow(id:Long): Flow<DraftOrder>?{
+        var response: Flow<DraftOrder>? = null
+        try{
+            val draftOrderMaybe= apiService.getDraftOrder(id)
+            if (draftOrderMaybe.draft_order != null){
+                response = flowOf(draftOrderMaybe.draft_order!!)
+            }
+        }catch (e:Exception){
+            e.printStackTrace()
+            Log.d(TAG,e.message.toString())
+        }
+        return response
+
+    }
+
+    //pass the new modifiedDraftOrder in DraftOrderResponse wrapper
+    suspend fun updateDraftOrderWithNewItems(draftOrderId : Long , modifiedDraftOrder:DraftOrderResponse) : DraftOrder?{
+        var response: DraftOrder? = null
+        try {
+            val wholeResponse = Api.apiService.updateDraftOrder(draftOrderId,modifiedDraftOrder)
+            response =  wholeResponse.draft_order
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfUpdateDraftException",e.message.toString())
+
+        }
+        Log.d("retrofitUpdateDraft", response?.id.toString())
+        return response
+    }
+
+
+
+
+
+
     override suspend fun updateDraftOrder(draftOrderId : Long , draftResponse:DraftOrderResponse): DraftOrder? {
         var response: DraftOrder? = null
         try {

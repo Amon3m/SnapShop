@@ -19,7 +19,7 @@ class ProfileViewModel(private val repoInterface: RepoInterface) : ViewModel() {
     private var _customer = MutableStateFlow<ApiState>(ApiState.Loading)
     val customer: StateFlow<ApiState> = _customer
 
-    //prefernce flow to check if user is logged in or not
+
     val userPreferencesFlow = MyApplication.appInstance.settingsStore.userPreferencesFlow
 
     private var _lastTwoOrders = MutableStateFlow<ApiState>(ApiState.Loading)
@@ -41,7 +41,7 @@ class ProfileViewModel(private val repoInterface: RepoInterface) : ViewModel() {
     //on Signout
     fun removeUserFromDataStore(){
         viewModelScope.launch {
-            MyApplication.appInstance.settingsStore.updateUserPreferences(UserPreferences(isFirstTime = false,false,false,0,"","","usd"))
+            MyApplication.appInstance.settingsStore.updateUserPreferences(UserPreferences(isFirstTime = false,false,true,0,"","","usd",0))
         }
     }
 

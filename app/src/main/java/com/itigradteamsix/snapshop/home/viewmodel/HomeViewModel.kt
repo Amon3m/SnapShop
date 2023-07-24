@@ -65,7 +65,7 @@ class HomeViewModel(private val repoInterface: RepoInterface) : ViewModel() {
 //                val customer = repoInterface.getCustomerById(it.customerId)
                 if (!it.isGuest) {
                     val metaFields = repoInterface.getCustomerMetafields(it.customerId)
-                    if (metaFields.isEmpty()) {
+                    if (metaFields.isEmpty() || metaFields[0].value.equals("newvalue")) {
                         Log.d("HomeViewModel", "checkForDraftOrder: no metafields")
                         //no draft order is here so create one and get its id
                         val createdDraftOrderResponse = repoInterface.newCreateDraftOrder(

@@ -65,6 +65,7 @@ class LoginViewModel(val iRepo: FirebaseRepoInterface)  : ViewModel() {
                     customerName = "",
                     customerEmail = "",
                     userCurrency = "usd",
+                    0
                 ))
             }else{
                 MyApplication.appInstance.settingsStore.updateUserPreferences(UserPreferences(
@@ -75,6 +76,7 @@ class LoginViewModel(val iRepo: FirebaseRepoInterface)  : ViewModel() {
                     customerName = user.first_name + " " + user.last_name,
                     customerEmail = user.email!!,
                     userCurrency = "usd",
+                    0
                 ))
             }
         }

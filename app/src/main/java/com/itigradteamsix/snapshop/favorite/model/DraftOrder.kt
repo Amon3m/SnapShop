@@ -45,7 +45,7 @@ data class LineItems(
     val variant_title: String? = null,
     val sku: String? = null,
     val vendor: String? = null,
-    val quantity: Int? = null,
+    var quantity: Int? = null,
     val requires_shipping: Boolean? = null,
     val taxable: Boolean? = null,
     val gift_card: Boolean? = null,
@@ -54,10 +54,15 @@ data class LineItems(
     val tax_lines: List<TaxLine>? = null,
     val applied_discount: AppliedDiscount? = null,
     val name: String? = null,
-    val properties: List<Any>? = null,
+    val properties: List<LineItemProperty>? = null,
     val custom: Boolean? = null,
     val price: String? = null,
     val admin_graphql_api_id: String? = null
+)
+
+data class LineItemProperty(
+    val name: String,
+    val value: String
 )
 
 data class ShippingAddress(

@@ -23,6 +23,7 @@ import com.itigradteamsix.snapshop.favorite.model.AppliedDiscount
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import com.itigradteamsix.snapshop.favorite.model.LineItems
 import com.itigradteamsix.snapshop.favorite.viewmodel.FavoriteViewModel
+import com.itigradteamsix.snapshop.model.DraftOrder
 import com.itigradteamsix.snapshop.model.Product
 import com.itigradteamsix.snapshop.model.Repository
 import com.itigradteamsix.snapshop.network.ApiClient
@@ -36,16 +37,14 @@ import kotlinx.coroutines.launch
 class ProductInfoFragment : Fragment() {
     private lateinit var binding: FragmentProductInfoBinding
     private lateinit var viewModel: ProductInfoViewModel
-    private var draftOrderResponse : DraftOrderResponse = DraftOrderResponse()
+    private lateinit var cartDraftOrderResponse: DraftOrder
+    private var draftOrderResponse: DraftOrderResponse = DraftOrderResponse()
     private val args: ProductInfoFragmentArgs by navArgs()
     private var receivedProduct: Product? = null
     private var product_Id: Long? = null
     private var productQuantity: Int? = 1
-    private var draftID : String? = null
-    private var isFav : Boolean = false
-
-
-
+    private var draftID: String? = null
+    private var isFav: Boolean = false
 
 
     override fun onCreateView(
@@ -57,13 +56,16 @@ class ProductInfoFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d("onviewcrreated","new")
+        Log.d("onviewcrreated", "new")
         super.onViewCreated(view, savedInstanceState)
-        val  productViewModelFactory= ProductInfoViewModelFactory(
+        val productViewModelFactory = ProductInfoViewModelFactory(
             Repository.getInstance(ApiClient, ConcreteLocalSource(requireContext())),
             FirebaseRepo(auth = FirebaseAuth.getInstance())
         )
-        viewModel = ViewModelProvider(requireActivity(),productViewModelFactory)[ProductInfoViewModel::class.java]
+        viewModel = ViewModelProvider(
+            requireActivity(),
+            productViewModelFactory
+        )[ProductInfoViewModel::class.java]
 //        if (activity != null) {
 //            val intent = requireActivity().intent
 //            if (intent != null) {
@@ -72,12 +74,16 @@ class ProductInfoFragment : Fragment() {
 //
 //            }
 //        }
-        val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        draftID = sharedPreferences.getString("draftID","")
+        val sharedPreferences =
+            requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        draftID = sharedPreferences.getString("draftID", "")
         draftID?.let { viewModel.getDraftOrder(it) }
         product_Id = args.productId
-        Log.d("ProductInfoArgsId",product_Id.toString())
-        viewModel.getSingleProduct(product_Id!!,requireContext())
+        Log.d("ProductInfoArgsId", product_Id.toString())
+        viewModel.getSingleProduct(product_Id!!, requireContext())
+
+        viewModel.changeProductCartState(product_Id, null, null)
+
 
         viewLifecycleOwner.lifecycleScope.launch {
             launch() {
@@ -113,34 +119,34 @@ class ProductInfoFragment : Fragment() {
 
                         is ApiDraftLoginState.Success -> {
                             draftOrderResponse.draft_order = result.data
-                            for (item in draftOrderResponse.draft_order?.line_items!!) {
-                                Log.d(
-                                    "outside if product=received",
-                                    "-" + item.product_id.toString() + "-" + receivedProduct?.id
-                                )
-                                Log.d("outside if product=received", receivedProduct.toString())
-                                Log.d("outside if product=received", item.toString())
-                                Log.d(
-                                    "outside if product=received",
-                                    draftOrderResponse.draft_order?.line_items!!.toString()
-                                )
-
-
-                                if (item.product_id == receivedProduct?.id) {
-                                    Log.d(
-                                        "inside if product=received",
-                                        product_Id.toString() + " " + receivedProduct?.id
-                                    )
-
-                                    val drawable = ContextCompat.getDrawable(
-                                        requireContext(),
-                                        R.drawable.baseline_favorite_24
-                                    )
-                                    binding.favoriteBtn.setImageDrawable(drawable)
-                                    isFav = true
-                                    break
-                                }
-                            }
+//                            for (item in draftOrderResponse.draft_order?.line_items!!) {
+//                                Log.d(
+//                                    "outside if product=received",
+//                                    "-" + item.product_id.toString() + "-" + receivedProduct?.id
+//                                )
+//                                Log.d("outside if product=received", receivedProduct.toString())
+//                                Log.d("outside if product=received", item.toString())
+//                                Log.d(
+//                                    "outside if product=received",
+//                                    draftOrderResponse.draft_order?.line_items!!.toString()
+//                                )
+//
+//
+//                                if (item.product_id == receivedProduct?.id) {
+//                                    Log.d(
+//                                        "inside if product=received",
+//                                        product_Id.toString() + " " + receivedProduct?.id
+//                                    )
+//
+//                                    val drawable = ContextCompat.getDrawable(
+//                                        requireContext(),
+//                                        R.drawable.baseline_favorite_24
+//                                    )
+//                                    binding.favoriteBtn.setImageDrawable(drawable)
+//                                    isFav = true
+//                                    break
+//                                }
+//                            }
                         }
 
                         is ApiDraftLoginState.Failure -> {
@@ -153,34 +159,42 @@ class ProductInfoFragment : Fragment() {
         }
 
         binding.decreasingQuantityBtn.setOnClickListener {
-            if (productQuantity!! >=2){
+            if (productQuantity!! >= 2) {
                 productQuantity = productQuantity!! - 1
-                binding.quantityTv.text = productQuantity.toString()
-            }
-            else
-                Toast.makeText(requireContext(),"That's the minimum quantity",
-                Toast.LENGTH_SHORT).show()
+//                binding.quantityTv.text = productQuantity.toString()
+                viewModel.changeProductCartState(null, productQuantity, null)
+
+            } else
+                Toast.makeText(
+                    requireContext(), "That's the minimum quantity",
+                    Toast.LENGTH_SHORT
+                ).show()
         }
         binding.addingQuantityBtn.setOnClickListener {
-            if (productQuantity!! <receivedProduct!!.variants[0].inventory_quantity){
+            if (productQuantity!! < receivedProduct!!.variants[0].inventory_quantity) {
                 productQuantity = productQuantity!! + 1
-                binding.quantityTv.text = productQuantity.toString()
-            }
-            else
-                Toast.makeText(requireContext(),"Sorry no enough quantity in the inventory ",
-                    Toast.LENGTH_SHORT).show()
+//                binding.quantityTv.text = productQuantity.toString()
+                viewModel.changeProductCartState(null, productQuantity, null)
+            } else
+                Toast.makeText(
+                    requireContext(), "Sorry no enough quantity in the inventory ",
+                    Toast.LENGTH_SHORT
+                ).show()
         }
         binding.image1.setOnClickListener {
             val drawable = binding.image1.drawable
-            binding.productimagedetails.setImageDrawable(drawable)        }
+            binding.productimagedetails.setImageDrawable(drawable)
+        }
 
         binding.image2.setOnClickListener {
             val drawable = binding.image2.drawable
-            binding.productimagedetails.setImageDrawable(drawable)        }
+            binding.productimagedetails.setImageDrawable(drawable)
+        }
 
         binding.image3.setOnClickListener {
             val drawable = binding.image3.drawable
-            binding.productimagedetails.setImageDrawable(drawable)        }
+            binding.productimagedetails.setImageDrawable(drawable)
+        }
 
         binding.favoriteBtn.setOnClickListener {
 
@@ -197,35 +211,108 @@ class ProductInfoFragment : Fragment() {
                             iterator.remove()
                         }
                     }
-                    Log.d("mutableLine",mutableLineItems.toString())
+                    Log.d("mutableLine", mutableLineItems.toString())
                     draftOrderResponse.draft_order?.line_items = mutableLineItems
                 }
 
-                val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_favorite_border_24)
+                val drawable = ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.baseline_favorite_border_24
+                )
                 binding.favoriteBtn.setImageDrawable(drawable)
                 viewModel.updateDraftOrder(draftID!!.toLong(), draftOrderResponse)
                 isFav = false
-            }
-
-            else{
+            } else {
 
                 val lineItems = draftOrderResponse.draft_order?.line_items
 
                 if (lineItems != null) {
                     val mutableLineItems = lineItems.toMutableList()
                     mutableLineItems.add(receivedProduct!!.toLineItems())
-                    Log.d("mutableLine",mutableLineItems.toString())
+                    Log.d("mutableLine", mutableLineItems.toString())
                     draftOrderResponse.draft_order?.line_items = mutableLineItems
                 }
 
-                val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_favorite_24)
+                val drawable =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.baseline_favorite_24)
                 binding.favoriteBtn.setImageDrawable(drawable)
                 viewModel.updateDraftOrder(draftID!!.toLong(), draftOrderResponse)
                 isFav = true
 
             }
         }
-}
+
+
+        lifecycleScope.launch {
+            viewModel.currentCartDraftOrder.collect { it ->
+                when (it) {
+                    is ApiState.Loading -> {
+                        Log.d("currentCartDraftOrder", "Loading")
+                    }
+
+                    is ApiState.Success<*> -> {
+//                        val cartDraftOrder = it.data as DraftOrder
+//
+//                        Log.d("currentCartDraftOrder", cartDraftOrder.toString())
+//                        cartDraftOrderResponse = cartDraftOrder
+//                        //check if the current product is already in the cart draft order line items
+//                        cartDraftOrderResponse.line_items?.map { it.product_id }?.contains(receivedProduct?.id)?.let { it1 ->
+//                            if (it1) {
+//                                binding.addToCartBtn.text = "Remove from cart"
+//                            }else{
+//                                binding.addToCartBtn.text = "Add to cart"
+//                            }
+//                        }
+
+
+                    }
+
+                    is ApiState.Failure -> {
+                        binding.addToCartBtn.text = "Add to cart"
+                        binding.addToCartBtn.elevation = 0f
+                        binding.addToCartBtn.setBackgroundColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.grey
+                            )
+                        )
+                        binding.addToCartBtn.setOnClickListener {
+                            Toast.makeText(
+                                requireContext(),
+                                "Please login to add to cart",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+
+
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.currentProductIdAndQuantityIsAdded.collect {
+                Log.d("currentProductIdAndQuantityIsAdded", it.toString())
+                if (it.first == product_Id) {
+                    if (it.third == true) {
+                        binding.addToCartBtn.text = "Remove from cart"
+                        binding.addToCartBtn.setOnClickListener {
+                            viewModel.changeProductCartState(product_Id, null, false)
+                        }
+                    } else {
+                        binding.addToCartBtn.text = "Add to cart"
+                        binding.addToCartBtn.setOnClickListener {
+                            viewModel.changeProductCartState(product_Id, null, true)
+                        }
+                    }
+                    binding.quantityTv.text = it.second.toString()
+
+
+                }
+            }
+        }
+
+    }
 
     private fun setDataToViews(product: Product) {
 
@@ -238,17 +325,16 @@ class ProductInfoFragment : Fragment() {
         Glide.with(requireContext())
             .load(product.image.src)
             .into(binding.productimagedetails)
-       if (product.images.size>2) {
-           Glide.with(requireContext())
-               .load(product.images[2].src)
-               .into(binding.image3)
-       }
-        else{
-           Glide.with(requireContext())
-               .load(product.image.src)
-               .into(binding.image3)
+        if (product.images.size > 2) {
+            Glide.with(requireContext())
+                .load(product.images[2].src)
+                .into(binding.image3)
+        } else {
+            Glide.with(requireContext())
+                .load(product.image.src)
+                .into(binding.image3)
         }
-        if (product.images.size>1) {
+        if (product.images.size > 1) {
             Glide.with(requireContext())
                 .load(product.images[1].src)
                 .into(binding.image2)
@@ -260,13 +346,14 @@ class ProductInfoFragment : Fragment() {
         }
 
     }
+
     fun getLastTwoDigitsAsDouble(number: Long): Double {
         val lastTwoDigits = number % 100
         return lastTwoDigits.toDouble() / 20.0
     }
 
     fun Product.toLineItems(): LineItems {
-        Log.d("imageee",image.src.toString())
+        Log.d("imageee", image.src.toString())
 
         return LineItems(
 
@@ -292,10 +379,14 @@ class ProductInfoFragment : Fragment() {
             properties = arrayListOf(),
             custom = true,
             price = variants[0].price.toString(),
-            variant_id = variants[0].id, variant_title = body_html.toString()
-            , vendor = null
+            variant_id = variants[0].id, variant_title = body_html.toString(), vendor = null
         )
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.updateCart()
     }
 
 }
