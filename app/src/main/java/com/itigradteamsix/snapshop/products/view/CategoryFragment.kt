@@ -74,12 +74,7 @@ class CategoryFragment : Fragment(), OnProductsClickListener, FilterOptionsListe
         if (isCat) {
             binding.linearLayout.visibility = View.VISIBLE
 
-            when (collectionId) {
-                Utilities.MEN_COLLECTION_ID -> binding.menImageView.setColorFilter(R.color.black)
-                Utilities.SALE_COLLECTION_ID -> binding.menImageView.setColorFilter(R.color.black)
-                Utilities.WOMEN_COLLECTION_ID -> binding.menImageView.setColorFilter(R.color.black)
-                Utilities.KIDS_COLLECTION_ID -> binding.menImageView.setColorFilter(R.color.black)
-            }
+          selectEffect()
         }
 
 
