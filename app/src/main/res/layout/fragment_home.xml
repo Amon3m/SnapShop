@@ -13,6 +13,17 @@
 >
 
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:elevation="10dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_card" />
+
     <TextView
         android:id="@+id/cat_txt"
         android:layout_width="wrap_content"
@@ -102,7 +113,7 @@
         app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_card">
+        app:layout_constraintTop_toBottomOf="@+id/search_rv">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

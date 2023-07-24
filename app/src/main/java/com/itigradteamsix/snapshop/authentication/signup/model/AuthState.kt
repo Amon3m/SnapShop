@@ -1,4 +1,4 @@
-package com.itigradteamsix.snapshop.authentication
+package com.itigradteamsix.snapshop.authentication.signup.model
 
 sealed class AuthState{
     data class Success(val data:Boolean) : AuthState()

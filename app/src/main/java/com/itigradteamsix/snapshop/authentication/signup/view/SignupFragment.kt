@@ -21,9 +21,9 @@ import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import com.itigradteamsix.snapshop.MainActivity
 import com.itigradteamsix.snapshop.R
-import com.itigradteamsix.snapshop.authentication.APiDraftState
-import com.itigradteamsix.snapshop.authentication.ApiCustomerState
-import com.itigradteamsix.snapshop.authentication.AuthState
+import com.itigradteamsix.snapshop.authentication.signup.model.APiDraftState
+import com.itigradteamsix.snapshop.authentication.signup.model.ApiCustomerState
+import com.itigradteamsix.snapshop.authentication.signup.model.AuthState
 import com.itigradteamsix.snapshop.authentication.FirebaseRepo
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
 import com.itigradteamsix.snapshop.authentication.signup.model.SignupUser
@@ -126,9 +126,9 @@ class SignupFragment : Fragment() {
                         loadingDialog.dismiss()
 //                        viewModel.createCustomer(CustomerResponse( Customer(email = email, first_name = userNAme)))
                         viewModel.createDraftOrder(DraftOrderResponse(DraftOrder(line_items = listOf( LineItems(
-                            title = "dummy",
+                            title = "title",
                             quantity = 1,
-                            price = "50"
+                            price = "0"
                         ))
                         )))
                         Toast.makeText(

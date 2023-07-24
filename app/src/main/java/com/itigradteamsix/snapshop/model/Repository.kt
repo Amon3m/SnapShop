@@ -1,12 +1,15 @@
 package com.itigradteamsix.snapshop.model
 
-import com.itigradteamsix.snapshop.authentication.ApiCustomerLoginState
-import com.itigradteamsix.snapshop.authentication.ApiCustomerState
+
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
+import com.itigradteamsix.snapshop.authentication.signup.model.ApiCustomerState
 import com.itigradteamsix.snapshop.database.LocalSource
+import com.itigradteamsix.snapshop.favorite.model.DraftOrder
+import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import com.itigradteamsix.snapshop.network.ApiState
 import com.itigradteamsix.snapshop.network.RemoteSource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 
 class Repository private constructor(
@@ -27,7 +30,16 @@ class Repository private constructor(
         }
     }
 
-
+//    override suspend fun getWeatherFromNetwork(
+//        lat: Double,
+//        lon: Double,
+//        exclude: String,
+//        units: String,
+//        lang: String,
+//        appid: String
+//    ): Flow<WeatherResponse> {
+//        return flowOf(remoteSource.getWeatherFromNetwork(lat,lon,exclude,units,lang,appid))
+//    }
 
     override suspend fun getAllProducts():Flow<ProductListResponse> {
         return flowOf(remoteSource.getAllProducts())
@@ -36,7 +48,7 @@ class Repository private constructor(
     override suspend fun getANumberOfProducts(limit: Int):Flow<ProductListResponse> {
         return flowOf(remoteSource.getANumberOfProducts(limit))
     }
-    override suspend fun getProductsByCollectionId(id: Long):Flow<ListProductsResponse> {
+    override suspend fun getProductsByCollectionId(id: Long): Flow<ListProductsResponse> {
         return flowOf(remoteSource.getProductsByCollectionId(id))
     }
 
@@ -51,6 +63,13 @@ class Repository private constructor(
         return concreteLocalSource.getSomeListFromDatabase()
 
     }
+    override suspend fun updateDraftOrder(
+        draftOrderId: Long,
+        draftResponse: DraftOrderResponse
+    ): Flow<DraftOrder?> {
+        return flowOf(remoteSource.updateDraftOrder(draftOrderId,draftResponse))
+
+    }
 
 
     override suspend fun createCustomer(customer: CustomerResponse): ApiCustomerState {
@@ -61,7 +80,10 @@ class Repository private constructor(
         return remoteSource.newGetCustomerByEmail(email)
     }
 
+    override suspend fun getSingleProduct(id:Long): Flow<Product?> {
+        return flowOf( remoteSource.getSingleProduct(id))
 
+    }
 
 
 
