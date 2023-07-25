@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
@@ -90,6 +91,7 @@ class CategoryFragment : Fragment(), OnProductsClickListener, FilterOptionsListe
             productViewModel.products.collect {
                 when (it) {
                     is ApiState.Success<*> -> {
+                        binding.progressBar5.visibility=GONE
                         Log.e(
                             "Filter option", "fromPrice:Int= $fromPrice" +
                                     "    var toPrice:Int=$toPrice" +
@@ -209,7 +211,7 @@ class CategoryFragment : Fragment(), OnProductsClickListener, FilterOptionsListe
 
                     is ApiState.Failure -> {
                         Toast.makeText(requireContext(), it.msg, Toast.LENGTH_SHORT).show()
-                        // progressBar.visibility = View.GONE
+                        binding.progressBar5.visibility=GONE
                     }
 
                     else -> {

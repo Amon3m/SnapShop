@@ -292,4 +292,17 @@
 
 
         tools:listitem="@layout/categories_item" />
+
+    <ProgressBar
+        android:id="@+id/progressBar5"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:indeterminateTint="@color/grey"
+        android:indeterminateTintMode="multiply"
+        android:secondaryProgressTint="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/cat_recycl"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cat_recycl" />
 </androidx.constraintlayout.widget.ConstraintLayout>

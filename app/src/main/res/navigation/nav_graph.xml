@@ -23,13 +23,11 @@
         <action
             android:id="@+id/action_homeFragment_to_brandsFragment"
             app:destination="@id/brandsFragment"
-            app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_homeFragment_to_categoryFragment"
             app:destination="@id/categoryFragment"
-            app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_homeFragment_to_productInfoFragment"
             app:destination="@id/productInfoFragment" />
@@ -68,8 +66,7 @@
         <action
             android:id="@+id/action_brandsFragment_to_categoryFragment"
             app:destination="@id/categoryFragment"
-            app:popUpTo="@id/brandsFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
