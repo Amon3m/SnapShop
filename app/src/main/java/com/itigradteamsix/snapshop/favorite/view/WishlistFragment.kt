@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -83,10 +84,13 @@ class WishlistFragment : Fragment() ,OnFavClickListener {
                         }
 
                         favAdapter.setProductList(favoriteItems)
+                        binding.progressBar7.visibility=GONE
 
                     }
 
                     is ApiDraftLoginState.Failure -> {
+                        binding.progressBar7.visibility=GONE
+
                         Log.d("FavDraftFlowCollect", result.exception.message.toString())
                     }
                 }
