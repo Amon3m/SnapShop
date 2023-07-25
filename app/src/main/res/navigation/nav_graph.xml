@@ -22,10 +22,14 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_brandsFragment"
-            app:destination="@id/brandsFragment" />
+            app:destination="@id/brandsFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_homeFragment_to_categoryFragment"
-            app:destination="@id/categoryFragment" />
+            app:destination="@id/categoryFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_homeFragment_to_productInfoFragment"
             app:destination="@id/productInfoFragment" />
@@ -63,7 +67,9 @@
         tools:layout="@layout/fragment_brands" >
         <action
             android:id="@+id/action_brandsFragment_to_categoryFragment"
-            app:destination="@id/categoryFragment" />
+            app:destination="@id/categoryFragment"
+            app:popUpTo="@id/brandsFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"

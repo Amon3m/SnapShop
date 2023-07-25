@@ -114,17 +114,17 @@ class ProductInfoFragment : Fragment() {
                         is ApiDraftLoginState.Success -> {
                             draftOrderResponse.draft_order = result.data
                             for (item in draftOrderResponse.draft_order?.line_items!!) {
-                                Log.d(
-                                    "outside if product=received",
-                                    "-" + item.product_id.toString() + "-" + receivedProduct?.id
-                                )
-                                Log.d("outside if product=received", receivedProduct.toString())
-                                Log.d("outside if product=received", item.toString())
-                                Log.d(
-                                    "outside if product=received",
-                                    draftOrderResponse.draft_order?.line_items!!.toString()
-                                )
-
+//                                Log.d(
+//                                    "outside if product=received",
+//                                    "-" + item.product_id.toString() + "-" + receivedProduct?.id
+//                                )
+//                                Log.d("outside if product=received", receivedProduct.toString())
+//                                Log.d("outside if product=received", item.toString())
+//                                Log.d(
+//                                    "outside if product=received",
+//                                    draftOrderResponse.draft_order?.line_items!!.toString()
+//                                )
+//
 
                                 if (item.product_id == receivedProduct?.id) {
                                     Log.d(

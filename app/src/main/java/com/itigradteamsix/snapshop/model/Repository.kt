@@ -30,16 +30,6 @@ class Repository private constructor(
         }
     }
 
-//    override suspend fun getWeatherFromNetwork(
-//        lat: Double,
-//        lon: Double,
-//        exclude: String,
-//        units: String,
-//        lang: String,
-//        appid: String
-//    ): Flow<WeatherResponse> {
-//        return flowOf(remoteSource.getWeatherFromNetwork(lat,lon,exclude,units,lang,appid))
-//    }
 
     override suspend fun getAllProducts():Flow<ProductListResponse> {
         return flowOf(remoteSource.getAllProducts())
@@ -85,6 +75,13 @@ class Repository private constructor(
 
     }
 
+    override suspend fun createOrder(draftOrderId: Long): Flow<CreateOrderResponse?> {
+        return flowOf(remoteSource.createOrder(draftOrderId))
+    }
+
+    override suspend fun getOrders(email:String): Flow<OrderResponse> {
+        return flowOf(remoteSource.getOrders(email))
+    }
 
 
 }

@@ -30,5 +30,11 @@ interface RepoInterface {
     suspend fun createCustomer(customer: CustomerResponse) : ApiCustomerState
     suspend fun getSingleProduct(id:Long): Flow<Product?>
 
+    suspend fun createOrder(draftOrderId : Long ): Flow<CreateOrderResponse?>
+
+    suspend fun getOrders(email:String): Flow<OrderResponse>
+
+
+
 
 }
