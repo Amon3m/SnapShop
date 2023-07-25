@@ -64,7 +64,7 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         adapter = SearchAdapter(requireContext())
-        binding.searchRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.searchRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.searchRv.adapter = adapter
 
         return binding.root
@@ -141,8 +141,10 @@ class HomeFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                adapter.submitList(null)
                 searchQueryFlow.value = s.toString()
                 updateRecyclerViewVisibility(s.toString())
+
 
             }
 
@@ -216,18 +218,21 @@ class HomeFragment : Fragment() {
 
     }
     private fun updateFilteredProductsList() {
+
+        val query = searchQueryFlow.value
         val filteredProducts = productsList.filter { product ->
             product.title.startsWith(searchQueryFlow.value, ignoreCase = true)
         }
+        Log.d("Search", "Search query: $query")
+        Log.d("Search", "Filtered products count: ${filteredProducts.size}")
+        Log.d("Search", "Filtered products  ${filteredProducts}")
         adapter.submitList(filteredProducts)
     }
     private fun updateRecyclerViewVisibility(query: String) {
         if (query.isNotEmpty()) {
             binding.searchRv.visibility = View.VISIBLE
-            binding.searchRv.layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT
         } else {
             binding.searchRv.visibility = View.GONE
-            binding.searchRv.layoutParams.height = 0
 
         }
     }

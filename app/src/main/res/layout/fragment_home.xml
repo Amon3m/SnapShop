@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="5dp"
         android:elevation="10dp"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_card" />
@@ -113,7 +113,7 @@
         app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_rv">
+        app:layout_constraintTop_toBottomOf="@+id/search_card">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
