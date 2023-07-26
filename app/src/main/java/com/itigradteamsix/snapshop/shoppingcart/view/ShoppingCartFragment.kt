@@ -61,7 +61,12 @@ class ShoppingCartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         shoppingCartViewModel.getCartDraftOrder()
         setUpCartRecyclerView()
+        setUpCopounCode()
 
+    }
+
+    private fun setUpCopounCode() {
+        TODO("Not yet implemented")
     }
 
     private fun setUpCartRecyclerView() {

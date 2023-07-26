@@ -22,6 +22,10 @@ data class Coupon(
     }
 }
 
+//Get the discount percentage of a coupon code
+fun getDiscountPercentage(couponCode: String): Int {
+    return Coupon.coupons.find { it.code == couponCode }?.discountPercentage ?: 0
+}
 
 
 

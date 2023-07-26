@@ -152,7 +152,7 @@ class OrderReview : Fragment() {
         }
 
         lifecycleScope.launch(Dispatchers.Main) {
-            shoppingCartViewModel.orderCompleteState.collectLatest {
+            shoppingCartViewModel.orderCompleteState.collect {
                 if (it) {
                     Toast.makeText(MyApplication.appContext, "Order Placed, Thank you!", Toast.LENGTH_SHORT).show()
                     requireActivity().finish()
