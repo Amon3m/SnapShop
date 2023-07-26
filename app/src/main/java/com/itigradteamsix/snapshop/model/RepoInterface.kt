@@ -34,5 +34,6 @@ interface RepoInterface {
     suspend fun getAllAddresses(customer_id: String): Flow<List<Address>?>
     suspend fun addNewAddress(customer_id:String, address: AddressBody): Flow<Address?>
     suspend fun removeAddress(address_id:String,customer_id:String)
+    suspend fun makeAddressDefault( customer_id: String,address_id: String)
 
 }

@@ -200,6 +200,17 @@ object ApiClient : RemoteSource {
         }
     }
 
+    override suspend fun makeAddressDefault(customer_id: String, address_id: String) {
+        try {
+            val wholeResponse = apiService.makeAddressDefault(customer_id,address_id)
+            Log.d("defaultAddressesRFTTry", wholeResponse.toString())
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfDeffaultAddressException",e.message.toString())
+
+        }    }
+
 
 }
 

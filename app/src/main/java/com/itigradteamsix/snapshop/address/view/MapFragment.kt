@@ -139,7 +139,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListener
 
     override fun onDestroy() {
         super.onDestroy()
-        mapView.onDestroy()
+//        mapView.onDestroy()
     }
 
     override fun onLowMemory() {
@@ -171,13 +171,13 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListener
                     city = if(address.adminArea.isBlank()){
                         ""
                     } else{
-                        address.adminArea.plus(" , ")
+                        address.adminArea.plus("  ")
 
                     }
                     city2 = if(address.locality.isBlank()){
                         ""
                     } else{
-                        address.locality.plus(" , ")
+                        address.locality.plus("  ")
 
                     }
 
@@ -191,7 +191,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListener
             e.printStackTrace()
         }
 
-        return Address(country = country, city = city, address1 = city2)
+        return Address(country = country, city = city, address1 = city2 , customer_id = customerID)
 
     }
 }

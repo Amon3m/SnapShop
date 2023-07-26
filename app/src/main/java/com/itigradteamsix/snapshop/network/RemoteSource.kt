@@ -43,6 +43,8 @@ interface RemoteSource {
     suspend fun getAllAddresses(customer_id: String): List<Address>?
     suspend fun addNewAddress(customer_id:String, address: AddressBody):Address?
     suspend fun removeAddress(address_id:String,customer_id:String)
+    suspend fun makeAddressDefault(customer_id:String,address_id:String)
+
 
 
 

@@ -1,5 +1,7 @@
 package com.itigradteamsix.snapshop.address.view
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.location.Address
 import android.os.Bundle
 import android.util.Log
@@ -65,15 +67,16 @@ class AddressFragment : Fragment() , OnDeleteListener{
             this,
             addressViewModelFactory
         )[AddressViewModel::class.java]
-        binding.rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        adapter = AddressAdapter(requireContext())
-        binding.rv.adapter = adapter
+
         viewLifecycleOwner.lifecycleScope.launch {
             MyApplication.appInstance.settingsStore.userPreferencesFlow.collectLatest {
                 customerId = it.customerId
                 viewModel.getALlAddresses(customerId.toString(), requireContext())
             }
         }
+        binding.rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        adapter = AddressAdapter(requireContext(),this,customerId)
+        binding.rv.adapter = adapter
         viewLifecycleOwner.lifecycleScope.launch {
 
             viewModel.addressFlow.collect { result ->
@@ -99,26 +102,26 @@ class AddressFragment : Fragment() , OnDeleteListener{
 
             }
         }
-        viewLifecycleOwner.lifecycleScope.launch {
-
-            viewModel.newAddressFlow.collect { result ->
-                when (result) {
-
-                    is ApiState.Loading -> {
-                    }
-
-                    is ApiState.Success<*> -> {
-
-
-
-                    }
-
-                    is ApiState.Failure -> {
-                    }
-                }
-
-            }
-        }
+//        viewLifecycleOwner.lifecycleScope.launch {
+//
+//            viewModel.newAddressFlow.collect { result ->
+//                when (result) {
+//
+//                    is ApiState.Loading -> {
+//                    }
+//
+//                    is ApiState.Success<*> -> {
+//
+//
+//
+//                    }
+//
+//                    is ApiState.Failure -> {
+//                    }
+//                }
+//
+//            }
+//        }
         binding.button.setOnClickListener {
 
             val action =
@@ -127,8 +130,15 @@ class AddressFragment : Fragment() , OnDeleteListener{
         }
         }
 
-    override fun onProductsClick(productID: Long) {
-        TODO("Not yet implemented")
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onAddressRemove(customerId: Long, context: Context, addressId: Long) {
+        viewModel.removeAddress(addressId.toString(),customerId.toString(),context)
+        viewModel.getALlAddresses(customerId.toString(),context)
+        adapter.notifyDataSetChanged()
+    }
+
+    override fun onDefaultAddress(customerId: Long, context: Context, addressId: Long) {
+        viewModel.makeAddressDefault(customerId.toString(), addressId.toString())
     }
 
 

@@ -41,6 +41,21 @@ class MainActivity : AppCompatActivity() {
                     supportActionBar?.setDisplayHomeAsUpEnabled(false);
                     supportActionBar?.setDisplayShowHomeEnabled(false);
                 }
+                R.id.addressFragment->{
+
+                    binding.topAppBar.title = getString(R.string.addresses)
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true);
+                    supportActionBar?.setDisplayShowHomeEnabled(true);
+
+                }
+                R.id.mapFragment->{
+
+//                    binding.topAppBar.title = getString(R.string.addresses)
+
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true);
+                    supportActionBar?.setDisplayShowHomeEnabled(true);
+
+                }
                 R.id.wishlistFragment -> {
                     binding.topAppBar.title = getString(R.string.wishlist)
                     supportActionBar?.setDisplayHomeAsUpEnabled(false);

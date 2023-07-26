@@ -22,33 +22,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="14dp"
-        android:background="@drawable/map_background"
-
         android:clickable="true"
         android:rotation="180"
         android:src="?attr/actionModeCloseDrawable"
         android:visibility="invisible"
-        map:backgroundTint="@color/white"
+        map:backgroundTint="@color/black"
         map:fabCustomSize="60dp"
         map:layout_constraintBottom_toBottomOf="parent"
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintStart_toStartOf="parent"
         map:rippleColor="@color/quantum_grey"
         tools:ignore="SpeakableTextPresentCheck" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
-        android:background="@drawable/map_background"
-        android:padding="18dp"
-        android:text="@string/choose_your_location"
-        android:textColor="@color/black"
-        android:textSize="23sp"
-        android:textStyle="bold"
-        map:layout_constraintEnd_toEndOf="parent"
-        map:layout_constraintStart_toStartOf="parent"
-        map:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -66,4 +66,10 @@ class AddressViewModel(val iRepo: RepoInterface)  : ViewModel() {
             iRepo.removeAddress(id, customer_id)
         }
     }
+
+    fun makeAddressDefault(customer_id: String, address_id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            iRepo.makeAddressDefault(customer_id,address_id)
+        }
+    }
 }

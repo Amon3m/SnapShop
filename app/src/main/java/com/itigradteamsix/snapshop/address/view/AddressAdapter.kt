@@ -2,14 +2,16 @@ package com.itigradteamsix.snapshop.address.view
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.itigradteamsix.snapshop.data.models.Address
 import com.itigradteamsix.snapshop.databinding.AddressItemBinding
 
-class AddressAdapter (var context: Context) : ListAdapter<Address, AddressAdapter.ViewHolder>(
+class AddressAdapter (var context: Context,  var listener :OnDeleteListener,  var customerId :Long) : ListAdapter<Address, AddressAdapter.ViewHolder>(
     AddressAdapter.DiffUtils
 ) {
     class ViewHolder(val binding: AddressItemBinding) : RecyclerView.ViewHolder(binding.root)
@@ -22,15 +24,35 @@ class AddressAdapter (var context: Context) : ListAdapter<Address, AddressAdapte
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val address = getItem(position)
-        holder.binding.mainAddress.text = address.address1
-        holder.binding.subAddress.text = address.city
-        holder.binding.phone.text= address.country
-        holder.binding.addressButton.setOnClickListener {
+        if (address.default == true) {
+
+            holder.binding.mainAddress.text = address.address1
+            holder.binding.subAddress.text = address.city
+            holder.binding.phone.text = address.country
+            holder.binding.defaultAddress.setVisibility(View.VISIBLE)
+            holder.binding.addressButton.setOnClickListener {
+                Toast.makeText(context,"You can't remove default address",Toast.LENGTH_SHORT).show()
+            }
+            holder.binding.imageView.setOnClickListener {
+                Toast.makeText(context,"This address is already your default",Toast.LENGTH_SHORT).show()
+            }
+
+        } else {
+            holder.binding.mainAddress.text = address.address1
+            holder.binding.subAddress.text = address.city
+            holder.binding.phone.text = address.country
+            holder.binding.defaultAddress.setVisibility(View.GONE)
+
+            holder.binding.addressButton.setOnClickListener {
+                listener.onAddressRemove(customerId, context, address.id!!)
+            }
+            holder.binding.imageView.setOnClickListener {
+                listener.onDefaultAddress(customerId,context, address.id!!)
+                Toast.makeText(context,"This address is now your default",Toast.LENGTH_SHORT).show()
+            }
 
 
         }
-
-
     }
         object DiffUtils : DiffUtil.ItemCallback<Address>() {
             override fun areItemsTheSame(oldItem: Address, newItem: Address): Boolean {

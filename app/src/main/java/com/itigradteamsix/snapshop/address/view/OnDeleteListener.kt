@@ -1,7 +1,9 @@
 package com.itigradteamsix.snapshop.address.view
 
-interface OnDeleteListener {
-    fun onProductsClick(productID: Long)
+import android.content.Context
 
+interface OnDeleteListener {
+    fun onAddressRemove(customerId: Long, context :Context,addressId :Long)
+    fun onDefaultAddress(customerId: Long, context :Context,addressId :Long)
 
 }

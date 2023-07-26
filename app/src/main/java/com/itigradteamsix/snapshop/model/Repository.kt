@@ -98,6 +98,9 @@ class Repository private constructor(
     override suspend fun removeAddress(address_id: String, customer_id: String) {
         remoteSource.removeAddress(address_id,customer_id)
     }
+    override suspend fun makeAddressDefault( customer_id: String,address_id: String) {
+        remoteSource.makeAddressDefault(customer_id,address_id)
+    }
 
 
 }
