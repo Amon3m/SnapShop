@@ -28,6 +28,7 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -226,9 +227,10 @@ object ApiClient : RemoteSource {
                     LineItem(
                     title = "empty",
                     quantity = 1,
-                    price = "0"
+                    price = "1"
                 )
-            ))))
+            ), customer = Customer(id = MyApplication.appInstance.settingsStore.userPreferencesFlow.first().customerId) //to send confirmation email
+            )))
 
             newDraftOrderId = newDraftOrderResponse.draft_order?.id
 

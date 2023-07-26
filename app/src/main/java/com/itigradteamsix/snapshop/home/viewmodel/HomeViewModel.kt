@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.itigradteamsix.snapshop.MyApplication
+import com.itigradteamsix.snapshop.model.Customer
 import com.itigradteamsix.snapshop.model.DraftOrder
 import com.itigradteamsix.snapshop.model.DraftOrderRequest
 import com.itigradteamsix.snapshop.model.LineItem
@@ -81,7 +82,7 @@ class HomeViewModel(private val repoInterface: RepoInterface) : ViewModel() {
                                             quantity = 1,
                                             price = "1"
                                         )
-                                    )
+                                    ), customer = Customer(id = it.customerId) //to send confirmation email
                                 )
                             )
                         )
@@ -112,11 +113,11 @@ class HomeViewModel(private val repoInterface: RepoInterface) : ViewModel() {
                             )
                             repoInterface.getCustomerMetafields(it.customerId)
                                 .last().id.let { it1 ->
-                                MyApplication.appInstance.settingsStore.updateMetaFieldId(
-                                    it1
-                                )
+                                    MyApplication.appInstance.settingsStore.updateMetaFieldId(
+                                        it1
+                                    )
                                     checkForDraftOrder()
-                            }
+                                }
 
                         } else {
                             Log.d("HomeViewModel", "checkForDraftOrder: draft order id is null")
@@ -138,9 +139,6 @@ class HomeViewModel(private val repoInterface: RepoInterface) : ViewModel() {
 
         }
     }
-
-
-
 
 
 }
