@@ -22,7 +22,7 @@ class FirebaseRepo (val auth : FirebaseAuth) : FirebaseRepoInterface {
 //                auth.currentUser?.sendEmailVerification()?.await()
 
                 Log.d("insideLoginRepo","email verification sent")
-                return AuthState.Success(false)
+                return AuthState.Success(true) //TODO MAKE IT FALSE
             }
             auth.currentUser?.isEmailVerified?.let { AuthState.Success(true) }
 

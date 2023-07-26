@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val repoInterface: RepoInterface) : ViewModel() {
@@ -29,6 +30,8 @@ class HomeViewModel(private val repoInterface: RepoInterface) : ViewModel() {
 
     init {
         checkForDraftOrder()
+
+
     }
 
     fun getSmartCollections(context: Context) {
@@ -63,9 +66,9 @@ class HomeViewModel(private val repoInterface: RepoInterface) : ViewModel() {
         viewModelScope.launch {
             MyApplication.appInstance.settingsStore.userPreferencesFlow.collectLatest {
 //                val customer = repoInterface.getCustomerById(it.customerId)
-                if (!it.isGuest) {
+                if (!it.isGuest && it.cartDraftOrderId == 0L) {
                     val metaFields = repoInterface.getCustomerMetafields(it.customerId)
-                    if (metaFields.isEmpty() || metaFields[0].value.equals("newvalue")) {
+                    if (metaFields.isEmpty() || metaFields.last().value.equals("newvalue")) {
                         Log.d("HomeViewModel", "checkForDraftOrder: no metafields")
                         //no draft order is here so create one and get its id
                         val createdDraftOrderResponse = repoInterface.newCreateDraftOrder(
@@ -74,13 +77,17 @@ class HomeViewModel(private val repoInterface: RepoInterface) : ViewModel() {
                                     name = "cart_draft",
                                     line_items = listOf(
                                         LineItem(
-                                            title = "test",
+                                            title = "empty",
                                             quantity = 1,
-                                            price = "0"
+                                            price = "1"
                                         )
                                     )
                                 )
                             )
+                        )
+                        Log.d(
+                            "HomeViewModel",
+                            "checkForDraftOrder: created draft order response $createdDraftOrderResponse"
                         )
                         val draftOrderId = createdDraftOrderResponse?.draft_order?.id
 
@@ -103,10 +110,27 @@ class HomeViewModel(private val repoInterface: RepoInterface) : ViewModel() {
                                     )
                                 )
                             )
+                            repoInterface.getCustomerMetafields(it.customerId)
+                                .last().id.let { it1 ->
+                                MyApplication.appInstance.settingsStore.updateMetaFieldId(
+                                    it1
+                                )
+                                    checkForDraftOrder()
+                            }
+
+                        } else {
+                            Log.d("HomeViewModel", "checkForDraftOrder: draft order id is null")
                         }
                     } else {
-                        MyApplication.appInstance.settingsStore.updateCartDraftOrderId(metaFields[0].value.toLong())
+                        //log all metafields
+                        Log.d("HomeViewModel", "checkForDraftOrder: ${metaFields.last().value}")
+                        MyApplication.appInstance.settingsStore.updateCartDraftOrderId(metaFields.last().value.toLong())
+                        MyApplication.appInstance.settingsStore.updateMetaFieldId(metaFields.last().id)
                     }
+                } else {
+                    Log.d("HomeViewModel", "stored Draft Order: ${it.cartDraftOrderId}")
+                    Log.d("HomeViewModel", "stored Metafield Id: ${it.metaFieldId}")
+
                 }
 
 
@@ -114,6 +138,9 @@ class HomeViewModel(private val repoInterface: RepoInterface) : ViewModel() {
 
         }
     }
+
+
+
 
 
 }

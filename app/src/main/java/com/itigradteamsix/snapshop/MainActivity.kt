@@ -7,6 +7,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.itigradteamsix.snapshop.databinding.ActivityMainBinding
 import com.itigradteamsix.snapshop.home.view.HomeFragment
+import com.stripe.android.paymentsheet.PaymentSheet
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
 
         setSupportActionBar(binding.topAppBar)
+
 
 
         navController.addOnDestinationChangedListener { _, destination, _ ->

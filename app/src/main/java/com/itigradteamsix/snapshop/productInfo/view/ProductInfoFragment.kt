@@ -63,7 +63,7 @@ class ProductInfoFragment : Fragment() {
             FirebaseRepo(auth = FirebaseAuth.getInstance())
         )
         viewModel = ViewModelProvider(
-            requireActivity(),
+            this,
             productViewModelFactory
         )[ProductInfoViewModel::class.java]
 //        if (activity != null) {
@@ -82,7 +82,7 @@ class ProductInfoFragment : Fragment() {
         Log.d("ProductInfoArgsId", product_Id.toString())
         viewModel.getSingleProduct(product_Id!!, requireContext())
 
-        viewModel.changeProductCartState(product_Id, null, null)
+        viewModel.changeProductCartState(product_Id, 1, null)
 
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -297,7 +297,7 @@ class ProductInfoFragment : Fragment() {
                     if (it.third == true) {
                         binding.addToCartBtn.text = "Remove from cart"
                         binding.addToCartBtn.setOnClickListener {
-                            viewModel.changeProductCartState(product_Id, null, false)
+                            viewModel.changeProductCartState(product_Id, 1, false)
                         }
                     } else {
                         binding.addToCartBtn.text = "Add to cart"

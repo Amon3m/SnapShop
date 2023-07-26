@@ -3,6 +3,7 @@ package com.itigradteamsix.snapshop.shoppingcart.view
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
 import com.itigradteamsix.snapshop.databinding.ShoppingCartItemBinding
@@ -73,7 +74,7 @@ class ShoppingCartAdapter(
 
 
 
-    class ShopingCartDiffCallback : androidx.recyclerview.widget.DiffUtil.ItemCallback<LineItems>() {
+    class ShopingCartDiffCallback : DiffUtil.ItemCallback<LineItems>() {
         override fun areItemsTheSame(oldItem: LineItems, newItem: LineItems): Boolean {
             return oldItem.id == newItem.id
         }

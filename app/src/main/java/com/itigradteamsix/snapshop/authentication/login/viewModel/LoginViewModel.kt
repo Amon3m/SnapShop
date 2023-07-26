@@ -65,6 +65,7 @@ class LoginViewModel(val iRepo: FirebaseRepoInterface)  : ViewModel() {
                     customerName = "",
                     customerEmail = "",
                     userCurrency = "usd",
+                    0,
                     0
                 ))
             }else{
@@ -76,6 +77,7 @@ class LoginViewModel(val iRepo: FirebaseRepoInterface)  : ViewModel() {
                     customerName = user.first_name + " " + user.last_name,
                     customerEmail = user.email!!,
                     userCurrency = "usd",
+                    0,
                     0
                 ))
             }

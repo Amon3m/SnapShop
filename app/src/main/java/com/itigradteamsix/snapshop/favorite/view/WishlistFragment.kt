@@ -50,7 +50,7 @@ class WishlistFragment : Fragment() ,OnFavClickListener {
         val  favoriteViewModelFactory= FavoriteViewModelFactory(Repository.getInstance(ApiClient,ConcreteLocalSource(requireContext())),
             FirebaseRepo(auth = FirebaseAuth.getInstance())
         )
-        viewModel = ViewModelProvider(requireActivity(),favoriteViewModelFactory)[FavoriteViewModel::class.java]
+        viewModel = ViewModelProvider(this,favoriteViewModelFactory)[FavoriteViewModel::class.java]
         favAdapter = FavoriteAdapter(ArrayList(), requireActivity(),this )
         binding.favRecycler.adapter = favAdapter
         val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)

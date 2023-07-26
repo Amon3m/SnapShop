@@ -34,6 +34,10 @@ class ShoppingCartViewModel(private val repoInterface: RepoInterface) : ViewMode
     val cartDraftOrder: StateFlow<ApiState>
         get() = _cartDraftOrder
 
+    private val _orderCompleteState = MutableStateFlow<Boolean>(false)
+    val orderCompleteState: StateFlow<Boolean>
+        get() = _orderCompleteState
+
 
 
 
@@ -44,6 +48,7 @@ class ShoppingCartViewModel(private val repoInterface: RepoInterface) : ViewMode
             //get the current cart draft order id from dataStore
             val cartDraftOrderId =
                 MyApplication.appInstance.settingsStore.userPreferencesFlow.first().cartDraftOrderId
+            Log.d(TAG, "getCartDraftOrder: Cart Draft order ID $cartDraftOrderId")
             val cartDraftOrder = ApiClient.getDraftOrderAsFlow(cartDraftOrderId)
             cartDraftOrder?.collectLatest {
                 Log.d(TAG, "getCartDraftOrder: ${it.line_items}")
@@ -144,6 +149,18 @@ class ShoppingCartViewModel(private val repoInterface: RepoInterface) : ViewMode
             }
         }
     }
+
+    fun completeDraftOrder() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val draftOrder = (cartDraftOrder.value as ApiState.Success<*>).data as DraftOrder
+            val orderCompletion = ApiClient.completeDraftOrder(draftOrder.id!!)
+            Log.d(TAG, "completeDraftOrder: $orderCompletion")
+            _orderCompleteState.emit(orderCompletion)
+
+        }
+    }
+
+
 
 
 

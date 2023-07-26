@@ -49,4 +49,11 @@
     <string name="you_are_a_guest">أنت زائر</string>
     <string name="go_to_login">الذهاب لتسجيل الدخول</string>
     <string name="empty_cart">سلة التسوق فارغة</string>
+    <string name="payment">الدفع</string>
+    <string name="items">العناصر</string>
+    <string name="shipping">الشحن</string>
+    <string name="dummy_address">العاشر من رمضان، المجاورة الخامسة</string>
+    <string name="place_order">تأكيد الطلب</string>
+    <string name="visa_card" >بطاقة فيزا</string>
+    <string name="cash_on_delivery">الدفع عند الاستلام</string>
 </resources>

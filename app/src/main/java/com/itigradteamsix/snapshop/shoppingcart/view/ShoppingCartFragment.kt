@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.itigradteamsix.snapshop.database.ConcreteLocalSource
 import com.itigradteamsix.snapshop.databinding.FragmentShoppingCartBinding
@@ -44,7 +45,7 @@ class ShoppingCartFragment : Fragment() {
             )
         )
         shoppingCartViewModel = ViewModelProvider(
-            this, shoppingCartviewModelFactory
+            requireActivity(), shoppingCartviewModelFactory
         )[ShoppingCartViewModel::class.java]
     }
 
@@ -96,11 +97,28 @@ class ShoppingCartFragment : Fragment() {
                         binding.emptyCartGroup.visibility = View.GONE
                         binding.loadingCartGroup.visibility = View.GONE
                         val cartDraftOrder = it.data as DraftOrder
-                        cartAdapter.submitList(cartDraftOrder.line_items?.filter { lineItem ->
-                            lineItem.title != "empty"
-                        })
+                        //filter out the line items with title contains "dummy" or "empty"
+                        val filteredLineItems = cartDraftOrder.line_items?.filter { lineItem ->
+                            !lineItem.title?.contains("dummy", true)!! && !lineItem.title.contains(
+                                "empty", true
+                            )
+                        }
+                        cartAdapter.submitList(filteredLineItems)
+
+//                        cartAdapter.submitList(cartDraftOrder.line_items?.filter { lineItem ->
+//                            lineItem.title != "empty" || lineItem.title != "dummy"
+//                        })
+
+
+
                         binding.totalItemsPriceTextview.text = cartDraftOrder.total_price.toString()
                         binding.totalPriceTextview.text = cartDraftOrder.total_price.toString()
+
+                        binding.checkoutButton.setOnClickListener { view ->
+                            val action = ShoppingCartFragmentDirections.actionShoppingCartFragmentToOrderReview()
+                            Navigation.findNavController(view).navigate(action)
+
+                        }
                     }
 
                     is ApiState.Failure -> {
@@ -109,6 +127,8 @@ class ShoppingCartFragment : Fragment() {
                         binding.emptyCartGroup.visibility = View.VISIBLE
 //                        Toast.makeText(requireContext(), it.msg, Toast.LENGTH_SHORT).show()
                     }
+
+                    else -> {}
                 }
             }
         }

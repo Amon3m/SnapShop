@@ -12,6 +12,8 @@ import com.itigradteamsix.snapshop.model.ListProductsResponse
 import com.itigradteamsix.snapshop.model.MetaFieldCustomerRequest
 import com.itigradteamsix.snapshop.model.MetaFieldListResponse
 import com.itigradteamsix.snapshop.model.ProductResponse
+import com.itigradteamsix.snapshop.model.UpdateMetafieldRequest
+import com.itigradteamsix.snapshop.model.UpdateMetafieldResponse
 import kotlinx.coroutines.flow.Flow
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -64,10 +66,21 @@ interface ApiServices {
 
     @Headers("Content-Type: application/json")
     @PUT("customers/{customerId}.json")
-    suspend fun updateCustomerMetafield(
+    suspend fun createCustomerMetafield(
         @Path("customerId") customerId: Long,
         @Body customer: MetaFieldCustomerRequest
     )
+
+
+    //Update the draft order to be completed
+    @Headers("Content-Type: application/json")
+    @PUT("customers/{customerId}/metafields/{metafieldId}.json")
+    suspend fun newUpdateCustomerMetafield(
+        @Path("customerId") customerId: Long,
+        @Path("metafieldId") metafieldId: Long,
+        @Body metafieldRequest: UpdateMetafieldRequest
+    ): UpdateMetafieldResponse
+
 
     //get the metafield of the customer by the id of the customer
     @GET("customers/{customerId}/metafields.json")
@@ -81,6 +94,12 @@ interface ApiServices {
     @Headers("Content-Type: application/json")
     @POST("draft_orders.json")
     suspend fun newCreateDraftOrder(@Body draftOrder: DraftOrderRequest): DraftOrderResponse
+
+
+    @Headers("Content-Type: application/json")
+    @PUT("draft_orders/{draftOrderId}/complete.json")
+    suspend fun completeDraftOrder(@Path("draftOrderId") draftOrderId: Long)
+
 
 
 

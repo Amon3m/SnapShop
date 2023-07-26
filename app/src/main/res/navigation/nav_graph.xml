@@ -9,7 +9,11 @@
         android:id="@+id/shoppingCartFragment"
         android:name="com.itigradteamsix.snapshop.shoppingcart.view.ShoppingCartFragment"
         android:label="@string/cart"
-        tools:layout="@layout/fragment_shopping_cart" />
+        tools:layout="@layout/fragment_shopping_cart" >
+        <action
+            android:id="@+id/action_shoppingCartFragment_to_orderReview"
+            app:destination="@id/orderReview" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.itigradteamsix.snapshop.settings.view.SettingsFragment"
@@ -78,6 +82,11 @@
             app:destination="@id/productInfoFragment" />
 
     </fragment>
+    <fragment
+        android:id="@+id/orderReview"
+        android:name="com.itigradteamsix.snapshop.shoppingcart.order.OrderReview"
+        android:label="fragment_order_review"
+        tools:layout="@layout/fragment_order_review" />
 
 
     <!--    <activity-->

@@ -63,7 +63,7 @@ class ProductInfoViewModel(
                                 "lineItemID: ${lineItem.product_id} but productId: $productId"
                             )
                             if (lineItem.product_id == productId) {
-                                changeProductCartState(null, lineItem.quantity, true)
+                                changeProductCartState(productId, lineItem.quantity, true)
                             }
                         }
                     }
@@ -87,7 +87,7 @@ class ProductInfoViewModel(
 
 
             val newProductId = productId ?: currentValue.first
-            val newQuantity = if (quantity != 0) quantity else currentValue.second
+            val newQuantity = quantity?: currentValue.second
             val newIsAdded = isAdded ?: currentValue.third
 
 
@@ -108,6 +108,8 @@ class ProductInfoViewModel(
             if (currentCartDraftOrder.value is ApiState.Success<*>) {
                 val draftOrder =
                     (currentCartDraftOrder.value as ApiState.Success<*>).data as DraftOrder
+                //Log DraftOrder id
+                Log.d("cartDraftOrderInDetails:", "draftOrderId: ${draftOrder.id}")
                 val lineItems = draftOrder.line_items
                 val newLineItems = mutableListOf<LineItems>()
                 lineItems?.forEach {

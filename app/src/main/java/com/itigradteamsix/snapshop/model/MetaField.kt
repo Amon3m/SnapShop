@@ -31,3 +31,35 @@ data class MetaFieldResponse(
 data class MetaFieldListResponse(
     val metafields: List<MetaFieldResponse>
 )
+
+
+
+
+
+data class UpdateMetafieldRequest(
+    val metafield: UpdateMetafieldInput
+)
+
+data class UpdateMetafieldInput(
+    val id: Long,
+    val value: String,
+    val type: String
+)
+
+data class UpdateMetafieldResponse(
+    val metafield: UpdateMetafieldData
+)
+
+data class UpdateMetafieldData(
+    val value: String,
+    val owner_id: Long,
+    val namespace: String,
+    val key: String,
+    val id: Long,
+    val description: String,
+    val created_at: String,
+    val updated_at: String,
+    val owner_resource: String,
+    val type: String,
+    val admin_graphql_api_id: String
+)

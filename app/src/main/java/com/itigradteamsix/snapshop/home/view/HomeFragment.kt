@@ -1,6 +1,7 @@
 package com.itigradteamsix.snapshop.home.view
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +11,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
 import com.bumptech.glide.Glide
+import com.itigradteamsix.snapshop.MyApplication
 import com.itigradteamsix.snapshop.R
 import com.itigradteamsix.snapshop.Utilities
 import com.itigradteamsix.snapshop.database.ConcreteLocalSource
 import com.itigradteamsix.snapshop.databinding.FragmentHomeBinding
 import com.itigradteamsix.snapshop.home.viewmodel.HomeViewModel
 import com.itigradteamsix.snapshop.home.viewmodel.HomeViewModelFactory
+import com.itigradteamsix.snapshop.model.Coupon
 import com.itigradteamsix.snapshop.model.Repository
 import com.itigradteamsix.snapshop.model.SmartCollectionsItem
 import com.itigradteamsix.snapshop.model.SmartCollectionsResponse
@@ -28,6 +33,11 @@ class HomeFragment : Fragment() {
     lateinit var binding: FragmentHomeBinding
     lateinit var homeViewModel: HomeViewModel
     lateinit var homeViewModelFactory: HomeViewModelFactory
+    private val autoScrollHandler = Handler()
+    private var currentItemPosition = 0
+    private lateinit var adapter: AdsAdapter
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +66,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         homeViewModel.getSmartCollections(requireContext())
+
+        setupAdsRecyclerView()
 
         lifecycleScope.launch {
             homeViewModel.smartCollection.collect {
@@ -95,6 +107,24 @@ class HomeFragment : Fragment() {
         binding.menCard.setOnClickListener {goToCategory(Utilities.MEN_COLLECTION_ID) }
         binding.womenCard.setOnClickListener {goToCategory(Utilities.WOMEN_COLLECTION_ID) }
 
+    }
+
+    private fun setupAdsRecyclerView() {
+        adapter = AdsAdapter()
+        binding.adsRecyclerView.adapter = adapter
+        binding.adsRecyclerView.setHasFixedSize(true)
+
+        binding.adsRecyclerView.layoutManager =
+            LinearLayoutManager(
+                MyApplication.appContext,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+        val snapHelper = LinearSnapHelper()
+        snapHelper.attachToRecyclerView(binding.adsRecyclerView)
+
+        adapter.submitList(Coupon.coupons)
+        startAutoScrolling()
     }
 
     fun goToCategory(id: Long){
@@ -144,6 +174,27 @@ class HomeFragment : Fragment() {
             .into(binding.brand4ImageView)
 
 
+    }
+
+    private fun startAutoScrolling() {
+        autoScrollHandler.postDelayed(autoScrollRunnable, 3000)
+    }
+
+    private val autoScrollRunnable = object : Runnable {
+        override fun run() {
+            // Increment the current item position and make sure it doesn't exceed the total item count
+            currentItemPosition = (currentItemPosition + 1) % adapter.itemCount
+            binding.adsRecyclerView.smoothScrollToPosition(currentItemPosition)
+            autoScrollHandler.postDelayed(this, 3000)
+        }
+    }
+
+
+
+    override fun onDestroy() {
+        // Remove the auto-scrolling runnable when the activity is destroyed to prevent leaks
+        autoScrollHandler.removeCallbacks(autoScrollRunnable)
+        super.onDestroy()
     }
 
 }

@@ -35,7 +35,8 @@ data class UserPreferences(
     val customerName: String, //api
     val customerEmail: String, //api
     val userCurrency: String,  // local
-    val cartDraftOrderId: Long //api
+    val cartDraftOrderId: Long, //api
+    val metaFieldId: Long //api
 )
 
 
@@ -56,6 +57,7 @@ class SettingsStore(private val context: Context) {
         val CUSTOMER_EMAIL = stringPreferencesKey("customer_email")
         val USER_CURRENCY = stringPreferencesKey("user_currency")
         val CART_DRAFT_ORDER_ID = longPreferencesKey("cart_draft_order_id")
+        val META_FIELD_ID = longPreferencesKey("meta_field_id")
 
     }
 
@@ -75,6 +77,7 @@ class SettingsStore(private val context: Context) {
             preferences[PreferencesKeys.CUSTOMER_EMAIL] = userPreferences.customerEmail
             preferences[PreferencesKeys.USER_CURRENCY] = userPreferences.userCurrency
             preferences[PreferencesKeys.CART_DRAFT_ORDER_ID] = userPreferences.cartDraftOrderId
+            preferences[PreferencesKeys.META_FIELD_ID] = userPreferences.metaFieldId
         }
     }
 
@@ -103,9 +106,10 @@ class SettingsStore(private val context: Context) {
         val customerName = preferences[PreferencesKeys.CUSTOMER_NAME] ?: ""
         val customerEmail = preferences[PreferencesKeys.CUSTOMER_EMAIL] ?: ""
         val userCurrency = preferences[PreferencesKeys.USER_CURRENCY] ?: "usd"
-        val cartDraftOrderId = preferences[PreferencesKeys.CART_DRAFT_ORDER_ID] ?: 0
+        val cartDraftOrderId = preferences[PreferencesKeys.CART_DRAFT_ORDER_ID] ?: 0L
+        val metaFieldId = preferences[PreferencesKeys.META_FIELD_ID] ?: 0L
 
-        return UserPreferences(isFirstTime,isLoggedIn, isGuest, customerId, customerName, customerEmail, userCurrency,cartDraftOrderId)
+        return UserPreferences(isFirstTime,isLoggedIn, isGuest, customerId, customerName, customerEmail, userCurrency,cartDraftOrderId,metaFieldId)
     }
 
 
@@ -129,6 +133,12 @@ class SettingsStore(private val context: Context) {
     suspend fun updateCartDraftOrderId(cartDraftOrderId: Long) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.CART_DRAFT_ORDER_ID] = cartDraftOrderId
+        }
+    }
+
+    suspend fun updateMetaFieldId(metaFieldId: Long) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.META_FIELD_ID] = metaFieldId
         }
     }
 

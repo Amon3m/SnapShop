@@ -259,6 +259,7 @@ class SignupFragment : Fragment() {
         val passwordRegex =
             Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@\$!%*?&])[A-Za-z\\d@\$!%*?&]{8,}$")
         return passwordRegex.matches(this)
+
     }
     private fun clearErrorMsgs() {
         binding.emailLayoutSignup.error = null

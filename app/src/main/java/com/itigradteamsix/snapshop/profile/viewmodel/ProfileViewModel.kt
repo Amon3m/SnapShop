@@ -41,7 +41,7 @@ class ProfileViewModel(private val repoInterface: RepoInterface) : ViewModel() {
     //on Signout
     fun removeUserFromDataStore(){
         viewModelScope.launch {
-            MyApplication.appInstance.settingsStore.updateUserPreferences(UserPreferences(isFirstTime = false,false,true,0,"","","usd",0))
+            MyApplication.appInstance.settingsStore.updateUserPreferences(UserPreferences(isFirstTime = false,false,true,0,"","","usd",0L,0L))
         }
     }
 
