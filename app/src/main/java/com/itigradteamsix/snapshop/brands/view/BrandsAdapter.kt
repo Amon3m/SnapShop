@@ -33,8 +33,6 @@ class BrandsAdapter(val context: Context, private val listener: OnBrandsClickLis
         holder.binding.productTitle2.text=currentObject?.title
 
 
-//        holder.binding.fromDateTxt.text=currentObject.fromDate
-
         holder.binding.brand1Card.setOnClickListener {
             listener.onBrandClick(currentObject)
         }

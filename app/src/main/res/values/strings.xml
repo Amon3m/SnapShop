@@ -24,7 +24,7 @@
     <string name="total_items">Total Items</string>
     <string name="total_items_price">$380,99</string>
     <string name="discount">Discount</string>
-    <string name="discount_price">-$0,00</string>
+    <string name="discount_price">-$20,00</string>
     <string name="total">Total</string>
     <string name="total_price">$360,99</string>
     <string name="promo_code">PROMO CODE</string>
@@ -73,6 +73,8 @@
     <string name="place_order">Place Order</string>
     <string name="visa_card">Visa Card</string>
     <string name="cash_on_delivery">Cash on Delivery</string>
+    <string name="choose_your_location">Choose Your Location</string>
+    <string name="default_add">Default address</string>
 
 
 </resources>

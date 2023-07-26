@@ -25,15 +25,26 @@
             >
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/price_order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="130.45LE "
                 android:layout_margin="5dp"
+                android:text="130.45"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/price_curr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="LE "
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/price_order"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.476" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

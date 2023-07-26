@@ -26,10 +26,15 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_brandsFragment"
-            app:destination="@id/brandsFragment" />
+            app:destination="@id/brandsFragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_homeFragment_to_categoryFragment"
-            app:destination="@id/categoryFragment" />
+            app:destination="@id/categoryFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_homeFragment_to_productInfoFragment"
+            app:destination="@id/productInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -39,6 +44,9 @@
         <action
             android:id="@+id/action_profileFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_addressFragment"
+            app:destination="@id/addressFragment" />
     </fragment>
     <fragment
         android:id="@+id/wishlistFragment"
@@ -87,6 +95,38 @@
         android:name="com.itigradteamsix.snapshop.shoppingcart.order.OrderReview"
         android:label="fragment_order_review"
         tools:layout="@layout/fragment_order_review" />
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.itigradteamsix.snapshop.address.view.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" >
+    <argument
+        android:name="customer_id"
+        app:argType="long" />
+        <action
+            android:id="@+id/action_mapFragment_to_addressFragment"
+            app:destination="@id/addressFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/addressFragment"
+        android:name="com.itigradteamsix.snapshop.address.view.AddressFragment"
+        android:label="fragment_address"
+        tools:layout="@layout/fragment_address" >
+        <action
+            android:id="@+id/action_addressFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/filterBottomFragment"
+        android:name="com.itigradteamsix.snapshop.products.view.FilterBottomFragment"
+        android:label="fragment_filter_bottom"
+        tools:layout="@layout/fragment_filter_bottom" >
+        <action
+            android:id="@+id/action_filterBottomFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
+    </dialog>
 
 
     <!--    <activity-->

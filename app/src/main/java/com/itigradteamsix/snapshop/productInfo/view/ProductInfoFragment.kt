@@ -47,6 +47,9 @@ class ProductInfoFragment : Fragment() {
     private var isFav: Boolean = false
 
 
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -79,8 +82,8 @@ class ProductInfoFragment : Fragment() {
         draftID = sharedPreferences.getString("draftID", "")
         draftID?.let { viewModel.getDraftOrder(it) }
         product_Id = args.productId
-        Log.d("ProductInfoArgsId", product_Id.toString())
-        viewModel.getSingleProduct(product_Id!!, requireContext())
+        Log.d("ProductInfoArgsId",product_Id.toString())
+        viewModel.getSingleProduct(product_Id!!,requireContext())
 
         viewModel.changeProductCartState(product_Id, 1, null)
 
@@ -119,7 +122,7 @@ class ProductInfoFragment : Fragment() {
 
                         is ApiDraftLoginState.Success -> {
                             draftOrderResponse.draft_order = result.data
-//                            for (item in draftOrderResponse.draft_order?.line_items!!) {
+                            for (item in draftOrderResponse.draft_order?.line_items!!) {
 //                                Log.d(
 //                                    "outside if product=received",
 //                                    "-" + item.product_id.toString() + "-" + receivedProduct?.id
@@ -131,22 +134,22 @@ class ProductInfoFragment : Fragment() {
 //                                    draftOrderResponse.draft_order?.line_items!!.toString()
 //                                )
 //
-//
-//                                if (item.product_id == receivedProduct?.id) {
-//                                    Log.d(
-//                                        "inside if product=received",
-//                                        product_Id.toString() + " " + receivedProduct?.id
-//                                    )
-//
-//                                    val drawable = ContextCompat.getDrawable(
-//                                        requireContext(),
-//                                        R.drawable.baseline_favorite_24
-//                                    )
-//                                    binding.favoriteBtn.setImageDrawable(drawable)
-//                                    isFav = true
-//                                    break
-//                                }
-//                            }
+
+                                if (item.product_id == receivedProduct?.id) {
+                                    Log.d(
+                                        "inside if product=received",
+                                        product_Id.toString() + " " + receivedProduct?.id
+                                    )
+
+                                    val drawable = ContextCompat.getDrawable(
+                                        requireContext(),
+                                        R.drawable.baseline_favorite_24
+                                    )
+                                    binding.favoriteBtn.setImageDrawable(drawable)
+                                    isFav = true
+                                    break
+                                }
+                            }
                         }
 
                         is ApiDraftLoginState.Failure -> {
@@ -183,18 +186,15 @@ class ProductInfoFragment : Fragment() {
         }
         binding.image1.setOnClickListener {
             val drawable = binding.image1.drawable
-            binding.productimagedetails.setImageDrawable(drawable)
-        }
+            binding.productimagedetails.setImageDrawable(drawable)        }
 
         binding.image2.setOnClickListener {
             val drawable = binding.image2.drawable
-            binding.productimagedetails.setImageDrawable(drawable)
-        }
+            binding.productimagedetails.setImageDrawable(drawable)        }
 
         binding.image3.setOnClickListener {
             val drawable = binding.image3.drawable
-            binding.productimagedetails.setImageDrawable(drawable)
-        }
+            binding.productimagedetails.setImageDrawable(drawable)        }
 
         binding.favoriteBtn.setOnClickListener {
 
@@ -211,30 +211,28 @@ class ProductInfoFragment : Fragment() {
                             iterator.remove()
                         }
                     }
-                    Log.d("mutableLine", mutableLineItems.toString())
+                    Log.d("mutableLine",mutableLineItems.toString())
                     draftOrderResponse.draft_order?.line_items = mutableLineItems
                 }
 
-                val drawable = ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.baseline_favorite_border_24
-                )
+                val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_favorite_border_24)
                 binding.favoriteBtn.setImageDrawable(drawable)
                 viewModel.updateDraftOrder(draftID!!.toLong(), draftOrderResponse)
                 isFav = false
-            } else {
+            }
+
+            else{
 
                 val lineItems = draftOrderResponse.draft_order?.line_items
 
                 if (lineItems != null) {
                     val mutableLineItems = lineItems.toMutableList()
                     mutableLineItems.add(receivedProduct!!.toLineItems())
-                    Log.d("mutableLine", mutableLineItems.toString())
+                    Log.d("mutableLine",receivedProduct!!.toLineItems().toString())
                     draftOrderResponse.draft_order?.line_items = mutableLineItems
                 }
 
-                val drawable =
-                    ContextCompat.getDrawable(requireContext(), R.drawable.baseline_favorite_24)
+                val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_favorite_24)
                 binding.favoriteBtn.setImageDrawable(drawable)
                 viewModel.updateDraftOrder(draftID!!.toLong(), draftOrderResponse)
                 isFav = true
@@ -325,16 +323,17 @@ class ProductInfoFragment : Fragment() {
         Glide.with(requireContext())
             .load(product.image.src)
             .into(binding.productimagedetails)
-        if (product.images.size > 2) {
-            Glide.with(requireContext())
-                .load(product.images[2].src)
-                .into(binding.image3)
-        } else {
-            Glide.with(requireContext())
-                .load(product.image.src)
-                .into(binding.image3)
+       if (product.images.size>2) {
+           Glide.with(requireContext())
+               .load(product.images[2].src)
+               .into(binding.image3)
+       }
+        else{
+           Glide.with(requireContext())
+               .load(product.image.src)
+               .into(binding.image3)
         }
-        if (product.images.size > 1) {
+        if (product.images.size>1) {
             Glide.with(requireContext())
                 .load(product.images[1].src)
                 .into(binding.image2)
@@ -346,14 +345,13 @@ class ProductInfoFragment : Fragment() {
         }
 
     }
-
     fun getLastTwoDigitsAsDouble(number: Long): Double {
         val lastTwoDigits = number % 100
         return lastTwoDigits.toDouble() / 20.0
     }
 
     fun Product.toLineItems(): LineItems {
-        Log.d("imageee", image.src.toString())
+        Log.d("imageee",image.src.toString())
 
         return LineItems(
 
@@ -369,17 +367,17 @@ class ProductInfoFragment : Fragment() {
             tax_lines = arrayListOf(),
             applied_discount = AppliedDiscount(
                 description = image.src,
-
-                value = "",
-                title = "",
-                amount = "",
-                value_type = ""
+                value = "10.0",
+                title = variants[0].option2,
+                amount = "20.00",
+                value_type = "percentage"
             ),
             name = title,
             properties = arrayListOf(),
             custom = true,
             price = variants[0].price.toString(),
-            variant_id = variants[0].id, variant_title = body_html.toString(), vendor = null
+            variant_id = variants[0].id, variant_title = body_html.toString()
+            , vendor = null
         )
 
     }

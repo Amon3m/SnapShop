@@ -20,3 +20,15 @@ data class Address(
     var country_name: String?=null,
     var default: Boolean?=null
 )
+
+data class AddressResponse(
+    var addresses: List<Address>? = null
+)
+
+data class AddressBody (
+    val address:Address
+)
+
+data class CustomerAddressResponse(
+    val customer_address: Address
+)

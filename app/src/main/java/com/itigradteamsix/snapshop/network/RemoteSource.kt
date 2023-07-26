@@ -1,14 +1,19 @@
 package com.itigradteamsix.snapshop.network
 
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
+import com.itigradteamsix.snapshop.data.models.Address
+import com.itigradteamsix.snapshop.data.models.AddressBody
+import com.itigradteamsix.snapshop.data.models.AddressResponse
 import com.itigradteamsix.snapshop.favorite.model.DraftOrder
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
+import com.itigradteamsix.snapshop.model.CreateOrderResponse
 import com.itigradteamsix.snapshop.model.Customer
 import com.itigradteamsix.snapshop.model.DraftOrderRequest
 import com.itigradteamsix.snapshop.model.ListProductsResponse
 import com.itigradteamsix.snapshop.model.MetaFieldCustomerRequest
 import com.itigradteamsix.snapshop.model.MetaFieldListResponse
 import com.itigradteamsix.snapshop.model.MetaFieldResponse
+import com.itigradteamsix.snapshop.model.OrderResponse
 import com.itigradteamsix.snapshop.model.Product
 import com.itigradteamsix.snapshop.model.ProductListResponse
 import com.itigradteamsix.snapshop.model.SmartCollection
@@ -41,6 +46,16 @@ interface RemoteSource {
 
     suspend fun newGetCustomerByEmail(email: String): Flow<Customer>?
     suspend fun getSingleProduct(id:Long): Product?
+    suspend fun getAllAddresses(customer_id: String): List<Address>?
+    suspend fun addNewAddress(customer_id:String, address: AddressBody):Address?
+    suspend fun removeAddress(address_id:String,customer_id:String)
+    suspend fun makeAddressDefault(customer_id:String,address_id:String)
+
+
+
+    suspend fun createOrder(draftOrderId : Long ): CreateOrderResponse?
+    suspend fun getOrders(email:String): OrderResponse
+
 
 
     suspend fun getCustomerById(customerId: Long): Customer?

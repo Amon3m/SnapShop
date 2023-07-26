@@ -13,6 +13,7 @@ import com.itigradteamsix.snapshop.model.LineItem
 import com.itigradteamsix.snapshop.model.MetaFieldCustomerInput
 import com.itigradteamsix.snapshop.model.MetaFieldCustomerRequest
 import com.itigradteamsix.snapshop.model.MetafieldInput
+import com.itigradteamsix.snapshop.authentication.login.model.ApiDraftLoginState
 import com.itigradteamsix.snapshop.model.RepoInterface
 import com.itigradteamsix.snapshop.network.ApiState
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +28,7 @@ class HomeViewModel(private val repoInterface: RepoInterface) : ViewModel() {
 
     private val _smartCollection = MutableStateFlow<ApiState>(ApiState.Loading)
     val smartCollection: StateFlow<ApiState>
-        get() = _smartCollection
+        get()=_smartCollection
 
     init {
         checkForDraftOrder()
@@ -35,31 +36,39 @@ class HomeViewModel(private val repoInterface: RepoInterface) : ViewModel() {
 
     }
 
+    private val _productList = MutableStateFlow<ApiState>(ApiState.Loading)
+    val productList: StateFlow<ApiState>
+        get() = _productList
+
     fun getSmartCollections(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
-            if (isNetworkAvailable(context)) {
-                repoInterface.getSmartCollections().catch { e ->
+            if (isNetworkAvailable(context)){
+                repoInterface.getSmartCollections().catch {e->
                     _smartCollection.emit(ApiState.Failure(e.message ?: ""))
-                }.collect {
+                }.collect{
 
                     _smartCollection.emit(ApiState.Success(it))
                 }
-            } else {
-                _smartCollection.emit(
-                    ApiState.Failure(
-                        "internet connection not found" +
-                                ""
-                    )
-                )
-            }
-        }
-    }
-
+            }else{_smartCollection.emit(ApiState.Failure( "internet connection not found" +
+                    ""))}
+        }}
     fun isNetworkAvailable(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetworkInfo = connectivityManager.activeNetworkInfo
         return activeNetworkInfo != null && activeNetworkInfo.isConnected
+    }
+    fun getAllProducts(context: Context) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (isNetworkAvailable(context)){
+                repoInterface.getAllProducts().catch { e ->
+                    _productList.emit(ApiState.Failure(e.message ?: "")) }.collect{
+                    var products=it
+
+                    _productList.emit(ApiState.Success(products))}
+            }else{
+                Log.e("fail","fail")
+                _productList.emit(ApiState.Failure("eeeeeee"))}
+        }
     }
 
     //check if current customer has a cart draft order and adds one if not, also registers the draft order id in Metafield and in settings store
