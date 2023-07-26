@@ -11,7 +11,9 @@ import com.itigradteamsix.snapshop.data.models.AddressBody
 import com.itigradteamsix.snapshop.data.models.AddressResponse
 import com.itigradteamsix.snapshop.data.models.CustomerAddressResponse
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
+import com.itigradteamsix.snapshop.model.CreateOrderResponse
 import com.itigradteamsix.snapshop.model.ListProductsResponse
+import com.itigradteamsix.snapshop.model.OrderResponse
 import com.itigradteamsix.snapshop.model.ProductResponse
 import kotlinx.coroutines.flow.Flow
 import retrofit2.http.Body
@@ -60,6 +62,11 @@ interface ApiServices {
     ): DraftOrderResponse
     @GET("products/{product_id}.json")
     suspend fun getSingleProduct(@Path("product_id") product_id: Long): ProductResponse
+    @PUT("draft_orders/{draft_order_id}/complete.json")
+    suspend fun createOrder(@Path(value = "draft_order_id")draftOrderId:Long): CreateOrderResponse
+
+    @GET("orders.json")
+    suspend fun getOrders(@Query("email") email:String): OrderResponse
 
     @GET("customers/{customer_id}/addresses.json")
     suspend fun getAllAddresses(@Path("customer_id") customer_id: String): AddressResponse

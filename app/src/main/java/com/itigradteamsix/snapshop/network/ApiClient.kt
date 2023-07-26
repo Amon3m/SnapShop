@@ -10,7 +10,9 @@ import com.itigradteamsix.snapshop.data.repository.remote.ApiServices
 import com.itigradteamsix.snapshop.model.Customer
 import com.itigradteamsix.snapshop.favorite.model.DraftOrder
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
+import com.itigradteamsix.snapshop.model.CreateOrderResponse
 import com.itigradteamsix.snapshop.model.ListProductsResponse
+import com.itigradteamsix.snapshop.model.OrderResponse
 import com.itigradteamsix.snapshop.model.Product
 
 import com.itigradteamsix.snapshop.model.ProductListResponse
@@ -78,14 +80,12 @@ object ApiClient : RemoteSource {
             val wholeResponse = apiService.getCustomerByEmail(email)
             Log.d("retrofitCreateCustres", wholeResponse.toString())
             response =  wholeResponse.customers
-            Log.d("retrofitCreateresp", response.toString())
-
         } catch (e: Exception) {
             e.printStackTrace()
             Log.d("rfGetCustException",e.message.toString())
 
         }
-//        Log.d("retrofitCreateCust", response?.get(0)?.email.toString())
+        Log.d("retrofitCreateCust", response?.get(0)?.email.toString())
         return response
     }
 
@@ -210,6 +210,13 @@ object ApiClient : RemoteSource {
             Log.d("rfDeffaultAddressException",e.message.toString())
 
         }    }
+    override suspend fun createOrder(draftOrderId: Long): CreateOrderResponse? {
+        return Api.apiService.createOrder(draftOrderId)
+    }
+
+    override suspend fun getOrders(email: String): OrderResponse {
+        return Api.apiService.getOrders(email)
+    }
 
 
 }

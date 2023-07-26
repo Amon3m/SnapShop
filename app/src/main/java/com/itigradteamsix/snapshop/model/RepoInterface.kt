@@ -36,4 +36,11 @@ interface RepoInterface {
     suspend fun removeAddress(address_id:String,customer_id:String)
     suspend fun makeAddressDefault( customer_id: String,address_id: String)
 
+    suspend fun createOrder(draftOrderId : Long ): Flow<CreateOrderResponse?>
+
+    suspend fun getOrders(email:String): Flow<OrderResponse>
+
+
+
+
 }

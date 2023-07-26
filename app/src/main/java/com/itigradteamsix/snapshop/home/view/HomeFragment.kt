@@ -1,5 +1,6 @@
 package com.itigradteamsix.snapshop.home.view
 
+import android.app.ActionBar.OnMenuVisibilityListener
 import android.content.ContentValues
 import android.os.Bundle
 import android.text.Editable
@@ -86,19 +87,22 @@ class HomeFragment : Fragment() {
 
                         bindingData(brands)
                         Log.e("src", "${brands?.get(0)?.title}")
+                        progressBarVisibility(false)
 
-                        Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
 
                     }
 
                     is ApiState.Failure -> {
                         Toast.makeText(requireContext(), it.msg, Toast.LENGTH_SHORT).show()
-                        // progressBar.visibility = View.GONE
+                        binding.progressBar.visibility = View.GONE
+                        progressBarVisibility(false)
+
                     }
 
                     else -> {
+                        progressBarVisibility(true)
 
-                        Toast.makeText(requireContext(), "loading", Toast.LENGTH_SHORT).show()
+
                     }
                 }
 
@@ -234,6 +238,19 @@ class HomeFragment : Fragment() {
         } else {
             binding.searchRv.visibility = View.GONE
 
+        }
+    }
+    private fun progressBarVisibility(visibility:Boolean){
+        if(visibility){
+            binding.progressBar.visibility = View.VISIBLE
+            binding.progressBar2.visibility = View.VISIBLE
+            binding.progressBar3.visibility = View.VISIBLE
+            binding.progressBar4.visibility = View.VISIBLE
+        }else{
+            binding.progressBar.visibility = View.GONE
+            binding.progressBar2.visibility = View.GONE
+            binding.progressBar3.visibility = View.GONE
+            binding.progressBar4.visibility = View.GONE
         }
     }
 

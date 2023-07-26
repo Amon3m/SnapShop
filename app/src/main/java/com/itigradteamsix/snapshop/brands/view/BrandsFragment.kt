@@ -75,18 +75,19 @@ class BrandsFragment : Fragment() ,OnBrandsClickListener{
                         brandsAdapter.submitList(brands)
 
                         Log.e("src","${brands?.get(0)?.title}")
+                        binding.progressBar6.visibility = View.GONE
 
-                        Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
+
 
                     }
                     is ApiState.Failure -> {
                         Toast.makeText(requireContext(), it.msg, Toast.LENGTH_SHORT).show()
-                        // progressBar.visibility = View.GONE
+                        binding.progressBar6.visibility = View.GONE
                     }
 
                     else -> {
 
-                        Toast.makeText(requireContext(), "loading", Toast.LENGTH_SHORT).show()
+
                     }
                 }
 

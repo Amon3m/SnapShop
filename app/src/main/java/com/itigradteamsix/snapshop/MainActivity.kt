@@ -1,6 +1,8 @@
 package com.itigradteamsix.snapshop
 
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -30,16 +32,22 @@ class MainActivity : AppCompatActivity() {
                     binding.topAppBar.title = getString(R.string.cart)
                     supportActionBar?.setDisplayHomeAsUpEnabled(false);
                     supportActionBar?.setDisplayShowHomeEnabled(false);
+                    binding.bottomNavigationView.visibility= VISIBLE
+
                 }
                 R.id.homeFragment -> {
                     binding.topAppBar.title = getString(R.string.home)
                     supportActionBar?.setDisplayHomeAsUpEnabled(false);
                     supportActionBar?.setDisplayShowHomeEnabled(false);
+                    binding.bottomNavigationView.visibility= VISIBLE
+
                 }
                 R.id.profileFragment -> {
                     binding.topAppBar.title = getString(R.string.profile)
                     supportActionBar?.setDisplayHomeAsUpEnabled(false);
                     supportActionBar?.setDisplayShowHomeEnabled(false);
+                    binding.bottomNavigationView.visibility=VISIBLE
+
                 }
                 R.id.addressFragment->{
 
@@ -60,16 +68,20 @@ class MainActivity : AppCompatActivity() {
                     binding.topAppBar.title = getString(R.string.wishlist)
                     supportActionBar?.setDisplayHomeAsUpEnabled(false);
                     supportActionBar?.setDisplayShowHomeEnabled(false);
+                    binding.bottomNavigationView.visibility=VISIBLE
+
                 }
 
                 else -> {
                     binding.topAppBar.title = getString(R.string.app_name)
                     supportActionBar?.setDisplayHomeAsUpEnabled(true);
                     supportActionBar?.setDisplayShowHomeEnabled(true);
+                    binding.bottomNavigationView.visibility=GONE
                 }
             }
 
         }
+
 
     }
     override fun onSupportNavigateUp(): Boolean {

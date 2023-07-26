@@ -22,10 +22,12 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_brandsFragment"
-            app:destination="@id/brandsFragment" />
+            app:destination="@id/brandsFragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_homeFragment_to_categoryFragment"
-            app:destination="@id/categoryFragment" />
+            app:destination="@id/categoryFragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_homeFragment_to_productInfoFragment"
             app:destination="@id/productInfoFragment" />
@@ -66,7 +68,8 @@
         tools:layout="@layout/fragment_brands" >
         <action
             android:id="@+id/action_brandsFragment_to_categoryFragment"
-            app:destination="@id/categoryFragment" />
+            app:destination="@id/categoryFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
@@ -107,6 +110,15 @@
             android:id="@+id/action_addressFragment_to_mapFragment"
             app:destination="@id/mapFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/filterBottomFragment"
+        android:name="com.itigradteamsix.snapshop.products.view.FilterBottomFragment"
+        android:label="fragment_filter_bottom"
+        tools:layout="@layout/fragment_filter_bottom" >
+        <action
+            android:id="@+id/action_filterBottomFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
+    </dialog>
 
 
     <!--    <activity-->
