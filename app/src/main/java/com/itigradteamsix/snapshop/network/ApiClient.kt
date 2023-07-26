@@ -9,6 +9,7 @@ import com.itigradteamsix.snapshop.data.repository.remote.ApiServices
 import com.itigradteamsix.snapshop.favorite.model.DraftOrder
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import com.itigradteamsix.snapshop.model.Customer
+import com.itigradteamsix.snapshop.model.Discount
 import com.itigradteamsix.snapshop.model.DraftOrderRequest
 import com.itigradteamsix.snapshop.model.LineItem
 import com.itigradteamsix.snapshop.model.ListProductsResponse
@@ -270,6 +271,35 @@ object ApiClient : RemoteSource {
         Log.d("newDraftOrderId", newDraftOrderId.toString())
         return orderSuccess
     }
+
+    //apply discount to the draft order
+     suspend fun completeDraftOrderWithDiscount(appliedDiscount: Discount,draftOrderId: Long){
+//        try {
+//            // Create the applied discount object
+//            val appliedDiscount = Discount(
+//                description = "Custom discount",
+//                value_type = "percentage",
+//                value = "10.0",
+//                amount = "19.90",
+//                title = "Custom"
+//            )
+//
+//            // Create the draft order request with the updated applied discount
+//            val draftOrderRequest = DraftOrderRequest(
+//                draft_order = DraftOrderInput(
+//                    id = draftOrderId,
+//                    applied_discount = appliedDiscount
+//                )
+//            )
+//
+//            // Make the PUT request to update the draft order
+//            val draftOrderResponse = shopifyApi.updateDraftOrder(draftOrderId, draftOrderRequest)
+//            println("Draft order updated successfully: ${draftOrderResponse.draft_order}")
+//
+//        } catch (e: Exception) {
+//            println("Error applying discount on draft order: ${e.message}")
+//        }
+     }
 
 
     suspend fun getDraftOrderAsFlow(id: Long): Flow<DraftOrder>? {

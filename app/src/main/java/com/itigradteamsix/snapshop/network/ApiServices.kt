@@ -7,6 +7,8 @@ import com.itigradteamsix.snapshop.model.SmartCollectionsResponse
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
 import com.itigradteamsix.snapshop.authentication.login.model.CustomersLoginResponse
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
+import com.itigradteamsix.snapshop.model.DiscountDraftOrderRequest
+import com.itigradteamsix.snapshop.model.DiscountDraftOrderResponse
 import com.itigradteamsix.snapshop.model.DraftOrderRequest
 import com.itigradteamsix.snapshop.model.ListProductsResponse
 import com.itigradteamsix.snapshop.model.MetaFieldCustomerRequest
@@ -101,6 +103,13 @@ interface ApiServices {
     suspend fun completeDraftOrder(@Path("draftOrderId") draftOrderId: Long)
 
 
+
+    @Headers("Content-Type: application/json")
+    @PUT("draft_orders/{draftOrderId}.json")
+    suspend fun applyDiscountOnAdraftOrder(
+        @Path("draftOrderId") draftOrderId: Long,
+        @Body discountDraftOrderRequest: DiscountDraftOrderRequest
+    ): DiscountDraftOrderResponse
 
 
 }

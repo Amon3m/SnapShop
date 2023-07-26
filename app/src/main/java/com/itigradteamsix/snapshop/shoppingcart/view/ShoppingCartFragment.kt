@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.itigradteamsix.snapshop.R
 import com.itigradteamsix.snapshop.database.ConcreteLocalSource
 import com.itigradteamsix.snapshop.databinding.FragmentShoppingCartBinding
 import com.itigradteamsix.snapshop.favorite.model.DraftOrder
@@ -19,6 +20,8 @@ import com.itigradteamsix.snapshop.model.LineItem
 import com.itigradteamsix.snapshop.model.ProductListResponse
 import com.itigradteamsix.snapshop.model.Repository
 import com.itigradteamsix.snapshop.model.SmartCollectionResponse
+import com.itigradteamsix.snapshop.model.calculateSavingAmount
+import com.itigradteamsix.snapshop.model.getDiscountPercentage
 import com.itigradteamsix.snapshop.network.ApiClient
 import com.itigradteamsix.snapshop.network.ApiState
 
@@ -34,6 +37,9 @@ class ShoppingCartFragment : Fragment() {
     lateinit var shoppingCartViewModel: ShoppingCartViewModel
     lateinit var shoppingCartviewModelFactory: ShoppingCartViewModelFactory
     lateinit var cartAdapter: ShoppingCartAdapter
+
+//    var discountPercentage = 0
+    var draftOrder = DraftOrder()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +72,43 @@ class ShoppingCartFragment : Fragment() {
     }
 
     private fun setUpCopounCode() {
-        TODO("Not yet implemented")
+        binding.promoCodeApplyButton.setOnClickListener {
+            val couponCode = binding.promoCodeEdittext.text.toString().trim()
+            val discountPercentage = getDiscountPercentage(couponCode)
+
+            shoppingCartViewModel.changeDiscountPercentage(discountPercentage)
+
+        }
+
+        lifecycleScope.launch {
+            shoppingCartViewModel.discountPercentage.collectLatest {
+                if (it>0){
+                    Toast.makeText(requireContext(), "Coupon code applied ✔️️", Toast.LENGTH_SHORT).show()
+                    val totalItemsPrice = draftOrder.total_price?.toDouble()
+
+                    val discountPrice =
+                        calculateSavingAmount(totalItemsPrice!!, it)
+                    val totalPrice = totalItemsPrice.times(1 - it/100.0)
+
+                    binding.totalItemsPriceTextview.text = String.format("%.2f", totalItemsPrice)
+                    binding.discountPriceTextview.text = String.format("%.2f", discountPrice)
+                    binding.discountPriceTextview.setTextColor(resources.getColor(R.color.md_theme_light_surfaceTint))
+                    binding.totalPriceTextview.text = String.format("%.2f", totalPrice)
+
+                }else{
+//                    Toast.makeText(requireContext(), "Invalid coupon code", Toast.LENGTH_SHORT).show()
+
+                    binding.totalItemsPriceTextview.text = draftOrder.total_price.toString()
+                    binding.totalPriceTextview.text = draftOrder.total_price.toString()
+                    binding.discountPriceTextview.setTextColor(resources.getColor(R.color.black))
+                    binding.discountPriceTextview.text = "0.0"
+                }
+            }
+
+        }
+
+
+
     }
 
     private fun setUpCartRecyclerView() {
@@ -102,6 +144,7 @@ class ShoppingCartFragment : Fragment() {
                         binding.emptyCartGroup.visibility = View.GONE
                         binding.loadingCartGroup.visibility = View.GONE
                         val cartDraftOrder = it.data as DraftOrder
+                        this@ShoppingCartFragment.draftOrder = cartDraftOrder
                         //filter out the line items with title contains "dummy" or "empty"
                         val filteredLineItems = cartDraftOrder.line_items?.filter { lineItem ->
                             !lineItem.title?.contains("dummy", true)!! && !lineItem.title.contains(

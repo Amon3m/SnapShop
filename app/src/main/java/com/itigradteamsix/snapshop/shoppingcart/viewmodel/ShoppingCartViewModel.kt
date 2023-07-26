@@ -38,8 +38,16 @@ class ShoppingCartViewModel(private val repoInterface: RepoInterface) : ViewMode
     val orderCompleteState: StateFlow<Boolean>
         get() = _orderCompleteState
 
+    private val _discountPercenatge = MutableStateFlow<Int>(0)
+    val discountPercentage: StateFlow<Int>
+        get() = _discountPercenatge
 
 
+
+
+    fun changeDiscountPercentage(discountPercentage: Int) {
+        _discountPercenatge.value = discountPercentage
+    }
 
 
     fun getCartDraftOrder() {

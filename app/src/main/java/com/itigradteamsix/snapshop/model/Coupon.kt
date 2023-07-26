@@ -36,3 +36,9 @@ fun copyToClipboard(couponCode: String) {
 
     Toast.makeText(MyApplication.appContext, "Coupon code copied to clipboard", Toast.LENGTH_SHORT).show()
 }
+
+
+fun calculateSavingAmount(total: Double, percentage: Int): Double {
+    val discount = (percentage.toDouble() / 100) * total
+    return discount
+}

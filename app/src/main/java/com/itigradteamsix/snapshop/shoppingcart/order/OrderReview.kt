@@ -1,5 +1,6 @@
 package com.itigradteamsix.snapshop.shoppingcart.order
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -18,6 +19,7 @@ import com.itigradteamsix.snapshop.database.ConcreteLocalSource
 import com.itigradteamsix.snapshop.databinding.FragmentOrderReviewBinding
 import com.itigradteamsix.snapshop.favorite.model.DraftOrder
 import com.itigradteamsix.snapshop.model.Repository
+import com.itigradteamsix.snapshop.model.calculateSavingAmount
 import com.itigradteamsix.snapshop.network.ApiClient
 import com.itigradteamsix.snapshop.network.ApiState
 import com.itigradteamsix.snapshop.shoppingcart.viewmodel.ShoppingCartViewModel
@@ -47,6 +49,9 @@ class OrderReview : Fragment() {
     lateinit var paymentIntentClientSecret: String
     private lateinit var paymentService: PaymentService
     var totalPrice: Double = 0.0
+
+    var draftOrder = DraftOrder()
+
 
     val TAG = "OrderReview"
 
@@ -98,7 +103,48 @@ class OrderReview : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUpCartRecyclerView()
         handlePlacingOrder()
+        handleCopouns()
+
     }
+
+
+    @SuppressLint("SetTextI18n")
+    private fun handleCopouns(){
+        lifecycleScope.launch {
+            shoppingCartViewModel.discountPercentage.collectLatest {
+                if (it>0){
+                    Toast.makeText(requireContext(), "Coupon code applied ✔️️", Toast.LENGTH_SHORT).show()
+                    val totalItemsPrice = draftOrder.total_price?.toDouble()
+
+                    val discountPrice =
+                        calculateSavingAmount(totalItemsPrice!!, it)
+                    val totalPrice = totalItemsPrice.times(1 - it/100.0)
+                    this@OrderReview.totalPrice = totalPrice
+
+                    binding.totalItemsPriceTextview.text = "$"+ String.format("%.2f", totalItemsPrice)
+                    binding.discountPriceTextview.text = "-$" + String.format("%.2f", discountPrice)
+                    binding.discountPriceTextview.setTextColor(resources.getColor(R.color.md_theme_light_surfaceTint))
+                    binding.totalPriceTextview.text = "$"+ String.format("%.2f", totalPrice)
+
+                }else{
+//                    Toast.makeText(requireContext(), "Invalid coupon code", Toast.LENGTH_SHORT).show()
+
+                    binding.totalItemsPriceTextview.text = "$"+ draftOrder.total_price.toString()
+                    binding.totalPriceTextview.text = "$"+ draftOrder.total_price.toString()
+                    this@OrderReview.totalPrice = draftOrder.total_price?.toDoubleOrNull() ?: 0.0
+                    binding.discountPriceTextview.setTextColor(resources.getColor(R.color.black))
+                    binding.discountPriceTextview.text = "-$0.0"
+                }
+            }
+
+        }
+    }
+
+
+
+
+
+
 
     private fun setUpCartRecyclerView() {
         orderReviewAdapter = OrderReviewAdapter()
@@ -110,6 +156,7 @@ class OrderReview : Fragment() {
                 when (it) {
                     is ApiState.Success<*> -> {
                         val cartDraftOrder = it.data as DraftOrder
+                        draftOrder = cartDraftOrder
 //                        orderReviewAdapter.submitList(cartDraftOrder.line_items?.filter { lineItem ->
 //                            lineItem.title != "empty" || lineItem.title != "empty"
 //                        })
@@ -148,6 +195,8 @@ class OrderReview : Fragment() {
             } else if (binding.cashOnDelivery.isChecked) {
                 //make an order
                 shoppingCartViewModel.completeDraftOrder()
+            }else{
+                Toast.makeText(requireContext(), "Please select a payment method", Toast.LENGTH_SHORT).show()
             }
         }
 
