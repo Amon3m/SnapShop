@@ -139,6 +139,9 @@ class AddressFragment : Fragment() , OnDeleteListener{
 
     override fun onDefaultAddress(customerId: Long, context: Context, addressId: Long) {
         viewModel.makeAddressDefault(customerId.toString(), addressId.toString())
+        viewModel.getALlAddresses(customerId.toString(),context)
+        adapter.notifyDataSetChanged()
+
     }
 
 

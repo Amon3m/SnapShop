@@ -29,7 +29,13 @@ class AddressAdapter (var context: Context,  var listener :OnDeleteListener,  va
             holder.binding.mainAddress.text = address.address1
             holder.binding.subAddress.text = address.city
             holder.binding.phone.text = address.country
-            holder.binding.defaultAddress.setVisibility(View.VISIBLE)
+            if(address.default==true) {
+                holder.binding.defaultAddress.visibility = View.VISIBLE
+            }
+            else{
+                holder.binding.defaultAddress.visibility = View.GONE
+
+            }
             holder.binding.addressButton.setOnClickListener {
                 Toast.makeText(context,"You can't remove default address",Toast.LENGTH_SHORT).show()
             }
@@ -41,13 +47,20 @@ class AddressAdapter (var context: Context,  var listener :OnDeleteListener,  va
             holder.binding.mainAddress.text = address.address1
             holder.binding.subAddress.text = address.city
             holder.binding.phone.text = address.country
-            holder.binding.defaultAddress.setVisibility(View.GONE)
+            if(address.default==true) {
+                holder.binding.defaultAddress.visibility = View.VISIBLE
+            }
+            else{
+                holder.binding.defaultAddress.visibility = View.GONE
+
+            }
 
             holder.binding.addressButton.setOnClickListener {
                 listener.onAddressRemove(customerId, context, address.id!!)
             }
             holder.binding.imageView.setOnClickListener {
                 listener.onDefaultAddress(customerId,context, address.id!!)
+                holder.binding.defaultAddress.visibility = View.VISIBLE
                 Toast.makeText(context,"This address is now your default",Toast.LENGTH_SHORT).show()
             }
 

@@ -75,6 +75,6 @@ interface ApiServices {
     suspend fun addNewAddressForUser(@Path(value="customer_id") customer_id:String, @Body address: AddressBody):CustomerAddressResponse
     @DELETE("customers/{customer_id}/addresses/{address_id}.json")
     suspend fun removeAddress(@Path(value="address_id")address_id:String,@Path(value="customer_id")customer_id:String)
-    @POST("customers/{customer_id}/addresses/{address_id}/default.json")
+    @PUT("customers/{customer_id}/addresses/{address_id}/default.json")
     suspend fun makeAddressDefault(@Path(value="customer_id") customer_id:String, @Path(value="address_id") address_id:String) :CustomerAddressResponse
 }
