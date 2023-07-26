@@ -6,11 +6,16 @@ import com.itigradteamsix.snapshop.model.SmartCollectionsResponse
 
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
 import com.itigradteamsix.snapshop.authentication.login.model.CustomersLoginResponse
+import com.itigradteamsix.snapshop.data.models.Address
+import com.itigradteamsix.snapshop.data.models.AddressBody
+import com.itigradteamsix.snapshop.data.models.AddressResponse
+import com.itigradteamsix.snapshop.data.models.CustomerAddressResponse
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import com.itigradteamsix.snapshop.model.ListProductsResponse
 import com.itigradteamsix.snapshop.model.ProductResponse
 import kotlinx.coroutines.flow.Flow
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -56,4 +61,11 @@ interface ApiServices {
     @GET("products/{product_id}.json")
     suspend fun getSingleProduct(@Path("product_id") product_id: Long): ProductResponse
 
+    @GET("customers/{customer_id}/addresses.json")
+    suspend fun getAllAddresses(@Path("customer_id") customer_id: String): AddressResponse
+
+    @POST("customers/{customer_id}/addresses.json")
+    suspend fun addNewAddressForUser(@Path(value="customer_id") customer_id:String, @Body address: AddressBody):CustomerAddressResponse
+    @DELETE("customers/{customer_id}/addresses/{address_id}.json")
+    suspend fun removeAddress(@Path(value="address_id")address_id:String,@Path(value="customer_id")customer_id:String)
 }

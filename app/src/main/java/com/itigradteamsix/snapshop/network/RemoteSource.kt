@@ -1,6 +1,9 @@
 package com.itigradteamsix.snapshop.network
 
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
+import com.itigradteamsix.snapshop.data.models.Address
+import com.itigradteamsix.snapshop.data.models.AddressBody
+import com.itigradteamsix.snapshop.data.models.AddressResponse
 import com.itigradteamsix.snapshop.favorite.model.DraftOrder
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import com.itigradteamsix.snapshop.model.Customer
@@ -11,6 +14,8 @@ import com.itigradteamsix.snapshop.model.SmartCollection
 import com.itigradteamsix.snapshop.model.SmartCollectionResponse
 import com.itigradteamsix.snapshop.model.SmartCollectionsResponse
 import kotlinx.coroutines.flow.Flow
+import retrofit2.http.Body
+import retrofit2.http.Path
 
 interface RemoteSource {
 
@@ -35,6 +40,10 @@ interface RemoteSource {
 
     suspend fun newGetCustomerByEmail(email: String): Flow<Customer>?
     suspend fun getSingleProduct(id:Long): Product?
+    suspend fun getAllAddresses(customer_id: String): List<Address>?
+    suspend fun addNewAddress(customer_id:String, address: AddressBody):Address?
+    suspend fun removeAddress(address_id:String,customer_id:String)
+
 
 
 }

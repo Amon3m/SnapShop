@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_profileFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_addressFragment"
+            app:destination="@id/addressFragment" />
     </fragment>
     <fragment
         android:id="@+id/wishlistFragment"
@@ -80,6 +83,29 @@
             android:id="@+id/action_categoryFragment_to_productInfoFragment"
             app:destination="@id/productInfoFragment" />
 
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.itigradteamsix.snapshop.address.view.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" >
+    <argument
+        android:name="customer_id"
+        app:argType="long" />
+        <action
+            android:id="@+id/action_mapFragment_to_addressFragment"
+            app:destination="@id/addressFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/addressFragment"
+        android:name="com.itigradteamsix.snapshop.address.view.AddressFragment"
+        android:label="fragment_address"
+        tools:layout="@layout/fragment_address" >
+        <action
+            android:id="@+id/action_addressFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
     </fragment>
 
 

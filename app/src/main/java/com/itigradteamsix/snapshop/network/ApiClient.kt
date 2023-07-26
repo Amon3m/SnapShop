@@ -4,6 +4,8 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
+import com.itigradteamsix.snapshop.data.models.Address
+import com.itigradteamsix.snapshop.data.models.AddressBody
 import com.itigradteamsix.snapshop.data.repository.remote.ApiServices
 import com.itigradteamsix.snapshop.model.Customer
 import com.itigradteamsix.snapshop.favorite.model.DraftOrder
@@ -76,12 +78,14 @@ object ApiClient : RemoteSource {
             val wholeResponse = apiService.getCustomerByEmail(email)
             Log.d("retrofitCreateCustres", wholeResponse.toString())
             response =  wholeResponse.customers
+            Log.d("retrofitCreateresp", response.toString())
+
         } catch (e: Exception) {
             e.printStackTrace()
             Log.d("rfGetCustException",e.message.toString())
 
         }
-        Log.d("retrofitCreateCust", response?.get(0)?.email.toString())
+//        Log.d("retrofitCreateCust", response?.get(0)?.email.toString())
         return response
     }
 
@@ -156,6 +160,45 @@ object ApiClient : RemoteSource {
         return response
     }
 
+    override suspend fun getAllAddresses(customer_id: String): List<Address>? {
+        var response: List<Address>? = null
+        try {
+            val wholeResponse = apiService.getAllAddresses(customer_id)
+            Log.d("getAddressesRFTTry", wholeResponse.toString())
+            response =  wholeResponse.addresses
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfGetAddressException",e.message.toString())
+
+        }
+//        Log.d("retrofitgetAddress", response?.get(0))
+        return response    }
+
+    override suspend fun addNewAddress(customer_id: String, address: AddressBody): Address? {
+        var response: Address? = null
+        try {
+            val wholeResponse = apiService.addNewAddressForUser(customer_id,address)
+            Log.d("addAddressesRFTTry", wholeResponse.toString())
+            response =  wholeResponse.customer_address
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfAddAddressException",e.message.toString())
+
+        }
+//        Log.d("retrofitgetAddress", response?.get(0))
+        return response      }
+
+    override suspend fun removeAddress(address_id: String, customer_id: String) {
+        try {
+            val wholeResponse = apiService.removeAddress(address_id,customer_id)
+            Log.d("deleteAddressesRFTTry", wholeResponse.toString())
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfDeleteAddressException",e.message.toString())
+
+        }
+    }
 
 
 }

@@ -38,7 +38,9 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBoN47BmMSh0P7Kt-YB9o9m1nlFelHwnCw" />
         <!-- Let AndroidX handle auto-store locales for pre-T devices to hold the user's selected locale -->
         <service
             android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"

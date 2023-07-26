@@ -3,6 +3,8 @@ package com.itigradteamsix.snapshop.model
 
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
 import com.itigradteamsix.snapshop.authentication.signup.model.ApiCustomerState
+import com.itigradteamsix.snapshop.data.models.Address
+import com.itigradteamsix.snapshop.data.models.AddressBody
 import com.itigradteamsix.snapshop.database.LocalSource
 import com.itigradteamsix.snapshop.favorite.model.DraftOrder
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
@@ -85,6 +87,17 @@ class Repository private constructor(
 
     }
 
+    override suspend fun getAllAddresses(customer_id: String): Flow<List<Address>?> {
+        return flowOf( remoteSource.getAllAddresses(customer_id))
+    }
+
+    override suspend fun addNewAddress(customer_id: String, address: AddressBody): Flow<Address?> {
+        return flowOf( remoteSource.addNewAddress(customer_id,address))
+    }
+
+    override suspend fun removeAddress(address_id: String, customer_id: String) {
+        remoteSource.removeAddress(address_id,customer_id)
+    }
 
 
 }
