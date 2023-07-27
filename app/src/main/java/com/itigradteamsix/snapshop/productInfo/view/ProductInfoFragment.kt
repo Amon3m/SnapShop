@@ -1,14 +1,19 @@
 package com.itigradteamsix.snapshop.productInfo.view
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -22,14 +27,12 @@ import com.itigradteamsix.snapshop.databinding.FragmentProductInfoBinding
 import com.itigradteamsix.snapshop.favorite.model.AppliedDiscount
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import com.itigradteamsix.snapshop.favorite.model.LineItems
-import com.itigradteamsix.snapshop.favorite.viewmodel.FavoriteViewModel
 import com.itigradteamsix.snapshop.model.Product
 import com.itigradteamsix.snapshop.model.Repository
 import com.itigradteamsix.snapshop.network.ApiClient
 import com.itigradteamsix.snapshop.network.ApiState
 import com.itigradteamsix.snapshop.productInfo.viewmodel.ProductInfoViewModel
 import com.itigradteamsix.snapshop.productInfo.viewmodel.ProductInfoViewModelFactory
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -43,6 +46,8 @@ class ProductInfoFragment : Fragment() {
     private var productQuantity: Int? = 1
     private var draftID : String? = null
     private var isFav : Boolean = false
+    private lateinit var failureDialog: AlertDialog
+
 
 
 
@@ -63,6 +68,7 @@ class ProductInfoFragment : Fragment() {
             Repository.getInstance(ApiClient, ConcreteLocalSource(requireContext())),
             FirebaseRepo(auth = FirebaseAuth.getInstance())
         )
+        showLoading()
         viewModel = ViewModelProvider(requireActivity(),productViewModelFactory)[ProductInfoViewModel::class.java]
 //        if (activity != null) {
 //            val intent = requireActivity().intent
@@ -86,16 +92,21 @@ class ProductInfoFragment : Fragment() {
                         is ApiState.Loading -> {
                             Log.d("ProductInfoLoading", "Loading")
 
+
                         }
 
                         is ApiState.Success<*> -> {
+                            showContent()
                             receivedProduct = it.data as Product
                             setDataToViews(receivedProduct!!)
 
                         }
 
                         is ApiState.Failure -> {
+                            binding.progressBar5.visibility = View.GONE
+
                             println(" Error ${it.msg}")
+//                            showMsgDialog(it.msg)
                         }
                     }
                 }
@@ -145,6 +156,7 @@ class ProductInfoFragment : Fragment() {
 
                         is ApiDraftLoginState.Failure -> {
                             Log.d("PIDraftFlowCollect", result.exception.message.toString())
+                            showMsgDialog(result.exception.message!!)
                         }
                     }
 
@@ -228,10 +240,10 @@ class ProductInfoFragment : Fragment() {
 
     private fun setDataToViews(product: Product) {
 
-
+        binding.sizetv.text = product.options.get(0).values.toString()
         binding.colortv.text = product.variants[0].option2
         binding.detailsTv.text = product.body_html
-        binding.price.text = product.variants[0].price
+        binding.price.text = product.variants[0].price.plus(" $")
         binding.productName.text = product.title
         binding.rating.text = getLastTwoDigitsAsDouble(product.id).toString()
         Glide.with(requireContext())
@@ -296,4 +308,76 @@ class ProductInfoFragment : Fragment() {
 
     }
 
+    private fun showLoading() {
+        binding.productimagedetails.visibility = View.GONE
+        binding.cardView2.visibility = View.GONE
+        binding.star.visibility = View.GONE
+        binding.addingQuantityBtn.visibility = View.GONE
+        binding.decreasingQuantityBtn.visibility = View.GONE
+        binding.productName.visibility = View.GONE
+        binding.price.visibility = View.GONE
+        binding.detailsTv.visibility = View.GONE
+        binding.addToCartBtn.visibility = View.GONE
+        binding.favoriteBtn.visibility = View.GONE
+        binding.rating.visibility = View.GONE
+        binding.quantityTv.visibility = View.GONE
+        binding.image3CardView.visibility = View.GONE
+        binding.image2CardView.visibility = View.GONE
+        binding.image1CardView.visibility = View.GONE
+        binding.textView6.visibility = View.GONE
+        binding.colortv.visibility = View.GONE
+        binding.textView7.visibility = View.GONE
+        binding.sizetv.visibility = View.GONE
+        binding.reviewTitle.visibility = View.GONE
+        binding.review1Container.visibility = View.GONE
+        binding.review2Container.visibility = View.GONE
+        binding.progressBar5.visibility = View.VISIBLE
+    }
+    private fun showContent() {
+        binding.productimagedetails.visibility = View.VISIBLE
+        binding.cardView2.visibility = View.VISIBLE
+        binding.star.visibility = View.VISIBLE
+        binding.addingQuantityBtn.visibility = View.VISIBLE
+        binding.decreasingQuantityBtn.visibility = View.VISIBLE
+        binding.productName.visibility = View.VISIBLE
+        binding.price.visibility = View.VISIBLE
+        binding.detailsTv.visibility = View.VISIBLE
+        binding.addToCartBtn.visibility = View.VISIBLE
+        binding.favoriteBtn.visibility = View.VISIBLE
+        binding.rating.visibility = View.VISIBLE
+        binding.quantityTv.visibility = View.VISIBLE
+        binding.image3CardView.visibility = View.VISIBLE
+        binding.image2CardView.visibility = View.VISIBLE
+        binding.image1CardView.visibility = View.VISIBLE
+        binding.textView6.visibility = View.VISIBLE
+        binding.colortv.visibility = View.VISIBLE
+        binding.textView7.visibility = View.VISIBLE
+        binding.sizetv.visibility = View.VISIBLE
+        binding.reviewTitle.visibility = View.VISIBLE
+        binding.review1Container.visibility = View.VISIBLE
+        binding.review2Container.visibility = View.VISIBLE
+        binding.progressBar5.visibility = View.GONE
+    }
+
+    private fun showMsgDialog(message: String) {
+        val builder = AlertDialog.Builder(requireContext())
+        val messageTextView = TextView(requireContext())
+
+        messageTextView.text = message
+        messageTextView.gravity = Gravity.CENTER
+
+        val container = FrameLayout(requireContext())
+        container.addView(messageTextView)
+
+        builder.setView(container)
+        builder.setCancelable(true)
+        builder.setPositiveButton("Ok") { _: DialogInterface?, _: Int ->
+        }
+        failureDialog = builder.create()
+        failureDialog.apply {
+            setIcon(R.drawable.baseline_info_24)
+            setTitle("Warning")
+        }
+            .show()
+    }
 }

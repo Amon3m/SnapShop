@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -80,7 +81,18 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListener
         floatingActionButton?.setOnClickListener(View.OnClickListener {
 //            goToHome(longitude,latitude)
             var address = getAddressFromLatLng(latitude,longitude)
-            viewModel.addNewAddress(customerID.toString(),requireContext(), AddressBody(address))
+            if(address.address1.isNullOrBlank()){
+                Toast.makeText(requireContext()
+                    ,"Please choose more accurate address !!"
+                    ,Toast.LENGTH_SHORT).show()
+            }
+            else {
+                viewModel.addNewAddress(
+                    customerID.toString(),
+                    requireContext(),
+                    AddressBody(address)
+                )
+            }
         })
         viewLifecycleOwner.lifecycleScope.launch {
 
