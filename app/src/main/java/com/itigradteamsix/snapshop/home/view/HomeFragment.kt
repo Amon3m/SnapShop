@@ -18,7 +18,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.itigradteamsix.snapshop.MyApplication
 import com.itigradteamsix.snapshop.R
@@ -47,7 +46,7 @@ class HomeFragment : Fragment() {
     lateinit var homeViewModelFactory: HomeViewModelFactory
     private val autoScrollHandler = Handler()
     private var currentItemPosition = 0
-    private lateinit var adapter: AdsAdapter
+    private lateinit var adsAdapter: AdsAdapter
 
 
 
@@ -183,8 +182,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupAdsRecyclerView() {
-        adapter = AdsAdapter()
-        binding.adsRecyclerView.adapter = adapter
+        adsAdapter = AdsAdapter()
+        binding.adsRecyclerView.adapter = adsAdapter
         binding.adsRecyclerView.setHasFixedSize(true)
 
         binding.adsRecyclerView.layoutManager =
@@ -196,7 +195,7 @@ class HomeFragment : Fragment() {
         val snapHelper = LinearSnapHelper()
         snapHelper.attachToRecyclerView(binding.adsRecyclerView)
 
-        adapter.submitList(Coupon.coupons)
+        adsAdapter.submitList(Coupon.coupons)
         startAutoScrolling()
     }
 
@@ -288,7 +287,7 @@ class HomeFragment : Fragment() {
     private val autoScrollRunnable = object : Runnable {
         override fun run() {
             // Increment the current item position and make sure it doesn't exceed the total item count
-            currentItemPosition = (currentItemPosition + 1) % adapter.itemCount
+            currentItemPosition = (currentItemPosition + 1) % adsAdapter.itemCount
             binding.adsRecyclerView.smoothScrollToPosition(currentItemPosition)
             autoScrollHandler.postDelayed(this, 3000)
         }

@@ -157,9 +157,6 @@ class OrderReview : Fragment() {
                     is ApiState.Success<*> -> {
                         val cartDraftOrder = it.data as DraftOrder
                         draftOrder = cartDraftOrder
-//                        orderReviewAdapter.submitList(cartDraftOrder.line_items?.filter { lineItem ->
-//                            lineItem.title != "empty" || lineItem.title != "empty"
-//                        })
 
                         val filteredLineItems = cartDraftOrder.line_items?.filter { lineItem ->
                             !lineItem.title?.contains("dummy", true)!! && !lineItem.title.contains(
@@ -168,9 +165,9 @@ class OrderReview : Fragment() {
                         }
                         orderReviewAdapter.submitList(filteredLineItems)
 
-                        binding.totalItemsPriceTextview.text = cartDraftOrder.total_price.toString()
-                        binding.totalPriceTextview.text = cartDraftOrder.total_price.toString()
-                        totalPrice = cartDraftOrder.total_price?.toDoubleOrNull() ?: 0.0
+//                        binding.totalItemsPriceTextview.text = cartDraftOrder.total_price.toString()
+//                        binding.totalPriceTextview.text = cartDraftOrder.total_price.toString()
+//                        totalPrice = cartDraftOrder.total_price?.toDoubleOrNull() ?: 0.0
 
                     }
 

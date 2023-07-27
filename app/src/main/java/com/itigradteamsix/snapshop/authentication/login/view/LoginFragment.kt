@@ -220,16 +220,18 @@ class LoginFragment : Fragment() {
 
                     }
 
+
+                }
                     is ApiCustomerLoginState.Failure -> {
                         Log.d("loginApiFlowCollect", result.exception.message.toString())
                         showMsgDialog("\n" + result.exception.message.toString())
                     }
+
+                    else -> {}
                 }
 
-            }
 
-
-        }
+        }}
         viewLifecycleOwner.lifecycleScope.launch {
 
             viewModel.getDraftFlow.collect { result ->

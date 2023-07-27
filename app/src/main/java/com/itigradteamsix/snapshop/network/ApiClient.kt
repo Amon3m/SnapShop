@@ -8,7 +8,6 @@ import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
 import com.itigradteamsix.snapshop.data.models.Address
 import com.itigradteamsix.snapshop.data.models.AddressBody
 import com.itigradteamsix.snapshop.data.repository.remote.ApiServices
-import com.itigradteamsix.snapshop.model.Customer
 import com.itigradteamsix.snapshop.favorite.model.DraftOrder
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import com.itigradteamsix.snapshop.model.CreateOrderResponse
@@ -225,15 +224,16 @@ object ApiClient : RemoteSource {
         var orderSuccess = false
         try {
             apiService.completeDraftOrder(draftOrderId)
-            val newDraftOrderResponse = apiService.newCreateDraftOrder(DraftOrderRequest(com.itigradteamsix.snapshop.model.DraftOrder(
+            val newDraftOrderResponse = apiService.newCreateDraftOrder(DraftOrderRequest(com.itigradteamsix.snapshop.model.CreateDraftOrder(
                 name = "cart_draft",
                 line_items = listOf(
                     LineItem(
                     title = "empty",
                     quantity = 1,
-                    price = "1"
+                    price = "0"
                 )
-            ), customer = Customer(id = MyApplication.appInstance.settingsStore.userPreferencesFlow.first().customerId) //to send confirmation email
+            ),
+                customer = Customer(id = MyApplication.appInstance.settingsStore.userPreferencesFlow.first().customerId) //to send confirmation email
             )))
 
             newDraftOrderId = newDraftOrderResponse.draft_order?.id

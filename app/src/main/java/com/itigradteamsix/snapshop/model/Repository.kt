@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import retrofit2.http.Path
 //import DraftOrderResponse
-import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 
 class Repository private constructor(
     var remoteSource: RemoteSource, var concreteLocalSource: LocalSource

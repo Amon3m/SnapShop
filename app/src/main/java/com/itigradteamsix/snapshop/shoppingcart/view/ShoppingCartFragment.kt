@@ -80,32 +80,32 @@ class ShoppingCartFragment : Fragment() {
 
         }
 
-        lifecycleScope.launch {
-            shoppingCartViewModel.discountPercentage.collectLatest {
-                if (it>0){
-                    Toast.makeText(requireContext(), "Coupon code applied ✔️️", Toast.LENGTH_SHORT).show()
-                    val totalItemsPrice = draftOrder.total_price?.toDouble()
-
-                    val discountPrice =
-                        calculateSavingAmount(totalItemsPrice!!, it)
-                    val totalPrice = totalItemsPrice.times(1 - it/100.0)
-
-                    binding.totalItemsPriceTextview.text = String.format("%.2f", totalItemsPrice)
-                    binding.discountPriceTextview.text = String.format("%.2f", discountPrice)
-                    binding.discountPriceTextview.setTextColor(resources.getColor(R.color.md_theme_light_surfaceTint))
-                    binding.totalPriceTextview.text = String.format("%.2f", totalPrice)
-
-                }else{
-//                    Toast.makeText(requireContext(), "Invalid coupon code", Toast.LENGTH_SHORT).show()
-
-                    binding.totalItemsPriceTextview.text = draftOrder.total_price.toString()
-                    binding.totalPriceTextview.text = draftOrder.total_price.toString()
-                    binding.discountPriceTextview.setTextColor(resources.getColor(R.color.black))
-                    binding.discountPriceTextview.text = "0.0"
-                }
-            }
-
-        }
+//        lifecycleScope.launch {
+//            shoppingCartViewModel.discountPercentage.collectLatest {
+//                if (it>0){
+//                    Toast.makeText(requireContext(), "Coupon code applied ✔️️", Toast.LENGTH_SHORT).show()
+//                    val totalItemsPrice = draftOrder.total_price?.toDouble()
+//
+//                    val discountPrice =
+//                        calculateSavingAmount(totalItemsPrice!!, it)
+//                    val totalPrice = totalItemsPrice.times(1 - it/100.0)
+//
+//                    binding.totalItemsPriceTextview.text = String.format("%.2f", totalItemsPrice)
+//                    binding.discountPriceTextview.text = String.format("%.2f", discountPrice)
+//                    binding.discountPriceTextview.setTextColor(resources.getColor(R.color.md_theme_light_surfaceTint))
+//                    binding.totalPriceTextview.text = String.format("%.2f", totalPrice)
+//
+//                }else{
+////                    Toast.makeText(requireContext(), "Invalid coupon code", Toast.LENGTH_SHORT).show()
+//
+//                    binding.totalItemsPriceTextview.text = draftOrder.total_price.toString()
+//                    binding.totalPriceTextview.text = draftOrder.total_price.toString()
+//                    binding.discountPriceTextview.setTextColor(resources.getColor(R.color.black))
+//                    binding.discountPriceTextview.text = "0.0"
+//                }
+//            }
+//
+//        }
 
 
 
@@ -153,14 +153,8 @@ class ShoppingCartFragment : Fragment() {
                         }
                         cartAdapter.submitList(filteredLineItems)
 
-//                        cartAdapter.submitList(cartDraftOrder.line_items?.filter { lineItem ->
-//                            lineItem.title != "empty" || lineItem.title != "dummy"
-//                        })
-
-
-
-                        binding.totalItemsPriceTextview.text = cartDraftOrder.total_price.toString()
-                        binding.totalPriceTextview.text = cartDraftOrder.total_price.toString()
+//                        binding.totalItemsPriceTextview.text = cartDraftOrder.total_price.toString()
+//                        binding.totalPriceTextview.text = cartDraftOrder.total_price.toString()
 
                         binding.checkoutButton.setOnClickListener { view ->
                             val action = ShoppingCartFragmentDirections.actionShoppingCartFragmentToOrderReview()
@@ -178,6 +172,35 @@ class ShoppingCartFragment : Fragment() {
 
                     else -> {}
                 }
+
+                shoppingCartViewModel.discountPercentage.collectLatest {
+                    if (it>0){
+                        Toast.makeText(requireContext(), "Coupon code applied ✔️️", Toast.LENGTH_SHORT).show()
+                        val totalItemsPrice = draftOrder.total_price?.toDouble()
+
+                        val discountPrice =
+                            calculateSavingAmount(totalItemsPrice!!, it)
+                        val totalPrice = totalItemsPrice.times(1 - it/100.0)
+
+                        binding.totalItemsPriceTextview.text = String.format("%.2f", totalItemsPrice)
+                        binding.discountPriceTextview.text = String.format("%.2f", discountPrice)
+                        binding.discountPriceTextview.setTextColor(resources.getColor(R.color.md_theme_light_surfaceTint))
+                        binding.totalPriceTextview.text = String.format("%.2f", totalPrice)
+
+                    }else{
+//                    Toast.makeText(requireContext(), "Invalid coupon code", Toast.LENGTH_SHORT).show()
+
+                        binding.totalItemsPriceTextview.text = draftOrder.total_price.toString()
+                        binding.totalPriceTextview.text = draftOrder.total_price.toString()
+                        binding.discountPriceTextview.setTextColor(resources.getColor(R.color.black))
+                        binding.discountPriceTextview.text = "0.0"
+                    }
+                }
+
+
+
+
+
             }
         }
     }

@@ -14,6 +14,7 @@ import com.itigradteamsix.snapshop.model.MetaFieldCustomerInput
 import com.itigradteamsix.snapshop.model.MetaFieldCustomerRequest
 import com.itigradteamsix.snapshop.model.MetafieldInput
 import com.itigradteamsix.snapshop.authentication.login.model.ApiDraftLoginState
+import com.itigradteamsix.snapshop.model.CreateDraftOrder
 import com.itigradteamsix.snapshop.model.RepoInterface
 import com.itigradteamsix.snapshop.network.ApiState
 import kotlinx.coroutines.Dispatchers
@@ -83,15 +84,16 @@ class HomeViewModel(private val repoInterface: RepoInterface) : ViewModel() {
                         //no draft order is here so create one and get its id
                         val createdDraftOrderResponse = repoInterface.newCreateDraftOrder(
                             DraftOrderRequest(
-                                DraftOrder(
+                                CreateDraftOrder(
                                     name = "cart_draft",
                                     line_items = listOf(
                                         LineItem(
                                             title = "empty",
                                             quantity = 1,
-                                            price = "1"
+                                            price = "0"
                                         )
-                                    ), customer = Customer(id = it.customerId) //to send confirmation email
+                                    ),
+                                    customer = Customer(id = it.customerId) //to send confirmation email
                                 )
                             )
                         )

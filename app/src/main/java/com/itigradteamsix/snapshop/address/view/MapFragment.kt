@@ -108,10 +108,11 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListener
         }
     }
 
-    override fun onMapReady(map: GoogleMap?) {
-        googleMap = map
-        googleMap?.setOnMapClickListener(this)
 
+
+    override fun onMapReady(p0: GoogleMap) {
+        googleMap = p0
+        googleMap?.setOnMapClickListener(this)
     }
 
     override fun onMapClick(latLng: LatLng) {
@@ -194,4 +195,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListener
         return Address(country = country, city = city, address1 = city2 , customer_id = customerID)
 
     }
+
+
 }

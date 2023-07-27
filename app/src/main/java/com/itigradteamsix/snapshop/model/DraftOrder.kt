@@ -8,7 +8,7 @@ import com.itigradteamsix.snapshop.favorite.model.TaxLine
 
 
 data class DraftOrderRequest(
-    val draft_order: DraftOrder? = null
+    val draft_order: CreateDraftOrder? = null
 )
 
 //data class DraftOrderInput(
@@ -31,7 +31,7 @@ data class DraftOrderResponse(
 
 
 
-data class DraftOrder(
+data class CreateDraftOrder(
     val id: Long? = null,
     val note: String? = null,
     val email: String? = null,

@@ -1,7 +1,5 @@
 package com.itigradteamsix.snapshop.shoppingcart.viewmodel
 
-import android.content.Context
-import android.net.ConnectivityManager
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,18 +7,14 @@ import com.itigradteamsix.snapshop.MyApplication
 import com.itigradteamsix.snapshop.favorite.model.DraftOrder
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import com.itigradteamsix.snapshop.favorite.model.LineItems
-
 import com.itigradteamsix.snapshop.model.RepoInterface
 import com.itigradteamsix.snapshop.network.ApiClient
 import com.itigradteamsix.snapshop.network.ApiState
-
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 
 class ShoppingCartViewModel(private val repoInterface: RepoInterface) : ViewModel() {
@@ -98,6 +92,7 @@ class ShoppingCartViewModel(private val repoInterface: RepoInterface) : ViewMode
             )
             _cartDraftOrder.emit(ApiState.Success(resultOrder))
 
+
         }
     }
 
@@ -124,6 +119,7 @@ class ShoppingCartViewModel(private val repoInterface: RepoInterface) : ViewMode
                     DraftOrderResponse(newOrder)
                 )
                 _cartDraftOrder.emit(ApiState.Success(resultOrder))
+
 
             }
 
@@ -152,9 +148,11 @@ class ShoppingCartViewModel(private val repoInterface: RepoInterface) : ViewMode
             Log.d("cartDraftOrderInDetails:", "resultOrderLineItems: ${resultOrder?.line_items}")
             if (!resultOrder?.line_items.isNullOrEmpty()) {
                 _cartDraftOrder.emit(ApiState.Success(resultOrder))
+
             } else {
                 _cartDraftOrder.emit(ApiState.Failure("DraftOrder is null"))
             }
+
         }
     }
 
