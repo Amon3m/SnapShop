@@ -68,7 +68,8 @@ class HomeViewModel(private val repoInterface: RepoInterface) : ViewModel() {
                     _productList.emit(ApiState.Success(products))}
             }else{
                 Log.e("fail","fail")
-                _productList.emit(ApiState.Failure("eeeeeee"))}
+//                _productList.emit(ApiState.Failure("eeeeeee"))
+            }
         }
     }
 
