@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.httpPost
@@ -31,9 +32,11 @@ import com.stripe.android.paymentsheet.PaymentSheet
 import com.stripe.android.paymentsheet.PaymentSheetResult
 import com.stripe.android.paymentsheet.PaymentSheetResultCallback
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -202,19 +205,29 @@ class OrderReview : Fragment() {
             } else if (binding.cashOnDelivery.isChecked) {
                 //make an order
                 shoppingCartViewModel.completeDraftOrder()
+                val action = OrderReviewDirections.actionOrderReviewToOrderCompleteFragment()
+                requireView().findNavController().navigate(action)
+
             }else{
                 Toast.makeText(requireContext(), "Please select a payment method", Toast.LENGTH_SHORT).show()
             }
         }
 
-        lifecycleScope.launch(Dispatchers.Main) {
-            shoppingCartViewModel.orderCompleteState.collect {
-                if (it) {
-                    Toast.makeText(MyApplication.appContext, "Order Placed, Thank you!", Toast.LENGTH_SHORT).show()
-                    requireActivity().finish()
-                }
-            }
-        }
+//        lifecycleScope.launch {
+//            shoppingCartViewModel.orderCompleteState.collectLatest {
+//                Log.d(TAG, "handlePlacingOrder: Completion state is $it")
+//                if (it) {
+////                        Toast.makeText(MyApplication.appContext, "Order Placed, Thank you!", Toast.LENGTH_SHORT).show()
+//                        //go to home fragment using nav controller action
+//                        delay(700)
+//
+//                    val action = OrderReviewDirections.actionOrderReviewToOrderCompleteFragment()
+//                    requireView().findNavController().navigate(action)
+//
+//
+//                }
+//            }
+//        }
 
     }
 
@@ -230,8 +243,10 @@ class OrderReview : Fragment() {
             }
 
             is PaymentSheetResult.Completed -> {
-                showToast("Payment Completed")
+                showToast("Order Placed, Thank you!")
                 shoppingCartViewModel.completeDraftOrder() //makes an order and make a new draft order
+//                val action = OrderReviewDirections.actionOrderReviewToOrderCompleteFragment()
+//                requireView().findNavController().navigate(action)
 
             }
         }

@@ -56,4 +56,7 @@
     <string name="place_order">تأكيد الطلب</string>
     <string name="visa_card" >بطاقة فيزا</string>
     <string name="cash_on_delivery">الدفع عند الاستلام</string>
+    <string name="order_success" >تم الطلب بنجاح</string>
+    <string name="order_success_message">سيتم إرسال طلبك إلى عنوانك، شكرا لك على الطلب</string>
+    <string name="back_to_home" >العودة للرئيسية</string>
 </resources>
