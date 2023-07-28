@@ -29,7 +29,6 @@ import com.itigradteamsix.snapshop.authentication.signup.model.ApiCustomerState
 import com.itigradteamsix.snapshop.authentication.signup.model.AuthState
 import com.itigradteamsix.snapshop.authentication.FirebaseRepo
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
-import com.itigradteamsix.snapshop.authentication.login.view.LoginFragment
 import com.itigradteamsix.snapshop.authentication.signup.model.SignupUser
 import com.itigradteamsix.snapshop.authentication.signup.viewModel.SignupViewModel
 import com.itigradteamsix.snapshop.authentication.signup.viewModel.SignupViewModelFactory
@@ -76,7 +75,7 @@ class SignupFragment : Fragment() {
             .setView(ProgressBar(requireContext()))
             .create()
         val signupViewModelFactory = SignupViewModelFactory(FirebaseRepo(auth))
-        viewModel = ViewModelProvider(requireActivity(),signupViewModelFactory)[SignupViewModel::class.java]
+        viewModel = ViewModelProvider(this,signupViewModelFactory)[SignupViewModel::class.java]
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("816262035436-t2v98he45fijhlkbgqsm3jhq535atsrk.apps.googleusercontent.com")
             .requestEmail()

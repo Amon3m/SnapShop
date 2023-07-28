@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class FavoriteViewModel(val iRepo: RepoInterface , val iRepo2: FirebaseRepo)  : ViewModel() {
 
@@ -41,8 +42,13 @@ class FavoriteViewModel(val iRepo: RepoInterface , val iRepo2: FirebaseRepo)  : 
                     draftOrder.data?.line_items?.forEach {
                         it.price = convertCurrency(it.price?.toDoubleOrNull(), currencyPreferences)
                     }
+                    if(draftOrder.data != null){
+                        _getDraftFlow.value = ApiDraftLoginState.Success(draftOrder.data)
+                    }else{
+                        _getDraftFlow.value = ApiDraftLoginState.Failure(Exception("NO INTERNET"))
+                    }
 
-                    _getDraftFlow.value = ApiDraftLoginState.Success(draftOrder.data)
+
 
                 }
                 is ApiDraftLoginState.Failure -> {

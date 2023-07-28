@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 
 class ProductInfoViewModel(
@@ -224,7 +225,16 @@ class ProductInfoViewModel(
 
     fun getDraftOrder(id: String) {
         viewModelScope.launch {
-            _getDraftFlow.value = iRepo.getDraftOrder(id)
+            val result =  iRepo.getDraftOrder(id)
+            val inside = (result as ApiDraftLoginState.Success).data
+            if (inside != null){
+                _getDraftFlow.emit(ApiDraftLoginState.Success(result.data))
+            }else{
+                _getDraftFlow.emit(ApiDraftLoginState.Failure(Exception("NO DATA")))
+
+            }
+
+//            _getDraftFlow.value = result
         }
     }
 }
