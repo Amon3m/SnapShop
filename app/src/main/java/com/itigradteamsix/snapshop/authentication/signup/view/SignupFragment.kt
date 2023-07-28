@@ -29,7 +29,6 @@ import com.itigradteamsix.snapshop.authentication.signup.model.ApiCustomerState
 import com.itigradteamsix.snapshop.authentication.signup.model.AuthState
 import com.itigradteamsix.snapshop.authentication.FirebaseRepo
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
-import com.itigradteamsix.snapshop.authentication.login.view.LoginFragment
 import com.itigradteamsix.snapshop.authentication.signup.model.SignupUser
 import com.itigradteamsix.snapshop.authentication.signup.viewModel.SignupViewModel
 import com.itigradteamsix.snapshop.authentication.signup.viewModel.SignupViewModelFactory

@@ -22,7 +22,6 @@ interface RepoInterface {
     suspend fun getSmartCollections(): Flow<SmartCollectionsResponse>
 
 
-    suspend fun getSomeListFromDatabase(): Flow<List<String>>
     suspend fun updateDraftOrder(draftOrderId : Long , draftResponse: DraftOrderResponse): Flow<DraftOrder?>
 
 
