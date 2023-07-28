@@ -75,6 +75,9 @@
     <string name="cash_on_delivery">Cash on Delivery</string>
     <string name="choose_your_location">Choose Your Location</string>
     <string name="default_add">Default address</string>
+    <string name="order_success">Order Success</string>
+    <string name="order_success_message">Your packet will be sent to your \n address, thanks for order</string>
+    <string name="back_to_home">Back to home</string>
 
 
 </resources>
