@@ -9,8 +9,11 @@ import com.bumptech.glide.Glide
 import com.itigradteamsix.snapshop.databinding.ShoppingCartItemBinding
 import com.itigradteamsix.snapshop.favorite.model.LineItems
 import com.itigradteamsix.snapshop.model.LineItem
+import com.itigradteamsix.snapshop.settings.currency.CurrencyUtils
+import com.itigradteamsix.snapshop.settings.data.CurrencyPreferences
 
 class ShoppingCartAdapter(
+    private val currencyPref: CurrencyPreferences,
     private val onIncreaseClickListener: (LineItems) -> Unit,
     private val onDecreaseClickListener: (LineItems) -> Unit,
     private val onDeleteClickListener: (LineItems) -> Unit,
@@ -42,7 +45,14 @@ class ShoppingCartAdapter(
         androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
         fun bind(lineItem: LineItems) {
             binding.shoppingCartItemNameTextview.text = lineItem.title
-            binding.shoppingCartItemPriceTextview.text = lineItem.price.toString()
+//            binding.shoppingCartItemPriceTextview.text = lineItem.price.toString()
+
+
+            binding.shoppingCartItemPriceTextview.text =  "${currencyPref.currencySymbol} ${lineItem.price}"
+//                CurrencyUtils.convertCurrency(
+//                lineItem.price?.toDouble(),
+//                currencyPref
+//            )
             binding.shoppingCartItemCountTextview.text = lineItem.quantity.toString()
             // line item properties with the name "image_url"
             val productImage  = lineItem.properties?.find { it.name == "image_url" }

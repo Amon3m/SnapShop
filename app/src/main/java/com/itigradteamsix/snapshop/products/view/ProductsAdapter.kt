@@ -11,8 +11,9 @@ import com.bumptech.glide.Glide
 import com.itigradteamsix.snapshop.R
 import com.itigradteamsix.snapshop.databinding.CategoriesItemBinding
 import com.itigradteamsix.snapshop.model.ProductsItem
+import com.itigradteamsix.snapshop.settings.data.CurrencyPreferences
 
-class ProductsAdapter(val context: Context, private val listener: OnProductsClickListener)
+class ProductsAdapter(private val currencyPreferences: CurrencyPreferences,val context: Context, private val listener: OnProductsClickListener)
     : ListAdapter<ProductsItem?, ProductsViewHolder>(ProductsDiffUtil()) {
     lateinit var binding: CategoriesItemBinding
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductsViewHolder {
@@ -32,6 +33,7 @@ class ProductsAdapter(val context: Context, private val listener: OnProductsClic
 
         holder.binding.productTitle.text=currentObject?.title
         holder.binding.productPrice.text=currentObject?.variants?.get(0)?.price
+        holder.binding.productSign.text=" ${currencyPreferences.currencySymbol}"
 
 
 //        holder.binding.fromDateTxt.text=currentObject.fromDate

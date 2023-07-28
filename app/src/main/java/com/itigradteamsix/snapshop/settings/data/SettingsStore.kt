@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.longPreferencesKey
@@ -19,12 +20,8 @@ import java.io.IOException
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settingsStore")
 
-val KEY_USER_TYPE = stringPreferencesKey("user_type_key") //guest or user
 
-enum class UserType(var value: String){
-    GUEST("guest"),
-    USER("user")
-}
+
 
 
 data class UserPreferences(
@@ -39,10 +36,19 @@ data class UserPreferences(
     val metaFieldId: Long //api
 )
 
+data class CurrencyPreferences(
+    val currencyCode: String,
+    val currencySymbol: String,
+    val countryCode: String,
+    val rate: Double
+)
+
 
 
 
 class SettingsStore(private val context: Context) {
+
+
 
     private val TAG: String = "UserPreferencesRepo"
 
@@ -58,6 +64,11 @@ class SettingsStore(private val context: Context) {
         val USER_CURRENCY = stringPreferencesKey("user_currency")
         val CART_DRAFT_ORDER_ID = longPreferencesKey("cart_draft_order_id")
         val META_FIELD_ID = longPreferencesKey("meta_field_id")
+
+        val CURRENCY_CODE = stringPreferencesKey("currency_code")
+        val CURRENCY_SYMBOL = stringPreferencesKey("currency_symbol")
+        val COUNTRY_CODE = stringPreferencesKey("country_code")
+        val RATE = doublePreferencesKey("rate")
 
     }
 
@@ -113,21 +124,7 @@ class SettingsStore(private val context: Context) {
     }
 
 
-    suspend fun updateUserCurrency(userCurrency: String) {
-        dataStore.edit { preferences ->
-            preferences[PreferencesKeys.USER_CURRENCY] = userCurrency
-        }
-    }
 
-    //update user id, name, email at once  ( also set isGuest to false)
-    suspend fun updateCustomerInfo(customerId: Long, customerName: String, customerEmail: String) {
-        dataStore.edit { preferences ->
-            preferences[PreferencesKeys.IS_GUEST] = false
-            preferences[PreferencesKeys.CUSTOMER_ID] = customerId
-            preferences[PreferencesKeys.CUSTOMER_NAME] = customerName
-            preferences[PreferencesKeys.CUSTOMER_EMAIL] = customerEmail
-        }
-    }
 
     //method to update current draft order id
     suspend fun updateCartDraftOrderId(cartDraftOrderId: Long) {
@@ -143,16 +140,34 @@ class SettingsStore(private val context: Context) {
     }
 
 
-
-
-    val userType: Flow<String> = context.dataStore.data
-        .map { preferences ->
-            preferences[KEY_USER_TYPE] ?: UserType.GUEST.value
+    val currencyPreferencesFlow: Flow<CurrencyPreferences> = dataStore.data
+        .catch { exception ->
+            // dataStore.data throws an IOException when an error is encountered when reading data
+            if (exception is IOException) {
+                Log.e(TAG, "Error reading preferences.", exception)
+                emit(emptyPreferences())
+            } else {
+                throw exception
+            }
+        }.map { preferences ->
+            mapCurrencyPreferences(preferences)
         }
 
-    suspend fun setUserType(userType: UserType) {
-        context.dataStore.edit { preferences ->
-            preferences[KEY_USER_TYPE] = userType.value
+    private fun mapCurrencyPreferences(preferences: Preferences): CurrencyPreferences {
+        val currencyCode = preferences[PreferencesKeys.CURRENCY_CODE] ?: "USD"
+        val currencySymbol = preferences[PreferencesKeys.CURRENCY_SYMBOL] ?: "$"
+        val countryCode = preferences[PreferencesKeys.COUNTRY_CODE] ?: "us"
+        val rate = preferences[PreferencesKeys.RATE]  ?: 1.0
+
+        return CurrencyPreferences(currencyCode, currencySymbol, countryCode, rate)
+    }
+
+    suspend fun updateCurrencyPreferences(currencyPreferences: CurrencyPreferences) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.CURRENCY_CODE] = currencyPreferences.currencyCode
+            preferences[PreferencesKeys.CURRENCY_SYMBOL] = currencyPreferences.currencySymbol
+            preferences[PreferencesKeys.COUNTRY_CODE] = currencyPreferences.countryCode
+            preferences[PreferencesKeys.RATE] = currencyPreferences.rate
         }
     }
 

@@ -40,7 +40,7 @@ data class CreateDraftOrder(
     val invoice_sent_at: String? = null,
     val created_at: String? = null,
     val updated_at: String? = null,
-    val tax_exempt: Boolean? = null,
+    val tax_exempt: Boolean = true,  //HAMZA
     val completed_at: String? = null,
     val name: String? = null,
     val status: String? = null,

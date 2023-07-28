@@ -19,6 +19,7 @@ import com.itigradteamsix.snapshop.model.RepoInterface
 import com.itigradteamsix.snapshop.model.Repository
 import com.itigradteamsix.snapshop.network.ApiClient
 import com.itigradteamsix.snapshop.network.ApiState
+import com.itigradteamsix.snapshop.settings.currency.CurrencyUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -188,6 +189,13 @@ class ProductInfoViewModel(
                 repoInterface.getSingleProduct(id).catch { e ->
                     _productFlow.emit(ApiState.Failure(e.message ?: ""))
                 }.collect {
+                    //change currency on product variants
+                    it?.variants?.forEach { variant ->
+                        variant.price = CurrencyUtils.convertCurrency(
+                            variant.price.toDoubleOrNull(),
+                            MyApplication.appInstance.settingsStore.currencyPreferencesFlow.first()
+                        )
+                    }
                     _productFlow.emit(ApiState.Success(it))
 
                 }

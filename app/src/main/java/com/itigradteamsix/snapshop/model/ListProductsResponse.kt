@@ -32,7 +32,7 @@ data class VariantsItem(
 	val inventoryItemId: Long? = null,
 
 	@field:SerializedName("price")
-	val price: String? = null,
+	var price: String? = null,
 
 	@field:SerializedName("product_id")
 	val productId: Long? = null,

@@ -10,6 +10,8 @@ import com.itigradteamsix.snapshop.favorite.model.LineItems
 import com.itigradteamsix.snapshop.model.RepoInterface
 import com.itigradteamsix.snapshop.network.ApiClient
 import com.itigradteamsix.snapshop.network.ApiState
+import com.itigradteamsix.snapshop.settings.currency.CurrencyUtils.convertCurrency
+import com.itigradteamsix.snapshop.settings.currency.CurrencyUtils.convertCurrencyWithoutSymbol
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -37,8 +39,6 @@ class ShoppingCartViewModel(private val repoInterface: RepoInterface) : ViewMode
         get() = _discountPercenatge
 
 
-
-
     fun changeDiscountPercentage(discountPercentage: Int) {
         _discountPercenatge.value = discountPercentage
     }
@@ -48,6 +48,10 @@ class ShoppingCartViewModel(private val repoInterface: RepoInterface) : ViewMode
 
         viewModelScope.launch {
             //get the current cart draft order id from dataStore
+            val currencyPreferences =
+                MyApplication.appInstance.settingsStore.currencyPreferencesFlow.first()
+
+
             val cartDraftOrderId =
                 MyApplication.appInstance.settingsStore.userPreferencesFlow.first().cartDraftOrderId
             Log.d(TAG, "getCartDraftOrder: Cart Draft order ID $cartDraftOrderId")
@@ -61,6 +65,23 @@ class ShoppingCartViewModel(private val repoInterface: RepoInterface) : ViewMode
                         _cartDraftOrder.emit(ApiState.Failure("empty cart"))
                         Log.d(TAG, "empty cart only one item named empty")
                     } else {
+                        //convert price on total price and line items
+                        it.total_price = it.total_price?.let { it1 ->
+                            convertCurrencyWithoutSymbol(
+                                it1,
+                                currencyPreferences
+                            )
+                        }
+
+                        it.line_items?.forEach { lineItem ->
+                            lineItem.price = lineItem.price?.let { it1 ->
+                                convertCurrencyWithoutSymbol(
+                                    it1,
+                                    currencyPreferences
+                                )
+                            }
+                        }
+
                         _cartDraftOrder.emit(ApiState.Success(it))
                     }
                 } else {
@@ -165,10 +186,6 @@ class ShoppingCartViewModel(private val repoInterface: RepoInterface) : ViewMode
 
         }
     }
-
-
-
-
 
 
 }

@@ -15,7 +15,7 @@ data class DraftOrder(
     val invoice_sent_at: String? = null,
     val created_at: String? = null,
     val updated_at: String? = null,
-    val tax_exempt: Boolean? = null,
+    val tax_exempt: Boolean = true,  //HAMZA
     val completed_at: String? = null,
     val name: String? = null,
     val status: String? = null,
@@ -29,7 +29,7 @@ data class DraftOrder(
     val tax_lines: List<TaxLine>? = null,
     val tags: String? = null,
     val note_attributes: List<String>? = null,
-    val total_price: String? = null,
+    var total_price: String? = null,
     val subtotal_price: String? = null,
     val total_tax: String? = null,
     val payment_terms: String? = null,
@@ -56,7 +56,7 @@ data class LineItems(
     val name: String? = null,
     val properties: List<LineItemProperty>? = null,
     val custom: Boolean? = null,
-    val price: String? = null,
+    var price: String? = null,
     val admin_graphql_api_id: String? = null
 )
 

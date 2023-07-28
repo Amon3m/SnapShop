@@ -56,7 +56,7 @@ data class CreateCustomer(
 	val lastOrderId: Long? = null,
 
 	@field:SerializedName("tax_exempt")
-	val taxExempt: Boolean? = null,
+	val taxExempt: Boolean= true,
 
 	@field:SerializedName("email_marketing_consent")
 	val emailMarketingConsent: EmailMarketingConsent? = null,
@@ -164,7 +164,7 @@ data class DraftOrder(
 	val totalPrice: String? = null,
 
 	@field:SerializedName("tax_exempt")
-	val taxExempt: Boolean? = null,
+	val taxExempt: Boolean = true,
 
 	@field:SerializedName("invoice_sent_at")
 	val invoiceSentAt: Any? = null,

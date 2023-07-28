@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.itigradteamsix.snapshop.MyApplication
 import com.itigradteamsix.snapshop.R
 import com.itigradteamsix.snapshop.database.ConcreteLocalSource
 import com.itigradteamsix.snapshop.databinding.FragmentShoppingCartBinding
@@ -24,10 +25,14 @@ import com.itigradteamsix.snapshop.model.calculateSavingAmount
 import com.itigradteamsix.snapshop.model.getDiscountPercentage
 import com.itigradteamsix.snapshop.network.ApiClient
 import com.itigradteamsix.snapshop.network.ApiState
+import com.itigradteamsix.snapshop.settings.currency.CurrencyUtils
+import com.itigradteamsix.snapshop.settings.currency.CurrencyUtils.convertCurrency
+import com.itigradteamsix.snapshop.settings.data.CurrencyPreferences
 
 import com.itigradteamsix.snapshop.shoppingcart.viewmodel.ShoppingCartViewModel
 import com.itigradteamsix.snapshop.shoppingcart.viewmodel.ShoppingCartViewModelFactory
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 
@@ -37,8 +42,9 @@ class ShoppingCartFragment : Fragment() {
     lateinit var shoppingCartViewModel: ShoppingCartViewModel
     lateinit var shoppingCartviewModelFactory: ShoppingCartViewModelFactory
     lateinit var cartAdapter: ShoppingCartAdapter
+    lateinit var currencyPref: CurrencyPreferences
 
-//    var discountPercentage = 0
+    //    var discountPercentage = 0
     var draftOrder = DraftOrder()
 
 
@@ -53,6 +59,13 @@ class ShoppingCartFragment : Fragment() {
         shoppingCartViewModel = ViewModelProvider(
             requireActivity(), shoppingCartviewModelFactory
         )[ShoppingCartViewModel::class.java]
+
+        lifecycleScope.launch {
+            MyApplication.appInstance.settingsStore.currencyPreferencesFlow.first().let {
+                currencyPref = it
+            }
+        }
+
     }
 
     override fun onCreateView(
@@ -108,23 +121,25 @@ class ShoppingCartFragment : Fragment() {
 //        }
 
 
-
     }
 
     private fun setUpCartRecyclerView() {
-        cartAdapter = ShoppingCartAdapter(onIncreaseClickListener = { lineItem ->
-            shoppingCartViewModel.increaseQuantity(lineItem)
-        }, onDecreaseClickListener = { lineItem ->
-            shoppingCartViewModel.decreaseQuantity(lineItem)
-        }, onDeleteClickListener = { lineItem ->
-            shoppingCartViewModel.deleteLineItem(lineItem)
-        }, onItemClicked = { lineItem ->
+        cartAdapter = ShoppingCartAdapter(
+            currencyPref,
+            onIncreaseClickListener = { lineItem ->
+                shoppingCartViewModel.increaseQuantity(lineItem)
+            }, onDecreaseClickListener = { lineItem ->
+                shoppingCartViewModel.decreaseQuantity(lineItem)
+            }, onDeleteClickListener = { lineItem ->
+                shoppingCartViewModel.deleteLineItem(lineItem)
+            }, onItemClicked = { lineItem ->
 //                //navigate to the product details fragment
 //                val action = ShoppingCartFragmentDirections.actionShoppingCartFragmentToProductDetailsFragment(
 //                    lineItem.product_id.toString()
 //                )
 //                findNavController().navigate(action)
-        })
+            }
+        )
         binding.shoppingCartRecyclerview.apply {
             adapter = cartAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -157,7 +172,8 @@ class ShoppingCartFragment : Fragment() {
 //                        binding.totalPriceTextview.text = cartDraftOrder.total_price.toString()
 
                         binding.checkoutButton.setOnClickListener { view ->
-                            val action = ShoppingCartFragmentDirections.actionShoppingCartFragmentToOrderReview()
+                            val action =
+                                ShoppingCartFragmentDirections.actionShoppingCartFragmentToOrderReview()
                             Navigation.findNavController(view).navigate(action)
 
                         }
@@ -174,31 +190,58 @@ class ShoppingCartFragment : Fragment() {
                 }
 
                 shoppingCartViewModel.discountPercentage.collectLatest {
-                    if (it>0){
-                        Toast.makeText(requireContext(), "Coupon code applied ✔️️", Toast.LENGTH_SHORT).show()
+                    if (it > 0) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Coupon code applied ✔️️",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         val totalItemsPrice = draftOrder.total_price?.toDouble()
 
                         val discountPrice =
                             calculateSavingAmount(totalItemsPrice!!, it)
-                        val totalPrice = totalItemsPrice.times(1 - it/100.0)
+                        val totalPrice = totalItemsPrice.times(1 - it / 100.0)
 
-                        binding.totalItemsPriceTextview.text = String.format("%.2f", totalItemsPrice)
-                        binding.discountPriceTextview.text = String.format("%.2f", discountPrice)
+                        binding.totalItemsPriceTextview.text =
+                            "$totalItemsPrice ${currencyPref.currencySymbol}"
+//                            convertCurrency(
+//                            totalItemsPrice,
+//                            currencyPref
+//                        )
+                        binding.discountPriceTextview.text =
+                            "- $discountPrice ${currencyPref.currencySymbol}"
+//                            convertCurrency(
+//                            discountPrice,
+//                            currencyPref
+//                        )
                         binding.discountPriceTextview.setTextColor(resources.getColor(R.color.md_theme_light_surfaceTint))
-                        binding.totalPriceTextview.text = String.format("%.2f", totalPrice)
+                        binding.totalPriceTextview.text =
+                            "$totalPrice ${currencyPref.currencySymbol}"
+//                        convertCurrency(
+//                            totalPrice,
+//                            currencyPref
+//                        )
 
-                    }else{
+                    } else {
 //                    Toast.makeText(requireContext(), "Invalid coupon code", Toast.LENGTH_SHORT).show()
 
-                        binding.totalItemsPriceTextview.text = draftOrder.total_price.toString()
-                        binding.totalPriceTextview.text = draftOrder.total_price.toString()
+                        binding.totalItemsPriceTextview.text =
+                            "${currencyPref.currencySymbol} ${draftOrder.total_price}"
+//                            convertCurrency(
+//                            draftOrder.total_price?.toDouble(),
+//                            currencyPref
+//                        )
+                        binding.totalPriceTextview.text =
+                            "${currencyPref.currencySymbol} ${draftOrder.total_price}"
+//                            convertCurrency(
+//                            draftOrder.total_price?.toDouble(),
+//                            currencyPref
+//                        )
                         binding.discountPriceTextview.setTextColor(resources.getColor(R.color.black))
-                        binding.discountPriceTextview.text = "0.0"
+                        binding.discountPriceTextview.text = "${currencyPref.currencySymbol} 0.0"
+//                            "${currencyPref.currencySymbol} 0.0"
                     }
                 }
-
-
-
 
 
             }

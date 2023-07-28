@@ -22,6 +22,7 @@ import com.itigradteamsix.snapshop.model.Repository
 import com.itigradteamsix.snapshop.model.calculateSavingAmount
 import com.itigradteamsix.snapshop.network.ApiClient
 import com.itigradteamsix.snapshop.network.ApiState
+import com.itigradteamsix.snapshop.settings.data.CurrencyPreferences
 import com.itigradteamsix.snapshop.shoppingcart.viewmodel.ShoppingCartViewModel
 import com.itigradteamsix.snapshop.shoppingcart.viewmodel.ShoppingCartViewModelFactory
 import com.stripe.android.Stripe
@@ -31,6 +32,7 @@ import com.stripe.android.paymentsheet.PaymentSheetResult
 import com.stripe.android.paymentsheet.PaymentSheetResultCallback
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -49,6 +51,8 @@ class OrderReview : Fragment() {
     lateinit var paymentIntentClientSecret: String
     private lateinit var paymentService: PaymentService
     var totalPrice: Double = 0.0
+    lateinit var currencyPref : CurrencyPreferences
+
 
     var draftOrder = DraftOrder()
 
@@ -68,6 +72,12 @@ class OrderReview : Fragment() {
         shoppingCartViewModel = ViewModelProvider(
             requireActivity(), shoppingCartviewModelFactory
         )[ShoppingCartViewModel::class.java]
+
+        lifecycleScope.launch {
+            MyApplication.appInstance.settingsStore.currencyPreferencesFlow.first().let {
+                currencyPref = it
+            }
+        }
 
 
         // Initialize the Stripe SDK with your publishable key
@@ -121,19 +131,19 @@ class OrderReview : Fragment() {
                     val totalPrice = totalItemsPrice.times(1 - it/100.0)
                     this@OrderReview.totalPrice = totalPrice
 
-                    binding.totalItemsPriceTextview.text = "$"+ String.format("%.2f", totalItemsPrice)
-                    binding.discountPriceTextview.text = "-$" + String.format("%.2f", discountPrice)
+                    binding.totalItemsPriceTextview.text = "$totalItemsPrice ${currencyPref.currencySymbol}"
+                    binding.discountPriceTextview.text = "- $discountPrice ${currencyPref.currencySymbol}"
                     binding.discountPriceTextview.setTextColor(resources.getColor(R.color.md_theme_light_surfaceTint))
-                    binding.totalPriceTextview.text = "$"+ String.format("%.2f", totalPrice)
+                    binding.totalPriceTextview.text = "$totalPrice ${currencyPref.currencySymbol}"
 
                 }else{
 //                    Toast.makeText(requireContext(), "Invalid coupon code", Toast.LENGTH_SHORT).show()
 
-                    binding.totalItemsPriceTextview.text = "$"+ draftOrder.total_price.toString()
-                    binding.totalPriceTextview.text = "$"+ draftOrder.total_price.toString()
+                    binding.totalItemsPriceTextview.text ="${currencyPref.currencySymbol} ${draftOrder.total_price}"
+                    binding.totalPriceTextview.text = "${currencyPref.currencySymbol} ${draftOrder.total_price}"
                     this@OrderReview.totalPrice = draftOrder.total_price?.toDoubleOrNull() ?: 0.0
                     binding.discountPriceTextview.setTextColor(resources.getColor(R.color.black))
-                    binding.discountPriceTextview.text = "-$0.0"
+                    binding.discountPriceTextview.text = "- ${currencyPref.currencySymbol} 0.0"
                 }
             }
 
@@ -236,7 +246,7 @@ class OrderReview : Fragment() {
 
     private fun createPaymentIntent(amount: Double) {
         // Call your backend API to create a payment intent
-        paymentService.createPaymentIntent(amount, "usd")
+        paymentService.createPaymentIntent(amount, currencyPref.currencyCode.lowercase()) //1000, "usd" for example
             .enqueue(object : Callback<PaymentIntentResponse> {
                 override fun onResponse(
                     call: Call<PaymentIntentResponse>,
