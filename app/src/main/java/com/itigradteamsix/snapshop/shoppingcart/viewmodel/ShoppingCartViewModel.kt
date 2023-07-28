@@ -13,6 +13,7 @@ import com.itigradteamsix.snapshop.network.ApiState
 import com.itigradteamsix.snapshop.settings.currency.CurrencyUtils.convertCurrency
 import com.itigradteamsix.snapshop.settings.currency.CurrencyUtils.convertCurrencyWithoutSymbol
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -111,7 +112,9 @@ class ShoppingCartViewModel(private val repoInterface: RepoInterface) : ViewMode
                 draftOrder.id!!,
                 DraftOrderResponse(newOrder)
             )
-            _cartDraftOrder.emit(ApiState.Success(resultOrder))
+//            _cartDraftOrder.emit(ApiState.Success(resultOrder))
+
+            getCartDraftOrder()
 
 
         }
@@ -139,7 +142,8 @@ class ShoppingCartViewModel(private val repoInterface: RepoInterface) : ViewMode
                     draftOrder.id!!,
                     DraftOrderResponse(newOrder)
                 )
-                _cartDraftOrder.emit(ApiState.Success(resultOrder))
+//                _cartDraftOrder.emit(ApiState.Success(resultOrder))
+                getCartDraftOrder()
 
 
             }
@@ -168,7 +172,8 @@ class ShoppingCartViewModel(private val repoInterface: RepoInterface) : ViewMode
             )
             Log.d("cartDraftOrderInDetails:", "resultOrderLineItems: ${resultOrder?.line_items}")
             if (!resultOrder?.line_items.isNullOrEmpty()) {
-                _cartDraftOrder.emit(ApiState.Success(resultOrder))
+//                _cartDraftOrder.emit(ApiState.Success(resultOrder))
+                getCartDraftOrder()
 
             } else {
                 _cartDraftOrder.emit(ApiState.Failure("DraftOrder is null"))
@@ -179,10 +184,11 @@ class ShoppingCartViewModel(private val repoInterface: RepoInterface) : ViewMode
 
     fun completeDraftOrder() {
         viewModelScope.launch(Dispatchers.IO) {
+            _orderCompleteState.emit(true)
+
             val draftOrder = (cartDraftOrder.value as ApiState.Success<*>).data as DraftOrder
-            val orderCompletion = ApiClient.completeDraftOrder(draftOrder.id!!)
-            Log.d(TAG, "completeDraftOrder: $orderCompletion")
-            _orderCompleteState.emit(orderCompletion)
+            val completion = ApiClient.completeDraftOrder(draftOrder.id!!)
+//            Log.d(TAG, "completeDraftOrder: $orderCompletion")
 
         }
     }
