@@ -97,7 +97,7 @@ class LoginFragment : Fragment() {
         ).get(LoginViewModel::class.java)
         val signupViewModelFactory = SignupViewModelFactory(FirebaseRepo(auth))
          signupViewModel = ViewModelProvider(
-            requireActivity(),
+            this,
             signupViewModelFactory
         ).get(SignupViewModel::class.java)
         binding.txtSignUp.setOnClickListener {

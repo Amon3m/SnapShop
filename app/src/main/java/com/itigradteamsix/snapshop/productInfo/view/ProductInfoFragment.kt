@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
+import com.itigradteamsix.snapshop.MyApplication
 import com.itigradteamsix.snapshop.R
 import com.itigradteamsix.snapshop.authentication.FirebaseRepo
 import com.itigradteamsix.snapshop.authentication.login.model.ApiDraftLoginState
@@ -35,8 +36,10 @@ import com.itigradteamsix.snapshop.network.ApiClient
 import com.itigradteamsix.snapshop.network.ApiState
 import com.itigradteamsix.snapshop.productInfo.viewmodel.ProductInfoViewModel
 import com.itigradteamsix.snapshop.productInfo.viewmodel.ProductInfoViewModelFactory
+import com.itigradteamsix.snapshop.settings.data.UserPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class ProductInfoFragment : Fragment() {
@@ -51,11 +54,20 @@ class ProductInfoFragment : Fragment() {
     private var draftID : String? = null
     private var isFav : Boolean = false
     private lateinit var failureDialog: AlertDialog
+    lateinit var userPreferences: UserPreferences
 
 
 
 
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        lifecycleScope.launch {
+            MyApplication.appInstance.settingsStore.userPreferencesFlow.first().let {
+                userPreferences = it
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,6 +80,9 @@ class ProductInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.d("onviewcrreated","new")
         super.onViewCreated(view, savedInstanceState)
+
+
+
         val  productViewModelFactory= ProductInfoViewModelFactory(
             Repository.getInstance(ApiClient, ConcreteLocalSource(requireContext())),
             FirebaseRepo(auth = FirebaseAuth.getInstance())
@@ -107,6 +122,10 @@ class ProductInfoFragment : Fragment() {
 
                         is ApiState.Success<*> -> {
                             showContent()
+                            if (userPreferences.isGuest){
+                                binding.favoriteBtn.visibility = View.GONE
+                            }
+
                             receivedProduct = it.data as Product
                             setDataToViews(receivedProduct!!)
 
@@ -166,7 +185,8 @@ class ProductInfoFragment : Fragment() {
 
                         is ApiDraftLoginState.Failure -> {
                             Log.d("PIDraftFlowCollect", result.exception.message.toString())
-                            showMsgDialog(result.exception.message!!)
+                            Toast.makeText(MyApplication.appContext,"NO INTERNET!",Toast.LENGTH_SHORT).show()
+//                            showMsgDialog(result.exception.message!!)
                         }
                     }
 

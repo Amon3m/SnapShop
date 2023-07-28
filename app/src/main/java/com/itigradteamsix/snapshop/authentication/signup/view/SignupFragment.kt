@@ -75,7 +75,7 @@ class SignupFragment : Fragment() {
             .setView(ProgressBar(requireContext()))
             .create()
         val signupViewModelFactory = SignupViewModelFactory(FirebaseRepo(auth))
-        viewModel = ViewModelProvider(requireActivity(),signupViewModelFactory)[SignupViewModel::class.java]
+        viewModel = ViewModelProvider(this,signupViewModelFactory)[SignupViewModel::class.java]
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("816262035436-t2v98he45fijhlkbgqsm3jhq535atsrk.apps.googleusercontent.com")
             .requestEmail()

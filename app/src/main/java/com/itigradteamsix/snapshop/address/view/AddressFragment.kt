@@ -2,40 +2,28 @@ package com.itigradteamsix.snapshop.address.view
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.location.Address
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
-import com.google.firebase.auth.FirebaseAuth
 import com.itigradteamsix.snapshop.MyApplication
-import com.itigradteamsix.snapshop.R
 import com.itigradteamsix.snapshop.address.viewmodel.AddressViewModel
 import com.itigradteamsix.snapshop.address.viewmodel.AddressViewModelFactory
-import com.itigradteamsix.snapshop.authentication.FirebaseRepo
-import com.itigradteamsix.snapshop.authentication.login.model.ApiDraftLoginState
 import com.itigradteamsix.snapshop.database.ConcreteLocalSource
 import com.itigradteamsix.snapshop.databinding.FragmentAddressBinding
-import com.itigradteamsix.snapshop.favorite.model.LineItems
-import com.itigradteamsix.snapshop.favorite.view.FavoriteAdapter
-import com.itigradteamsix.snapshop.favorite.view.WishlistFragmentDirections
-import com.itigradteamsix.snapshop.favorite.viewmodel.FavoriteViewModel
-import com.itigradteamsix.snapshop.favorite.viewmodel.FavoriteViewModelFactory
-import com.itigradteamsix.snapshop.home.view.SearchAdapter
 import com.itigradteamsix.snapshop.model.Repository
 import com.itigradteamsix.snapshop.network.ApiClient
 import com.itigradteamsix.snapshop.network.ApiState
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
+import com.itigradteamsix.snapshop.shoppingcart.order.OrderReviewDirections
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -59,12 +47,21 @@ class AddressFragment : Fragment() , OnDeleteListener{
         return binding.root
     }
 
+
+
+
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val addressViewModelFactory = AddressViewModelFactory(
             Repository.getInstance(ApiClient, ConcreteLocalSource(requireContext()))
         )
+
+        this.onBackPressedCustomAction {
+            val action = AddressFragmentDirections.actionAddressFragmentToProfileFragment()
+            requireView().findNavController().navigate(action)
+
+        }
 
         viewModel = ViewModelProvider(
             this,
@@ -156,6 +153,15 @@ class AddressFragment : Fragment() , OnDeleteListener{
 //            adapter.notifyDataSetChanged()
 //        },600 )
         adapter.notifyDataSetChanged()
+    }
+
+    fun Fragment.onBackPressedCustomAction(action: () -> Unit) {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override
+            fun handleOnBackPressed() {
+                action()
+            }
+        })
     }
 
 
