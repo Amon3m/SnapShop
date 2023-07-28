@@ -19,10 +19,7 @@ class ConcreteLocalSource(context: Context): LocalSource {
 
 
 
-    override suspend fun getSomeListFromDatabase(): Flow<List<String>> {
-//        TODO("Not yet implemented")
-        return emptyFlow()
-    }
+
 
 
 }

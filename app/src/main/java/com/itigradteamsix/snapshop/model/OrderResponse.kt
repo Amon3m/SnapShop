@@ -521,7 +521,7 @@ data class OrdersItem(
 	val browserIp: String? = null,
 
 	@field:SerializedName("email")
-	val email: String? = null,
+	var email: String? = null,
 
 	@field:SerializedName("source_name")
 	val sourceName: String? = null,

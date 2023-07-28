@@ -51,10 +51,7 @@ class Repository private constructor(
         return flowOf(remoteSource.getSmartCollections())}
 
 
-    override suspend fun getSomeListFromDatabase(): Flow<List<String>> {
-        return concreteLocalSource.getSomeListFromDatabase()
 
-    }
     override suspend fun updateDraftOrder(
         draftOrderId: Long,
         draftResponse: DraftOrderResponse
