@@ -3,6 +3,7 @@ package com.itigradteamsix.snapshop.home.view
 import android.app.ActionBar.OnMenuVisibilityListener
 import android.content.ContentValues
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -16,13 +17,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
 import com.bumptech.glide.Glide
+import com.itigradteamsix.snapshop.MyApplication
 import com.itigradteamsix.snapshop.R
 import com.itigradteamsix.snapshop.Utilities
 import com.itigradteamsix.snapshop.database.ConcreteLocalSource
 import com.itigradteamsix.snapshop.databinding.FragmentHomeBinding
 import com.itigradteamsix.snapshop.home.viewmodel.HomeViewModel
 import com.itigradteamsix.snapshop.home.viewmodel.HomeViewModelFactory
+import com.itigradteamsix.snapshop.model.Coupon
 import com.itigradteamsix.snapshop.model.Product
 import com.itigradteamsix.snapshop.model.ProductListResponse
 import com.itigradteamsix.snapshop.model.Repository
@@ -40,6 +44,12 @@ class HomeFragment : Fragment() {
     lateinit var binding: FragmentHomeBinding
     lateinit var homeViewModel: HomeViewModel
     lateinit var homeViewModelFactory: HomeViewModelFactory
+    private val autoScrollHandler = Handler()
+    private var currentItemPosition = 0
+    private lateinit var adsAdapter: AdsAdapter
+
+
+
     lateinit var adapter: SearchAdapter
     var productsList = mutableListOf<Product>()
     private val searchQueryFlow = MutableStateFlow("")
@@ -65,16 +75,18 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         adapter = SearchAdapter(requireContext())
-        binding.searchRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.searchRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.searchRv.adapter = adapter
 
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         homeViewModel.getSmartCollections(requireContext())
+
+        setupAdsRecyclerView()
+
         homeViewModel.getAllProducts(requireContext())
         lifecycleScope.launch {
             homeViewModel.smartCollection.collect {
@@ -145,8 +157,10 @@ class HomeFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                adapter.submitList(null)
                 searchQueryFlow.value = s.toString()
                 updateRecyclerViewVisibility(s.toString())
+
 
             }
 
@@ -165,10 +179,24 @@ class HomeFragment : Fragment() {
         binding.menCard.setOnClickListener {goToCategory(Utilities.MEN_COLLECTION_ID) }
         binding.womenCard.setOnClickListener {goToCategory(Utilities.WOMEN_COLLECTION_ID) }
 
+    }
 
+    private fun setupAdsRecyclerView() {
+        adsAdapter = AdsAdapter()
+        binding.adsRecyclerView.adapter = adsAdapter
+        binding.adsRecyclerView.setHasFixedSize(true)
 
+        binding.adsRecyclerView.layoutManager =
+            LinearLayoutManager(
+                MyApplication.appContext,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+        val snapHelper = LinearSnapHelper()
+        snapHelper.attachToRecyclerView(binding.adsRecyclerView)
 
-
+        adsAdapter.submitList(Coupon.coupons)
+        startAutoScrolling()
     }
 
     fun goToCategory(id: Long){
@@ -220,18 +248,21 @@ class HomeFragment : Fragment() {
 
     }
     private fun updateFilteredProductsList() {
+
+        val query = searchQueryFlow.value
         val filteredProducts = productsList.filter { product ->
             product.title.startsWith(searchQueryFlow.value, ignoreCase = true)
         }
+        Log.d("Search", "Search query: $query")
+        Log.d("Search", "Filtered products count: ${filteredProducts.size}")
+        Log.d("Search", "Filtered products  ${filteredProducts}")
         adapter.submitList(filteredProducts)
     }
     private fun updateRecyclerViewVisibility(query: String) {
         if (query.isNotEmpty()) {
             binding.searchRv.visibility = View.VISIBLE
-            binding.searchRv.layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT
         } else {
             binding.searchRv.visibility = View.GONE
-            binding.searchRv.layoutParams.height = 0
 
         }
     }
@@ -247,6 +278,27 @@ class HomeFragment : Fragment() {
             binding.progressBar3.visibility = View.GONE
             binding.progressBar4.visibility = View.GONE
         }
+    }
+
+    private fun startAutoScrolling() {
+        autoScrollHandler.postDelayed(autoScrollRunnable, 3000)
+    }
+
+    private val autoScrollRunnable = object : Runnable {
+        override fun run() {
+            // Increment the current item position and make sure it doesn't exceed the total item count
+            currentItemPosition = (currentItemPosition + 1) % adsAdapter.itemCount
+            binding.adsRecyclerView.smoothScrollToPosition(currentItemPosition)
+            autoScrollHandler.postDelayed(this, 3000)
+        }
+    }
+
+
+
+    override fun onDestroy() {
+        // Remove the auto-scrolling runnable when the activity is destroyed to prevent leaks
+        autoScrollHandler.removeCallbacks(autoScrollRunnable)
+        super.onDestroy()
     }
 
 }

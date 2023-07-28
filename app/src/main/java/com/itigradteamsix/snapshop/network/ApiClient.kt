@@ -3,22 +3,37 @@ package com.itigradteamsix.snapshop.network
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.itigradteamsix.snapshop.MyApplication
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
+import com.itigradteamsix.snapshop.data.models.Address
+import com.itigradteamsix.snapshop.data.models.AddressBody
 import com.itigradteamsix.snapshop.data.repository.remote.ApiServices
-import com.itigradteamsix.snapshop.model.Customer
 import com.itigradteamsix.snapshop.favorite.model.DraftOrder
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import com.itigradteamsix.snapshop.model.CreateOrderResponse
+import com.itigradteamsix.snapshop.model.Customer
+import com.itigradteamsix.snapshop.model.Discount
+import com.itigradteamsix.snapshop.model.DraftOrderRequest
+import com.itigradteamsix.snapshop.model.LineItem
 import com.itigradteamsix.snapshop.model.ListProductsResponse
 import com.itigradteamsix.snapshop.model.OrderResponse
+import com.itigradteamsix.snapshop.model.MetaFieldCustomerInput
+import com.itigradteamsix.snapshop.model.MetaFieldCustomerRequest
+import com.itigradteamsix.snapshop.model.MetaFieldResponse
+import com.itigradteamsix.snapshop.model.MetafieldInput
 import com.itigradteamsix.snapshop.model.Product
 
 import com.itigradteamsix.snapshop.model.ProductListResponse
 import com.itigradteamsix.snapshop.model.SmartCollectionResponse
 import com.itigradteamsix.snapshop.model.SmartCollectionsResponse
+import com.itigradteamsix.snapshop.model.UpdateMetafieldInput
+import com.itigradteamsix.snapshop.model.UpdateMetafieldRequest
 import com.itigradteamsix.snapshop.network.Api.apiService
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -27,6 +42,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 const val BASE_URL = "https://itp-sv-and6.myshopify.com/admin/api/2023-07/"
+const val TAG = "ApiClientLOGS"
 
 object ApiClient : RemoteSource {
 
@@ -101,6 +117,63 @@ object ApiClient : RemoteSource {
         return response
     }
 
+    override suspend fun getCustomerById(customerId: Long): Customer? {
+        var response: Customer? = null
+        try {
+            val wholeResponse = apiService.getCustomerById(customerId)
+            Log.d("getCustomerById", wholeResponse.customer.toString())
+            response = wholeResponse.customer
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return response
+    }
+
+
+    override suspend fun getCustomerMetafields(customerId: Long): List<MetaFieldResponse> {
+        var listOfCustomerMetafields: List<MetaFieldResponse> = emptyList()
+        try {
+            val wholeResponse = apiService.getCustomerMetafields(customerId)
+            listOfCustomerMetafields = wholeResponse.metafields
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return listOfCustomerMetafields
+
+    }
+
+    suspend fun updateDraftOrderInCustomerMetaField(metafieldId: Long, newDraftOrderId: String, customerId: Long){
+        try {
+            // Create the metafield request with the updated value
+            val metafieldRequest = UpdateMetafieldRequest(
+                metafield = UpdateMetafieldInput(
+                    id = metafieldId,
+                    value = newDraftOrderId,
+                    type = "single_line_text_field"
+                )
+            )
+
+            // Make the PUT request to update the customer metafield
+            val metafieldResponse = apiService.newUpdateCustomerMetafield(customerId, metafieldId, metafieldRequest)
+            println("Metafield updated successfully: ${metafieldResponse.metafield}")
+
+        } catch (e: Exception) {
+            println("Error updating metafield: ${e.message}")
+        }
+    }
+
+
+    override suspend fun updateCustomerMetafield(
+        customerId: Long,
+        customer: MetaFieldCustomerRequest
+    ) {
+        try {
+            apiService.createCustomerMetafield(customerId, customer)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
 
     override suspend fun createDraftOrder(draftResponse:DraftOrderResponse): DraftOrder? {
         var response: DraftOrder? = null
@@ -129,7 +202,150 @@ object ApiClient : RemoteSource {
         Log.d("retrofitgetDraft", response?.id.toString())
         return response
     }
-    override suspend fun updateDraftOrder(draftOrderId : Long , draftResponse:DraftOrderResponse): DraftOrder? {
+
+
+    override suspend fun newCreateDraftOrder(draftOrder: DraftOrderRequest): DraftOrderResponse? {
+        var response: DraftOrderResponse? = null
+        try {
+            val wholeResponse = apiService.newCreateDraftOrder(draftOrder)
+            response = wholeResponse
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfCreateDraftException", e.message.toString())
+
+        }
+        Log.d("retrofitCreateDraft", response?.draft_order?.id.toString())
+        return response
+    }
+
+    //complete a draft order and create a  new draft order then return its id and register it in the datastore
+    suspend fun completeDraftOrder(draftOrderId: Long): Boolean {
+        var newDraftOrderId: Long? = 0L
+        var orderSuccess = false
+        try {
+            apiService.completeDraftOrder(draftOrderId)
+            val newDraftOrderResponse = apiService.newCreateDraftOrder(DraftOrderRequest(com.itigradteamsix.snapshop.model.CreateDraftOrder(
+                name = "cart_draft",
+                line_items = listOf(
+                    LineItem(
+                    title = "empty",
+                    quantity = 1,
+                    price = "0"
+                )
+            ),
+                customer = Customer(id = MyApplication.appInstance.settingsStore.userPreferencesFlow.first().customerId) //to send confirmation email
+            )))
+
+            newDraftOrderId = newDraftOrderResponse.draft_order?.id
+
+            MyApplication.appInstance.settingsStore.userPreferencesFlow.collectLatest {
+                //register it in the metafield and datastore
+                MyApplication.appInstance.settingsStore.updateCartDraftOrderId(
+                    newDraftOrderId!!
+                )
+                orderSuccess = true
+//                delay(2000)
+                Log.d("newDraftOrderId", " draft id $newDraftOrderId + customer ${it.customerId} + metafield ${it.metaFieldId}")
+//                updateCustomerMetafield(
+//                    it.customerId, MetaFieldCustomerRequest(
+//                        MetaFieldCustomerInput(
+//                            it.customerId,
+//                            listOf(
+//                                MetafieldInput(
+//                                    "draft_order_id",
+//                                    value = "$newDraftOrderId",
+//                                    "single_line_text_field",
+//                                    "global"
+//                                )
+//                            )
+//                        )
+//                    )
+//                )
+
+//                updateDraftOrderInCustomerMetaField(it.metaFieldId, newDraftOrderId.toString(), it.customerId) //TODO uncomment
+                orderSuccess = true
+
+            }
+
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfCompleteDraftException", e.message.toString())
+            orderSuccess = false
+
+        }
+        Log.d("newDraftOrderId", newDraftOrderId.toString())
+        return orderSuccess
+    }
+
+    //apply discount to the draft order
+     suspend fun completeDraftOrderWithDiscount(appliedDiscount: Discount,draftOrderId: Long){
+//        try {
+//            // Create the applied discount object
+//            val appliedDiscount = Discount(
+//                description = "Custom discount",
+//                value_type = "percentage",
+//                value = "10.0",
+//                amount = "19.90",
+//                title = "Custom"
+//            )
+//
+//            // Create the draft order request with the updated applied discount
+//            val draftOrderRequest = DraftOrderRequest(
+//                draft_order = DraftOrderInput(
+//                    id = draftOrderId,
+//                    applied_discount = appliedDiscount
+//                )
+//            )
+//
+//            // Make the PUT request to update the draft order
+//            val draftOrderResponse = shopifyApi.updateDraftOrder(draftOrderId, draftOrderRequest)
+//            println("Draft order updated successfully: ${draftOrderResponse.draft_order}")
+//
+//        } catch (e: Exception) {
+//            println("Error applying discount on draft order: ${e.message}")
+//        }
+     }
+
+
+    suspend fun getDraftOrderAsFlow(id: Long): Flow<DraftOrder>? {
+        var response: Flow<DraftOrder>? = null
+        try {
+            val draftOrderMaybe = apiService.getDraftOrder(id)
+            if (draftOrderMaybe.draft_order != null) {
+                response = flowOf(draftOrderMaybe.draft_order!!)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d(TAG, e.message.toString())
+        }
+        return response
+
+    }
+
+    //pass the new modifiedDraftOrder in DraftOrderResponse wrapper
+    suspend fun updateDraftOrderWithNewItems(
+        draftOrderId: Long,
+        modifiedDraftOrder: DraftOrderResponse
+    ): DraftOrder? {
+        var response: DraftOrder? = null
+        try {
+            val wholeResponse = Api.apiService.updateDraftOrder(draftOrderId, modifiedDraftOrder)
+            response = wholeResponse.draft_order
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfUpdateDraftException", e.message.toString())
+
+        }
+        Log.d("retrofitUpdateDraft", response?.id.toString())
+        return response
+    }
+
+
+    override suspend fun updateDraftOrder(
+        draftOrderId: Long,
+        draftResponse: DraftOrderResponse
+    ): DraftOrder? {
         var response: DraftOrder? = null
         try {
             val wholeResponse = Api.apiService.updateDraftOrder(draftOrderId,draftResponse)
@@ -158,6 +374,56 @@ object ApiClient : RemoteSource {
         return response
     }
 
+    override suspend fun getAllAddresses(customer_id: String): List<Address>? {
+        var response: List<Address>? = null
+        try {
+            val wholeResponse = apiService.getAllAddresses(customer_id)
+            Log.d("getAddressesRFTTry", wholeResponse.toString())
+            response =  wholeResponse.addresses
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfGetAddressException",e.message.toString())
+
+        }
+//        Log.d("retrofitgetAddress", response?.get(0))
+        return response    }
+
+    override suspend fun addNewAddress(customer_id: String, address: AddressBody): Address? {
+        var response: Address? = null
+        try {
+            val wholeResponse = apiService.addNewAddressForUser(customer_id,address)
+            Log.d("addAddressesRFTTry", wholeResponse.toString())
+            response =  wholeResponse.customer_address
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfAddAddressException",e.message.toString())
+
+        }
+//        Log.d("retrofitgetAddress", response?.get(0))
+        return response      }
+
+    override suspend fun removeAddress(address_id: String, customer_id: String) {
+        try {
+            val wholeResponse = apiService.removeAddress(address_id,customer_id)
+            Log.d("deleteAddressesRFTTry", wholeResponse.toString())
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfDeleteAddressException",e.message.toString())
+
+        }
+    }
+
+    override suspend fun makeAddressDefault(customer_id: String, address_id: String) {
+        try {
+            val wholeResponse = apiService.makeAddressDefault(customer_id,address_id)
+            Log.d("defaultAddressesRFTTry", wholeResponse.toString())
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("rfDeffaultAddressException",e.message.toString())
+
+        }    }
     override suspend fun createOrder(draftOrderId: Long): CreateOrderResponse? {
         return Api.apiService.createOrder(draftOrderId)
     }
@@ -187,6 +453,7 @@ private val okHttpClient by lazy {
                 .build()
             chain.proceed(request)
         }
+        .addInterceptor(RateLimitInterceptor())
         .build()
 }
 

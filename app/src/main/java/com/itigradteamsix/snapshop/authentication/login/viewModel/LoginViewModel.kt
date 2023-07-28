@@ -31,6 +31,8 @@ class LoginViewModel(val iRepo: FirebaseRepoInterface)  : ViewModel() {
     private val _getDraftFlow : MutableStateFlow<ApiDraftLoginState> = MutableStateFlow(
         ApiDraftLoginState.Loading)
     val getDraftFlow: StateFlow<ApiDraftLoginState> = _getDraftFlow
+
+
     fun loginUser(email : String , password :String) {
         viewModelScope.launch {
             _loginResultFlow.value= iRepo.loginUser(email,password)!!
@@ -49,6 +51,8 @@ class LoginViewModel(val iRepo: FirebaseRepoInterface)  : ViewModel() {
         }
     }
 
+
+
     //add user to datastore to avoid login again
     fun addUserToDataStore(isGuest : Boolean , user : Customer?) {
         viewModelScope.launch {
@@ -61,6 +65,8 @@ class LoginViewModel(val iRepo: FirebaseRepoInterface)  : ViewModel() {
                     customerName = "",
                     customerEmail = "",
                     userCurrency = "usd",
+                    0,
+                    0
                 ))
             }else{
                 MyApplication.appInstance.settingsStore.updateUserPreferences(UserPreferences(
@@ -71,6 +77,8 @@ class LoginViewModel(val iRepo: FirebaseRepoInterface)  : ViewModel() {
                     customerName = user.first_name + " " + user.last_name,
                     customerEmail = user.email!!,
                     userCurrency = "usd",
+                    0,
+                    0
                 ))
             }
         }

@@ -19,7 +19,6 @@ import androidx.navigation.findNavController
 class SearchAdapter (var context: Context) : ListAdapter<Product, SearchAdapter.ViewHolder>(
     DiffUtils
 ) {
-
     class ViewHolder(val binding: SearchRowBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,8 +26,6 @@ class SearchAdapter (var context: Context) : ListAdapter<Product, SearchAdapter.
 
         return ViewHolder(binding)    }
 
-    @SuppressLint("SetTextI18n")
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val product = getItem(position)
         holder.binding.txtViewProductName.text  = product.title
@@ -36,11 +33,10 @@ class SearchAdapter (var context: Context) : ListAdapter<Product, SearchAdapter.
 
             val action = HomeFragmentDirections.actionHomeFragmentToProductInfoFragment(product.id)
             holder.binding.root.findNavController().navigate(action)         }
-
     }
     object DiffUtils : DiffUtil.ItemCallback<Product>() {
         override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
-            return oldItem === newItem
+            return oldItem == newItem
         }
 
         override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {

@@ -18,6 +18,9 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.itigradteamsix.snapshop.MainActivity
 import com.itigradteamsix.snapshop.R
@@ -26,6 +29,7 @@ import com.itigradteamsix.snapshop.authentication.signup.model.ApiCustomerState
 import com.itigradteamsix.snapshop.authentication.signup.model.AuthState
 import com.itigradteamsix.snapshop.authentication.FirebaseRepo
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
+import com.itigradteamsix.snapshop.authentication.login.view.LoginFragment
 import com.itigradteamsix.snapshop.authentication.signup.model.SignupUser
 import com.itigradteamsix.snapshop.authentication.signup.viewModel.SignupViewModel
 import com.itigradteamsix.snapshop.authentication.signup.viewModel.SignupViewModelFactory
@@ -45,6 +49,8 @@ class SignupFragment : Fragment() {
     private val auth : FirebaseAuth =FirebaseAuth.getInstance()
     private lateinit var loadingDialog: AlertDialog
     private lateinit var draftId: String
+    private lateinit var googleSignInClient: GoogleSignInClient
+
 
 
 
@@ -55,6 +61,7 @@ class SignupFragment : Fragment() {
     }
 
     override fun onCreateView(
+
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
@@ -69,7 +76,13 @@ class SignupFragment : Fragment() {
             .setView(ProgressBar(requireContext()))
             .create()
         val signupViewModelFactory = SignupViewModelFactory(FirebaseRepo(auth))
-        viewModel = ViewModelProvider(requireActivity(),signupViewModelFactory).get(SignupViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity(),signupViewModelFactory)[SignupViewModel::class.java]
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken("816262035436-t2v98he45fijhlkbgqsm3jhq535atsrk.apps.googleusercontent.com")
+            .requestEmail()
+            .build()
+        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+
         binding.txtLogin.setOnClickListener {
             Navigation.findNavController(requireView())
                 .navigate(R.id.action_signupFragment2_to_loginFragment2)
@@ -131,6 +144,7 @@ class SignupFragment : Fragment() {
                             price = "0"
                         ))
                         )))
+
                         Toast.makeText(
                             requireContext(),
                             "Sorry "+userNAme+ ", Please verify your email and login",
@@ -258,6 +272,7 @@ class SignupFragment : Fragment() {
         val passwordRegex =
             Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@\$!%*?&])[A-Za-z\\d@\$!%*?&]{8,}$")
         return passwordRegex.matches(this)
+
     }
     private fun clearErrorMsgs() {
         binding.emailLayoutSignup.error = null

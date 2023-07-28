@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import com.itigradteamsix.snapshop.MyApplication
 import com.itigradteamsix.snapshop.R
 import com.itigradteamsix.snapshop.Utilities
 import com.itigradteamsix.snapshop.database.ConcreteLocalSource
@@ -23,6 +24,8 @@ import com.itigradteamsix.snapshop.network.ApiClient
 import com.itigradteamsix.snapshop.network.ApiState
 import com.itigradteamsix.snapshop.products.viewmodel.ProductViewModel
 import com.itigradteamsix.snapshop.products.viewmodel.ProductViewModelFactory
+import com.itigradteamsix.snapshop.settings.data.CurrencyPreferences
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 
@@ -43,6 +46,8 @@ class CategoryFragment : Fragment(), OnProductsClickListener, FilterOptionsListe
     var isFiltered: Boolean = false
     var isPrice: Boolean = false
     var isType: Boolean = false
+    lateinit var currencyPref : CurrencyPreferences
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +60,12 @@ class CategoryFragment : Fragment(), OnProductsClickListener, FilterOptionsListe
 
         productViewModel =
             ViewModelProvider(this, productViewModelFactory).get(ProductViewModel::class.java)
+
+        lifecycleScope.launch {
+            MyApplication.appInstance.settingsStore.currencyPreferencesFlow.first().let {
+                currencyPref = it
+            }
+        }
 
     }
 
@@ -81,7 +92,7 @@ class CategoryFragment : Fragment(), OnProductsClickListener, FilterOptionsListe
 
 
         productViewModel.getProducts(requireContext(), collectionId)
-        productsAdapter = ProductsAdapter(requireContext(), this)
+        productsAdapter = ProductsAdapter(currencyPref, requireContext(), this)
 
         binding.catRecycl.apply {
             adapter = productsAdapter

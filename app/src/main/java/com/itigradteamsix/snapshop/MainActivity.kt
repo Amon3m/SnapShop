@@ -9,6 +9,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.itigradteamsix.snapshop.databinding.ActivityMainBinding
 import com.itigradteamsix.snapshop.home.view.HomeFragment
+import com.stripe.android.paymentsheet.PaymentSheet
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
 
         setSupportActionBar(binding.topAppBar)
+
 
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -47,6 +49,21 @@ class MainActivity : AppCompatActivity() {
                     supportActionBar?.setDisplayHomeAsUpEnabled(false);
                     supportActionBar?.setDisplayShowHomeEnabled(false);
                     binding.bottomNavigationView.visibility=VISIBLE
+
+                }
+                R.id.addressFragment->{
+
+                    binding.topAppBar.title = getString(R.string.addresses)
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true);
+                    supportActionBar?.setDisplayShowHomeEnabled(true);
+
+                }
+                R.id.mapFragment->{
+
+//                    binding.topAppBar.title = getString(R.string.addresses)
+
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true);
+                    supportActionBar?.setDisplayShowHomeEnabled(true);
 
                 }
                 R.id.wishlistFragment -> {
