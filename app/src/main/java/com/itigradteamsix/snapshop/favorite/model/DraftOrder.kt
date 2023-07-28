@@ -3,7 +3,7 @@ package com.itigradteamsix.snapshop.favorite.model
 import com.itigradteamsix.snapshop.model.Customer
 
 data class DraftOrderResponse(
-    val draft_order: DraftOrder? = null
+    var draft_order: DraftOrder? = null
 )
 
 data class DraftOrder(
@@ -15,11 +15,11 @@ data class DraftOrder(
     val invoice_sent_at: String? = null,
     val created_at: String? = null,
     val updated_at: String? = null,
-    val tax_exempt: Boolean? = null,
+    val tax_exempt: Boolean = true,  //HAMZA
     val completed_at: String? = null,
     val name: String? = null,
     val status: String? = null,
-    val line_items: List<LineItems>? = null,
+    var line_items: List<LineItems>? = null,
     val shipping_address: ShippingAddress? = null,
     val billing_address: BillingAddress? = null,
     val invoice_url: String? = null,
@@ -29,7 +29,7 @@ data class DraftOrder(
     val tax_lines: List<TaxLine>? = null,
     val tags: String? = null,
     val note_attributes: List<String>? = null,
-    val total_price: String? = null,
+    var total_price: String? = null,
     val subtotal_price: String? = null,
     val total_tax: String? = null,
     val payment_terms: String? = null,
@@ -45,7 +45,7 @@ data class LineItems(
     val variant_title: String? = null,
     val sku: String? = null,
     val vendor: String? = null,
-    val quantity: Int? = null,
+    var quantity: Int? = null,
     val requires_shipping: Boolean? = null,
     val taxable: Boolean? = null,
     val gift_card: Boolean? = null,
@@ -54,10 +54,15 @@ data class LineItems(
     val tax_lines: List<TaxLine>? = null,
     val applied_discount: AppliedDiscount? = null,
     val name: String? = null,
-    val properties: List<Any>? = null,
+    val properties: List<LineItemProperty>? = null,
     val custom: Boolean? = null,
-    val price: String? = null,
+    var price: String? = null,
     val admin_graphql_api_id: String? = null
+)
+
+data class LineItemProperty(
+    val name: String,
+    val value: String
 )
 
 data class ShippingAddress(

@@ -10,7 +10,7 @@
     <string name="total_items">مجموع العناصر</string>
     <string name="total_items_price">380,99$</string>
     <string name="discount">خصم</string>
-    <string name="discount_price">-20,00$</string>
+    <string name="discount_price">-0,00$</string>
     <string name="total">المجموع</string>
     <string name="total_price">360,99$</string>
     <string name="promo_code">كود الخصم</string>
@@ -32,6 +32,10 @@
     <string name="special_offer">Special Offer</string>
     <string name="created">created</string>
     <string name="select">Select</string>
+    <string name="a_z">A~Z</string>
+    <string name="down_arrow">↓</string>
+    <string name="up_arrow">↑</string>
+    <string name="dolar_sign">$</string>
     <string name="personal_data">البيانات الشخصية</string>
     <string name="addresses">العناوين</string>
     <string name="see_all">مشاهدة الكل</string>
@@ -44,4 +48,12 @@
     <string name="choose_language">اختر اللغة</string>
     <string name="you_are_a_guest">أنت زائر</string>
     <string name="go_to_login">الذهاب لتسجيل الدخول</string>
+    <string name="empty_cart">سلة التسوق فارغة</string>
+    <string name="payment">الدفع</string>
+    <string name="items">العناصر</string>
+    <string name="shipping">الشحن</string>
+    <string name="dummy_address">العاشر من رمضان، المجاورة الخامسة</string>
+    <string name="place_order">تأكيد الطلب</string>
+    <string name="visa_card" >بطاقة فيزا</string>
+    <string name="cash_on_delivery">الدفع عند الاستلام</string>
 </resources>

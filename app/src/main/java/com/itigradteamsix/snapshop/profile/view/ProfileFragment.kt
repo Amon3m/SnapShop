@@ -86,6 +86,12 @@ class ProfileFragment : Fragment() {
         }
 
 
+        binding.clAddresses.setOnClickListener {
+            Navigation.findNavController(requireView())
+                .navigate(R.id.action_profileFragment_to_addressFragment)
+        }
+
+
 
     }
 

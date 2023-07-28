@@ -3,6 +3,11 @@ package com.itigradteamsix.snapshop.authentication
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
+import com.itigradteamsix.snapshop.authentication.signup.model.APiDraftState
+import com.itigradteamsix.snapshop.authentication.login.model.ApiCustomerLoginState
+import com.itigradteamsix.snapshop.authentication.signup.model.ApiCustomerState
+import com.itigradteamsix.snapshop.authentication.login.model.ApiDraftLoginState
+import com.itigradteamsix.snapshop.authentication.signup.model.AuthState
 import com.itigradteamsix.snapshop.authentication.signup.model.SignupUser
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import com.itigradteamsix.snapshop.network.ApiClient
@@ -17,7 +22,7 @@ class FirebaseRepo (val auth : FirebaseAuth) : FirebaseRepoInterface {
 //                auth.currentUser?.sendEmailVerification()?.await()
 
                 Log.d("insideLoginRepo","email verification sent")
-                return AuthState.Success(false)
+                return AuthState.Success(true) //TODO MAKE IT FALSE
             }
             auth.currentUser?.isEmailVerified?.let { AuthState.Success(true) }
 

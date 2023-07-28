@@ -2,9 +2,9 @@ package com.itigradteamsix.snapshop.authentication.signup.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.itigradteamsix.snapshop.authentication.APiDraftState
-import com.itigradteamsix.snapshop.authentication.ApiCustomerState
-import com.itigradteamsix.snapshop.authentication.AuthState
+import com.itigradteamsix.snapshop.authentication.signup.model.APiDraftState
+import com.itigradteamsix.snapshop.authentication.signup.model.ApiCustomerState
+import com.itigradteamsix.snapshop.authentication.signup.model.AuthState
 import com.itigradteamsix.snapshop.authentication.FirebaseRepoInterface
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
 import com.itigradteamsix.snapshop.authentication.signup.model.SignupUser
@@ -17,7 +17,8 @@ class SignupViewModel(private val iRepo: FirebaseRepoInterface) : ViewModel() {
     private val _signupResultFlow : MutableStateFlow<AuthState> = MutableStateFlow(AuthState.Loading)
     val signupResultFlow: StateFlow<AuthState> = _signupResultFlow
 
-    private val _createCustomerResultFlow : MutableStateFlow<ApiCustomerState> = MutableStateFlow(ApiCustomerState.Loading)
+    private val _createCustomerResultFlow : MutableStateFlow<ApiCustomerState> = MutableStateFlow(
+        ApiCustomerState.Loading)
     val createCustomerResultFlow: StateFlow<ApiCustomerState> = _createCustomerResultFlow
 
     private val _createDraftFlow: MutableStateFlow<APiDraftState> = MutableStateFlow(APiDraftState.Loading)

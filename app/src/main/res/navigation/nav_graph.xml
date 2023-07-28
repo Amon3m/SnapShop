@@ -9,7 +9,11 @@
         android:id="@+id/shoppingCartFragment"
         android:name="com.itigradteamsix.snapshop.shoppingcart.view.ShoppingCartFragment"
         android:label="@string/cart"
-        tools:layout="@layout/fragment_shopping_cart" />
+        tools:layout="@layout/fragment_shopping_cart" >
+        <action
+            android:id="@+id/action_shoppingCartFragment_to_orderReview"
+            app:destination="@id/orderReview" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.itigradteamsix.snapshop.settings.view.SettingsFragment"
@@ -22,13 +26,15 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_brandsFragment"
-            app:destination="@id/brandsFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_productsFragment"
-            app:destination="@id/productsFragment" />
+            app:destination="@id/brandsFragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_homeFragment_to_categoryFragment"
-            app:destination="@id/categoryFragment" />
+            app:destination="@id/categoryFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_homeFragment_to_productInfoFragment"
+            app:destination="@id/productInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -38,38 +44,89 @@
         <action
             android:id="@+id/action_profileFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_addressFragment"
+            app:destination="@id/addressFragment" />
     </fragment>
     <fragment
         android:id="@+id/wishlistFragment"
-        android:name="com.itigradteamsix.snapshop.wishlist.view.WishlistFragment"
+        android:name="com.itigradteamsix.snapshop.favorite.view.WishlistFragment"
         android:label="@string/wishlist"
-        tools:layout="@layout/fragment_wishlist" />
+        tools:layout="@layout/fragment_wishlist" >
+        <action
+            android:id="@+id/action_wishlistFragment_to_productInfoFragment"
+            app:destination="@id/productInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productInfoFragment"
+        android:name="com.itigradteamsix.snapshop.productInfo.view.ProductInfoFragment"
+        android:label="ProductInfoFragment" >
+    <argument
+        android:name="productId"
+        app:argType="long" />
+    </fragment>
     <fragment
         android:id="@+id/brandsFragment"
         android:name="com.itigradteamsix.snapshop.brands.view.BrandsFragment"
         android:label="fragment_brands"
         tools:layout="@layout/fragment_brands" >
         <action
-            android:id="@+id/action_brandsFragment_to_productsFragment"
-            app:destination="@id/productsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/productsFragment"
-        android:name="com.itigradteamsix.snapshop.products.view.ProductsFragment"
-        android:label="ProductsFragment" >
-        <argument
-            android:name="collection_id"
-            app:argType="long" />
+            android:id="@+id/action_brandsFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
-        android:name="com.itigradteamsix.snapshop.categories.view.CategoryFragment"
+        android:name="com.itigradteamsix.snapshop.products.view.CategoryFragment"
         android:label="fragment_category"
         tools:layout="@layout/fragment_category" >
         <argument
             android:name="collection_id"
             app:argType="long" />
+        <argument
+            android:name="come_from_cat"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_categoryFragment_to_productInfoFragment"
+            app:destination="@id/productInfoFragment" />
+
     </fragment>
+    <fragment
+        android:id="@+id/orderReview"
+        android:name="com.itigradteamsix.snapshop.shoppingcart.order.OrderReview"
+        android:label="fragment_order_review"
+        tools:layout="@layout/fragment_order_review" />
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.itigradteamsix.snapshop.address.view.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" >
+    <argument
+        android:name="customer_id"
+        app:argType="long" />
+        <action
+            android:id="@+id/action_mapFragment_to_addressFragment"
+            app:destination="@id/addressFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/addressFragment"
+        android:name="com.itigradteamsix.snapshop.address.view.AddressFragment"
+        android:label="fragment_address"
+        tools:layout="@layout/fragment_address" >
+        <action
+            android:id="@+id/action_addressFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/filterBottomFragment"
+        android:name="com.itigradteamsix.snapshop.products.view.FilterBottomFragment"
+        android:label="fragment_filter_bottom"
+        tools:layout="@layout/fragment_filter_bottom" >
+        <action
+            android:id="@+id/action_filterBottomFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
+    </dialog>
 
 
     <!--    <activity-->
