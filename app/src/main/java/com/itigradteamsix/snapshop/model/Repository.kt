@@ -1,6 +1,7 @@
 package com.itigradteamsix.snapshop.model
 
 
+import android.util.Log
 import com.itigradteamsix.snapshop.authentication.login.model.CustomerResponse
 import com.itigradteamsix.snapshop.authentication.signup.model.ApiCustomerState
 import com.itigradteamsix.snapshop.data.models.Address

@@ -59,6 +59,9 @@ class OrdersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //change the title  to My Orders
+        activity?.title = "My Orders"
+
 
         ordersAdapter = OrdersAdapter(requireContext())
 
