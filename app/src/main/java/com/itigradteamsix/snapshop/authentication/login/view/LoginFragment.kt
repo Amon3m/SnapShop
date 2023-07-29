@@ -45,6 +45,7 @@ import com.itigradteamsix.snapshop.databinding.FragmentLoginBinding
 import com.itigradteamsix.snapshop.favorite.model.DraftOrder
 import com.itigradteamsix.snapshop.favorite.model.DraftOrderResponse
 import com.itigradteamsix.snapshop.favorite.model.LineItems
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment() {
@@ -59,6 +60,8 @@ class LoginFragment : Fragment() {
     private var customer: Customer? = null
     private val RC_SIGN_IN = 123
     private lateinit var googleSignInClient: GoogleSignInClient
+    private var fromGmail = false
+
 
 
 
@@ -114,6 +117,7 @@ class LoginFragment : Fragment() {
         }
         binding.google.setOnClickListener {
             signInWithGmail()
+            fromGmail = true
 
         }
         binding.loginBtn.setOnClickListener {
@@ -197,7 +201,8 @@ class LoginFragment : Fragment() {
 //                        activity?.finish()
                         if(result.customerData.isNullOrEmpty())
                             {
-                                Toast.makeText(requireContext(),"Sorry you have to sign up first",Toast.LENGTH_SHORT).show()
+                                if (!fromGmail){
+                                Toast.makeText(requireContext(),"Sorry you have to sign up first",Toast.LENGTH_SHORT).show()}
                                 signupViewModel.createDraftOrder(DraftOrderResponse(DraftOrder(line_items = listOf( LineItems(
                                     title = "title",
                                     quantity = 1,
@@ -320,18 +325,25 @@ class LoginFragment : Fragment() {
                     }
 
                     is ApiCustomerState.Success -> {
+                        //add user to datastore to avoid login again
+                        Log.d("draftDataInSuccess", result.customerData?.first_name.toString())
+
+                        result.customerData.let {
+                            viewModel.addUserToDataStore(false, it)}
                         Toast.makeText(
                             requireContext(),
-                            "Welcome " + customer?.first_name,
+                            "Welcome " + result.customerData?.first_name,
                             Toast.LENGTH_SHORT
                         ).show()
-                        Log.d("draftDataInSuccess", result.customerData?.id.toString())
+                        Log.d("draftDataInSuccess", result.customerData?.first_name.toString())
                         val intent = Intent(activity, MainActivity::class.java)
-                        intent.putExtra("customerID", customer?.id.toString())
-                        intent.putExtra("draftID", result.customerData?.id.toString())
+                        intent.putExtra("customerID", result.customerData?.id.toString())
+//                        intent.putExtra("draftID", result.customerData?.note.toString())
+                        Log.d("draftidddddd", result.customerData?.note.toString())
+
                         val sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
                         val editor = sharedPreferences.edit()
-                        editor.putString("draftID",result.customerData?.id.toString())
+                        editor.putString("draftID",result.customerData?.note.toString())
                         editor.apply()
                         sharedPreferences.getString("draftID","")?.let { Log.d("draftIDLogin", it) }
                         startActivity(intent)
