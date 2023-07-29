@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
@@ -152,6 +153,8 @@ class ProductInfoFragment : Fragment() {
                         }
 
                         is ApiDraftLoginState.Success -> {
+                            binding.progressBar5.visibility=GONE
+
                             draftOrderResponse.draft_order = result.data
                             for (item in draftOrderResponse.draft_order?.line_items!!) {
 //                                Log.d(
@@ -184,6 +187,8 @@ class ProductInfoFragment : Fragment() {
                         }
 
                         is ApiDraftLoginState.Failure -> {
+                            binding.progressBar5.visibility=GONE
+
                             Log.d("PIDraftFlowCollect", result.exception.message.toString())
                             Toast.makeText(MyApplication.appContext,"NO INTERNET!",Toast.LENGTH_SHORT).show()
 //                            showMsgDialog(result.exception.message!!)

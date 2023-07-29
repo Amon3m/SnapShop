@@ -124,7 +124,7 @@ class SettingsFragment : Fragment() {
 //        val index = allCountries.indexOf(getCountryCode(currencyCode))
         spinner1.setItems(allCountries)
         //select the country with the country code passed in
-        val index = allCountries.first { getCountryCode(it) == countryyCode }
+        val index = allCountries.first { getCountryCode(it)?.lowercase() == countryyCode.lowercase() }
         spinner1.selectedIndex = allCountries.indexOf(index)
 
 

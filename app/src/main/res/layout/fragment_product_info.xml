@@ -13,7 +13,6 @@
             android:id="@+id/productimagedetails"
             android:layout_width="413dp"
             android:layout_height="360dp"
-            android:src="@drawable/image_grape"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -137,7 +136,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:text="4.5"
+            tools:text="4.5"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/star"
@@ -170,7 +169,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/product4" />
+                tools:srcCompat="@drawable/product4" />
 
         </androidx.cardview.widget.CardView>
 
@@ -188,7 +187,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/product4" />
+                tools:srcCompat="@drawable/product4" />
 
         </androidx.cardview.widget.CardView>
 
@@ -206,7 +205,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/product4" />
+                tools:srcCompat="@drawable/product4" />
 
         </androidx.cardview.widget.CardView>
 
@@ -228,7 +227,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:text="Black"
+            tools:text="Black"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/decreasing_quantity_btn"
             app:layout_constraintStart_toEndOf="@+id/textView6"

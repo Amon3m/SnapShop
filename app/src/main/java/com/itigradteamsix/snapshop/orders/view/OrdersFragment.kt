@@ -66,6 +66,7 @@ class OrdersFragment : Fragment() {
         ordersAdapter = OrdersAdapter(requireContext())
 
         binding.orderRec.apply {
+
             adapter = ordersAdapter
         }
 
@@ -79,7 +80,7 @@ class OrdersFragment : Fragment() {
                         val orders = data?.orders
                         ordersAdapter.submitList(orders)
 
-                        Log.e("src", "${orders?.get(0)?.email}")
+                        Log.e("testorder", "${orders?.get(0)?.email}")
 
 
                     }
