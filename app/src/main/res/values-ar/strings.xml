@@ -59,5 +59,7 @@
     <string name="order_success" >تم الطلب بنجاح</string>
     <string name="order_success_message">سيتم إرسال طلبك إلى عنوانك، شكرا لك على الطلب</string>
     <string name="back_to_home" >العودة للرئيسية</string>
+    <string name="guest_text">أنت زائر</string>
+    <string name="guest_text2">يمكنك إنشاء حساب أو تسجيل الدخول</string>
 
 </resources>
