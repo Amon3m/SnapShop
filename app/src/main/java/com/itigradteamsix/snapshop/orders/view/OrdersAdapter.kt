@@ -26,14 +26,14 @@ class OrdersAdapter (val context: Context)
     override fun onBindViewHolder(holder: OrdersViewHolder, position: Int) {
         val currentObject =getItem(position)
 
-//        Glide.with(context)
-//            .load(currentObject?.image?.src)
-//            .placeholder(R.drawable.img_5)
-//            .error(R.drawable.img_6)
-//            .into(  holder.binding.prorductImageView)
+        Glide.with(context)
+            .load(currentObject?.lineItems?.get(1)?.properties?.get(0)?.value)
+            .placeholder(R.drawable.img_5)
+            .error(R.drawable.img_6)
+            .into(  holder.binding.prorductImageView)
 
-        holder.binding.titleProduct2.text=currentObject?.id.toString()
-        holder.binding.createdText.text=currentObject?.createdAt
+        holder.binding.titleProduct2.text=currentObject?.name.toString()
+        holder.binding.createdText.text=currentObject?.createdAt?.substring(0, 10)
         holder.binding.priceOrder.text=currentObject?.currentTotalPrice
         holder.binding.priceCurr.text=currentObject?.currency
 
