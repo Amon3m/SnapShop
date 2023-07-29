@@ -58,17 +58,52 @@
                 app:layout_constraintStart_toEndOf="@+id/iconWrapperAlertMode"
                 app:layout_constraintTop_toTopOf="@+id/iconWrapperAlertMode" />
 
+<!--            small image view to show the flag of the country -->
+            <ImageView
+                android:id="@+id/flagImageView"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+
+                app:layout_constraintBottom_toBottomOf="@+id/iconWrapperAlertMode"
+                app:layout_constraintEnd_toStartOf="@id/currencySpinner"
+                app:layout_constraintTop_toTopOf="@+id/iconWrapperAlertMode" />
+
             <Button
                 android:id="@+id/currencyButton"
                 style="@style/Widget.Material3.Button.TextButton.Icon"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:text="@string/egp"
-                app:icon="@drawable/expand_arrow"
-                 app:layout_constraintBottom_toBottomOf="@+id/iconWrapperAlertMode"
+                android:includeFontPadding="false"
+                android:minWidth="30dp"
+                android:visibility="gone"
+
+                app:layout_constraintBottom_toBottomOf="@+id/iconWrapperAlertMode"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/iconWrapperAlertMode" />
+
+
+
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/currencySpinner"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="16dp"
+                android:text="USD"
+                app:ms_padding_left="24dp"
+                android:visibility="visible"
+                app:ms_hide_arrow="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

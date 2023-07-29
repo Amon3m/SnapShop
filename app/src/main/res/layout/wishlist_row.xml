@@ -27,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/imgViewCategory"
+                android:id="@+id/imgViewProduct"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
@@ -35,10 +35,9 @@
                 tools:ignore="ContentDescription,MissingClass" />
         </androidx.cardview.widget.CardView>
 
-
         <TextView
             android:id="@+id/txtViewReviewerName"
-            android:layout_width="0dp"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:layout_marginTop="8dp"
@@ -47,21 +46,23 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"
             app:layout_constraintStart_toEndOf="@+id/cardView"
-            app:layout_constraintTop_toTopOf="parent" />
+             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/color_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Black"
             android:textColor="@color/light_grey"
-            app:layout_constraintBottom_toTopOf="@+id/reviewerComment"
+            app:layout_constraintBottom_toTopOf="@+id/priceAfterDiscount"
             app:layout_constraintStart_toStartOf="@+id/txtViewReviewerName"
             app:layout_constraintTop_toBottomOf="@+id/txtViewReviewerName" />
 
         <TextView
-            android:id="@+id/reviewerComment"
+            android:id="@+id/priceAfterDiscount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -74,18 +75,19 @@
             app:layout_constraintStart_toStartOf="@+id/txtViewReviewerName" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/price_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
             android:text="$200.99"
             android:textColor="#F41515"
-            app:layout_constraintBottom_toBottomOf="@+id/reviewerComment"
-            app:layout_constraintStart_toEndOf="@+id/reviewerComment"
-            app:layout_constraintTop_toTopOf="@+id/reviewerComment" />
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/priceAfterDiscount"
+            app:layout_constraintStart_toEndOf="@+id/priceAfterDiscount"
+            app:layout_constraintTop_toTopOf="@+id/priceAfterDiscount" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/delete"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="20dp"

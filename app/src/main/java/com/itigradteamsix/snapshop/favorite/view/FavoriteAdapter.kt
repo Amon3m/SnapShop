@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.itigradteamsix.snapshop.R
 import com.itigradteamsix.snapshop.databinding.WishlistRowBinding
 import com.itigradteamsix.snapshop.favorite.model.FavoritePojo
 
@@ -33,7 +35,7 @@ class FavoriteAdapter (private var favoriteList: List<FavoritePojo>, val context
 
         holder.binding.txtViewReviewerName.text = currentProduct.title
         //add discount feature later
-        holder.binding.priceAfterDiscount.text = currentProduct.price
+        holder.binding.priceAfterDiscount.text = currentProduct.price.plus(" $")
         holder.binding.colorTv.text = currentProduct.color
         Glide.with(context)
             .load(currentProduct.imageSrc)
@@ -43,7 +45,21 @@ class FavoriteAdapter (private var favoriteList: List<FavoritePojo>, val context
 
         }
         holder.binding.delete.setOnClickListener {
-            onFavClickListener.onDeleteClickListener(currentProduct.productId!!)
+            val alertDialogBuilder = AlertDialog.Builder(context)
+            alertDialogBuilder.setMessage("Are you sure you want to delete this item?")
+            alertDialogBuilder.setPositiveButton("Yes") { dialog, which ->
+                onFavClickListener.onDeleteClickListener(currentProduct.productId!!)
+            }
+
+            alertDialogBuilder.setNegativeButton("No") { dialog, which ->
+            }
+
+            val alertDialog = alertDialogBuilder.create()
+            alertDialog.apply {
+                setIcon(R.drawable.baseline_info_24)
+                setTitle("Warning")
+            }
+            alertDialog.show()
         }
     }
 

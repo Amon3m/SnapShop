@@ -6,12 +6,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.itigradteamsix.snapshop.MyApplication
 import com.itigradteamsix.snapshop.authentication.FirebaseRepo
 import com.itigradteamsix.snapshop.authentication.login.model.ApiDraftLoginState
 import com.itigradteamsix.snapshop.database.ConcreteLocalSource
@@ -23,6 +26,9 @@ import com.itigradteamsix.snapshop.favorite.viewmodel.FavoriteViewModel
 import com.itigradteamsix.snapshop.favorite.viewmodel.FavoriteViewModelFactory
 import com.itigradteamsix.snapshop.model.Repository
 import com.itigradteamsix.snapshop.network.ApiClient
+import com.itigradteamsix.snapshop.settings.data.CurrencyPreferences
+import com.itigradteamsix.snapshop.settings.data.UserPreferences
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 
@@ -34,8 +40,17 @@ class WishlistFragment : Fragment() ,OnFavClickListener {
     private var draftOrderResponse : DraftOrderResponse = DraftOrderResponse()
     private lateinit var favAdapter:FavoriteAdapter
     var draftID : String? = null
+    lateinit var userPreferences: UserPreferences
 
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        lifecycleScope.launch {
+            MyApplication.appInstance.settingsStore.userPreferencesFlow.first().let {
+                userPreferences = it
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,14 +62,23 @@ class WishlistFragment : Fragment() ,OnFavClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val  favoriteViewModelFactory= FavoriteViewModelFactory(Repository.getInstance(ApiClient,ConcreteLocalSource(requireContext())),
-            FirebaseRepo(auth = FirebaseAuth.getInstance())
-        )
-        viewModel = ViewModelProvider(requireActivity(),favoriteViewModelFactory)[FavoriteViewModel::class.java]
-        favAdapter = FavoriteAdapter(ArrayList(), requireActivity(),this )
-        binding.favRecycler.adapter = favAdapter
-        val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        draftID = sharedPreferences.getString("draftID","")
+        if (userPreferences.isGuest){
+            Toast.makeText(MyApplication.appContext,"Please Login first!",Toast.LENGTH_SHORT).show()
+
+        }else {
+
+
+            val favoriteViewModelFactory = FavoriteViewModelFactory(
+                Repository.getInstance(ApiClient, ConcreteLocalSource(requireContext())),
+                FirebaseRepo(auth = FirebaseAuth.getInstance())
+            )
+            viewModel =
+                ViewModelProvider(this, favoriteViewModelFactory)[FavoriteViewModel::class.java]
+            favAdapter = FavoriteAdapter(ArrayList(), requireActivity(), this)
+            binding.favRecycler.adapter = favAdapter
+            val sharedPreferences =
+                requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+            draftID = sharedPreferences.getString("draftID", "")
 //        if (activity != null) {
 //            val intent = requireActivity().intent
 //            if (intent != null) {
@@ -63,35 +87,40 @@ class WishlistFragment : Fragment() ,OnFavClickListener {
 //
 //            }
 //        }
-        viewModel.getDraftOrder(draftID!!)
-        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getDraftOrder(draftID!!)
+            viewLifecycleOwner.lifecycleScope.launch {
 
-            viewModel.getDraftFlow.collect { result ->
-                when (result) {
+                viewModel.getDraftFlow.collect { result ->
+                    when (result) {
 
-                    is ApiDraftLoginState.Loading -> {
-                        Log.d("favDraftFlowCollect", "Loading")
-                    }
+                        is ApiDraftLoginState.Loading -> {
+                            Log.d("favDraftFlowCollect", "Loading")
+                        }
 
-                    is ApiDraftLoginState.Success -> {
-                        draftOrderResponse.draft_order=result.data
-                        favoriteItems.clear()
-                        favLineItems = result.data?.line_items as ArrayList<LineItems>
-                        for (fav in favLineItems) {
-                            favoriteItems.add(fav.toFavoritePojo())
+                        is ApiDraftLoginState.Success -> {
+                            draftOrderResponse.draft_order = result.data
+                            favoriteItems.clear()
+                            favLineItems = result.data?.line_items as ArrayList<LineItems>
+                            for (fav in favLineItems) {
+                                favoriteItems.add(fav.toFavoritePojo())
+
+                            }
+
+                            favAdapter.setProductList(favoriteItems)
+                            binding.progressBar7.visibility = GONE
 
                         }
 
-                        favAdapter.setProductList(favoriteItems)
+                        is ApiDraftLoginState.Failure -> {
+                            binding.progressBar7.visibility = GONE
 
+                            Log.d("FavDraftFlowCollect", result.exception.message.toString())
+                        }
                     }
 
-                    is ApiDraftLoginState.Failure -> {
-                        Log.d("FavDraftFlowCollect", result.exception.message.toString())
-                    }
                 }
-
             }
+
         }
     }
     fun LineItems.toFavoritePojo(): FavoritePojo {
@@ -100,7 +129,7 @@ class WishlistFragment : Fragment() ,OnFavClickListener {
             price = price,
             imageSrc = applied_discount?.description,
             title = title,
-            color = variant_title.toString()
+            color = applied_discount?.title
         )
     }
     override fun onFavClickListener(product_Id: Long) {
