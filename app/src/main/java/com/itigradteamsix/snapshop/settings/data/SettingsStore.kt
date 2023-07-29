@@ -33,7 +33,7 @@ data class UserPreferences(
     val customerEmail: String, //api
     val userCurrency: String,  // local
     val cartDraftOrderId: Long, //api
-    val metaFieldId: Long //api
+    val metaFieldId: Long, //api
 )
 
 data class CurrencyPreferences(
