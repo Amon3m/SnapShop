@@ -170,11 +170,22 @@ class ShoppingCartFragment : Fragment() {
 
 //                        binding.totalItemsPriceTextview.text = cartDraftOrder.total_price.toString()
 //                        binding.totalPriceTextview.text = cartDraftOrder.total_price.toString()
+                        val isAddressAvailable = cartDraftOrder.customer?.default_address != null
+                        if (isAddressAvailable){
+                            binding.shoppingCartLocationNameTextview.text =
+                                "${cartDraftOrder.customer?.default_address?.address1?.trim()}, ${cartDraftOrder.customer?.default_address?.city}"
+                        }else{
+                            binding.shoppingCartLocationNameTextview.text = "No address available"
+                        }
 
                         binding.checkoutButton.setOnClickListener { view ->
-                            val action =
-                                ShoppingCartFragmentDirections.actionShoppingCartFragmentToOrderReview()
-                            Navigation.findNavController(view).navigate(action)
+                            if (isAddressAvailable){
+                                val action =
+                                    ShoppingCartFragmentDirections.actionShoppingCartFragmentToOrderReview()
+                                Navigation.findNavController(view).navigate(action)
+                            }else{
+                                Toast.makeText(requireContext(), "Please add your address in the profile page", Toast.LENGTH_SHORT).show()
+                            }
 
                         }
                     }
