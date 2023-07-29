@@ -12,12 +12,26 @@ import com.itigradteamsix.snapshop.model.ListProductsResponse
 import com.itigradteamsix.snapshop.model.OrderResponse
 import com.itigradteamsix.snapshop.model.Product
 import com.itigradteamsix.snapshop.model.ProductListResponse
+import com.itigradteamsix.snapshop.model.ProductsItem
 import com.itigradteamsix.snapshop.model.RepoInterface
 import com.itigradteamsix.snapshop.model.SmartCollectionResponse
 import com.itigradteamsix.snapshop.model.SmartCollectionsResponse
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
 class FakeRepo : RepoInterface {
+
+    private var product1 = Product(
+        id = 1, title = "Shoe"
+    )
+    private var product2 = Product(
+        id = 2, title = "Shirt"
+    )
+    private var product3 = Product(
+        id = 2, title = "Bag"
+    )
+    private var productList: MutableList<Product> = mutableListOf(product1, product2, product3)
+
     override suspend fun getAllProducts(): Flow<ProductListResponse> {
         TODO("Not yet implemented")
     }
@@ -27,7 +41,7 @@ class FakeRepo : RepoInterface {
     }
 
     override suspend fun getProductsByCollectionId(id: Long): Flow<ListProductsResponse> {
-        TODO("Not yet implemented")
+        return flowOf(ListProductsResponse())
     }
 
     override suspend fun getSmartCollectionById(id: Long): Flow<SmartCollectionResponse> {
@@ -54,7 +68,14 @@ class FakeRepo : RepoInterface {
     }
 
     override suspend fun getSingleProduct(id: Long): Flow<Product?> {
-        TODO("Not yet implemented")
+        for (product in productList)
+        {
+            if (product.id==id){
+                return flowOf((product))
+
+            }
+        }
+        return flowOf((null))
     }
 
     override suspend fun getAllAddresses(customer_id: String): Flow<List<Address>?> {
