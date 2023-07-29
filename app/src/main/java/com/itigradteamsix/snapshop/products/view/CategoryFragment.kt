@@ -111,6 +111,7 @@ class CategoryFragment : Fragment(), OnProductsClickListener, FilterOptionsListe
                                     "    var isPrice: Boolean=$isPrice" +
                                     "    var isType: Boolean=$isType"
                         )
+//                        Log.e("lang","${}")
                         val data = it.data as? ListProductsResponse
 
                         var brands = data?.products
@@ -158,8 +159,12 @@ class CategoryFragment : Fragment(), OnProductsClickListener, FilterOptionsListe
                             }
                         } else if (sortPrice) {
                             if (asc) {
-                                brands =
+                                brands =try {
                                     brands?.sortedBy { it?.variants?.get(0)?.price?.toDouble() }
+                                }catch (e: NumberFormatException) {
+                                data?.products
+                            }
+
                                 if (isFiltered) {
                                     if (isPrice && !isType) {
                                         brands = makePriceFilter(fromPrice, toPrice, brands)
@@ -178,8 +183,12 @@ class CategoryFragment : Fragment(), OnProductsClickListener, FilterOptionsListe
                                 productsAdapter.submitList(brands)
 
                             } else {
-                                brands =
+                                brands  =try {
                                     brands?.sortedByDescending { it?.variants?.get(0)?.price?.toDouble() }
+
+                                }catch (e: NumberFormatException) {
+                                    data?.products
+                                }
 
                                 if (isFiltered) {
                                     if (isPrice && !isType) {
@@ -344,7 +353,13 @@ class CategoryFragment : Fragment(), OnProductsClickListener, FilterOptionsListe
     ): List<ProductsItem?>? {
 
         return product?.filter { product ->
-            val price = product?.variants?.get(0)?.price?.toDouble() ?: 0.0
+            var price:Double=0.0
+            price = try {
+                product?.variants?.get(0)?.price?.toDouble() ?: 0.0
+
+            }catch (e: NumberFormatException) {
+                0.0
+            }
 
             price >= fromPrice && price <= toPrice
         }
