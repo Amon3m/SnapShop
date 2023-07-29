@@ -2,6 +2,7 @@ package com.itigradteamsix.snapshop.productInfo.viewmodel
 
 import android.view.ContextMenu
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.test.platform.app.InstrumentationRegistry
 import com.example.myweather.util.MainDispatcherRule
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
@@ -34,10 +35,24 @@ class ProductInfoViewModelTest {
 
     private lateinit var viewModel: ProductInfoViewModel
     private lateinit var fakeRepo: FakeRepo
+
+    @Test
+    fun testSomethingWithContext() {
+        // Get the application context
+//        appContext = InstrumentationRegistry.getInstrumentation().targetContext
+
+        // Now you can use the appContext to access resources, databases, etc.
+        // For example:
+//        val appName = appContext.getString(R.string.app_name)
+
+        // Perform your test assertions or actions that require the Context.
+    }
     @Before
     fun setUp() {
+          var appContext: android.content.Context= InstrumentationRegistry.getInstrumentation().targetContext
+
         fakeRepo = FakeRepo()
-        viewModel = ProductInfoViewModel(fakeRepo, FirebaseRepo(FirebaseAuth.getInstance(FirebaseApp.initializeApp(MyApplication.appContext)!!)))
+        viewModel = ProductInfoViewModel(fakeRepo, FirebaseRepo(FirebaseAuth.getInstance(FirebaseApp.initializeApp(appContext)!!)))
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
