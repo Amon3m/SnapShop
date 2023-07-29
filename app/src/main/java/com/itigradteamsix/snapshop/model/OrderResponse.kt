@@ -1,6 +1,7 @@
 package com.itigradteamsix.snapshop.model
 
 import com.google.gson.annotations.SerializedName
+import com.itigradteamsix.snapshop.favorite.model.LineItemProperty
 
 data class OrderResponse(
 
@@ -314,7 +315,7 @@ data class OrdersItem(
 	val billingAddress: Any? = null,
 
 	@field:SerializedName("line_items")
-	val lineItems: List<LineItemsItemOrder?>? = null,
+	var lineItems: MutableList<LineItemsItemOrder?>? = null,
 
 	@field:SerializedName("original_total_duties_set")
 	val originalTotalDutiesSet: Any? = null,
@@ -692,7 +693,7 @@ data class LineItemsItemOrder(
 	val priceSet: PriceSet? = null,
 
 	@field:SerializedName("properties")
-	val properties: List<Any?>? = null,
+	val properties: List<LineItemProperty>? = null,
 
 	@field:SerializedName("duties")
 	val duties: List<Any?>? = null
