@@ -93,7 +93,7 @@ class ProductInfoFragment : Fragment() {
             productViewModelFactory
         )[ProductInfoViewModel::class.java]
         showLoading()
-        viewModel = ViewModelProvider(requireActivity(),productViewModelFactory)[ProductInfoViewModel::class.java]
+        viewModel = ViewModelProvider(this,productViewModelFactory)[ProductInfoViewModel::class.java]
 //        if (activity != null) {
 //            val intent = requireActivity().intent
 //            if (intent != null) {
@@ -187,10 +187,10 @@ class ProductInfoFragment : Fragment() {
                         }
 
                         is ApiDraftLoginState.Failure -> {
-                            binding.progressBar5.visibility=GONE
+                            binding.progressBar5.visibility=GONE 
 
                             Log.d("PIDraftFlowCollect", result.exception.message.toString())
-                            Toast.makeText(MyApplication.appContext,"NO INTERNET!",Toast.LENGTH_SHORT).show()
+//                            Toast.makeText(MyApplication.appContext,"NO INTERNET!",Toast.LENGTH_SHORT).show()
 //                            showMsgDialog(result.exception.message!!)
                         }
                     }
