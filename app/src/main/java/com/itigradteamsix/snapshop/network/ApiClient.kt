@@ -99,7 +99,7 @@ object ApiClient : RemoteSource {
             Log.d("rfGetCustException",e.message.toString())
 
         }
-        Log.d("retrofitCreateCust", response?.get(0)?.email.toString())
+//        Log.d("retrofitCreateCust", response?.get(0)?.email.toString())
         return response
     }
 
