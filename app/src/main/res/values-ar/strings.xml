@@ -78,5 +78,7 @@
     <string name="already_have_an_account">هل عندك حساب؟</string>
     <string name="choose_your_location">اختار عنوان</string>
     <string name="default_add">العنوان الافتراضي</string>
+    <string name="guest_text">أنت زائر</string>
+    <string name="guest_text2">يمكنك إنشاء حساب أو تسجيل الدخول</string>
 
 </resources>

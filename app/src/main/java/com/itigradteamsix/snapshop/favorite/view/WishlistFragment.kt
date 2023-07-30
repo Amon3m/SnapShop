@@ -2,6 +2,7 @@ package com.itigradteamsix.snapshop.favorite.view
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.itigradteamsix.snapshop.MyApplication
+import com.itigradteamsix.snapshop.StartActivity
 import com.itigradteamsix.snapshop.authentication.FirebaseRepo
 import com.itigradteamsix.snapshop.authentication.login.model.ApiDraftLoginState
 import com.itigradteamsix.snapshop.database.ConcreteLocalSource
@@ -63,7 +65,14 @@ class WishlistFragment : Fragment() ,OnFavClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (userPreferences.isGuest){
-            Toast.makeText(MyApplication.appContext,"Please Login first!",Toast.LENGTH_SHORT).show()
+
+            binding.progressBar7.visibility = GONE
+            binding.groupGuest.visibility = View.VISIBLE
+            binding.cardGuestLoggedIn.goToLoginButton.setOnClickListener {
+                val intent = Intent(activity, StartActivity::class.java)
+                startActivity(intent)
+                activity?.finish()
+            }
 
         }else {
 

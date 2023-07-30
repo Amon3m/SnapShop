@@ -108,7 +108,7 @@ class ProfileFragment : Fragment() {
 
         setScreenAccordingToPrefs()
 
-        binding.btnGoToLogin.setOnClickListener {
+        binding.cardGuestLoggedIn.goToLoginButton.setOnClickListener {
             val intent = Intent(activity, StartActivity::class.java)
             startActivity(intent)
             activity?.finish()
