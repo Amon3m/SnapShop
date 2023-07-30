@@ -144,7 +144,7 @@ class ProductInfoFragment : Fragment() {
 
 
             launch {
-                delay(1000)
+                delay(1400)
                 viewModel.getDraftFlow.collect { result ->
                     when (result) {
 
