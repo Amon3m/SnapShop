@@ -21,7 +21,6 @@
     <string name="wishlist">المفضلة</string>
     <string name="cart">سلة التسوق</string>
     <string name="next">التالي</string>
-    تصفح \ واستكشف
     <string name="browse_nand_explore">Browse \nand Explore</string>
     <string name="dive_into_our_vast_collection_nof_products_across_various_categories">Dive into our vast collection \nof products across various categories.</string>
     <string name="get_started">البدء</string>
@@ -80,5 +79,17 @@
     <string name="default_add">العنوان الافتراضي</string>
     <string name="guest_text">أنت زائر</string>
     <string name="guest_text2">يمكنك إنشاء حساب أو تسجيل الدخول</string>
+    <string name="type">النوع</string>
+    <string name="to">الي</string>
+    <string name="filter">التصنيف</string>
+    <string name="price">السعر</string>
+    <string name="from">من</string>
+    <string name="accessories">اكسسوارات</string>
+    <string name="shoes">أحذية</string>
+    <string name="t_shirts">تي شيرت</string>
+    <string name="created_at">انشئ في</string>
+    <string name="your_addresses">عناوينك :</string>
+    <string name="add_address">اضف عنوان</string>
+    <string name="delete">امسح</string>
 
 </resources>
