@@ -114,6 +114,7 @@ class OrderReview : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setUpCartRecyclerView()
         handlePlacingOrder()
         handleCopouns()
@@ -176,6 +177,9 @@ class OrderReview : Fragment() {
                                 "empty", true
                             )
                         }
+
+                        binding.shippingAddress.text ="${draftOrder.customer?.default_address?.address1?.trim()}, ${draftOrder.customer?.default_address?.city}"
+
                         orderReviewAdapter.submitList(filteredLineItems)
 
 //                        binding.totalItemsPriceTextview.text = cartDraftOrder.total_price.toString()

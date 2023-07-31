@@ -2,19 +2,24 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="130dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/product_price_card"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_margin="10dp"
 
 
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="184dp"
+        android:layout_marginBottom="3dp"
         android:layout_weight="1"
         app:cardCornerRadius="20dp"
-        app:layout_constraintStart_toStartOf="@+id/text_created"
+        app:layout_constraintBottom_toTopOf="@+id/view2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/product_order_card"
         app:layout_constraintTop_toBottomOf="@+id/created_text">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -55,7 +60,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
+        android:layout_marginEnd="82dp"
         android:text="2023/7/31 12:30Am"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/text_created"
         app:layout_constraintTop_toTopOf="@+id/text_created" />
 
@@ -63,12 +70,13 @@
         android:id="@+id/title_product2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:text="Ipad Pro 2020 11&quot;, Wifi, 128GB"
+        android:layout_marginStart="35dp"
+        android:layout_marginBottom="3dp"
+        android:text="#id"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/created_text"
+        app:layout_constraintBottom_toTopOf="@+id/text_created"
         app:layout_constraintStart_toEndOf="@+id/product_order_card"
-        tools:layout_editor_absoluteY="10dp" />
+        app:layout_constraintTop_toTopOf="@+id/product_order_card" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/product_order_card"
@@ -77,8 +85,11 @@
         android:layout_margin="10dp"
 
 
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_weight="1"
         app:cardCornerRadius="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/view2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -109,20 +120,23 @@
         android:id="@+id/text_created"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
         android:text="@string/created"
-        app:layout_constraintEnd_toStartOf="@+id/created_text"
+        app:layout_constraintBottom_toTopOf="@+id/product_price_card"
+        app:layout_constraintStart_toEndOf="@+id/product_order_card"
         app:layout_constraintTop_toBottomOf="@+id/title_product2" />
 
     <View
-        app:layout_constraintTop_toBottomOf="@id/product_price_card"
+        android:id="@+id/view2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
         android:background="@color/grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="7dp" />
+        app:layout_constraintTop_toBottomOf="@id/product_price_card" />
 </androidx.constraintlayout.widget.ConstraintLayout>

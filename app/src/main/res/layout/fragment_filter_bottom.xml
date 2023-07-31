@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="Type"
+        android:text="@string/type"
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/textView7"
@@ -22,7 +22,7 @@
         android:layout_width="46dp"
         android:layout_height="40dp"
         android:layout_marginStart="147dp"
-        android:text="to"
+        android:text="@string/to"
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/textView8"
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="26dp"
-        android:text="Filter"
+        android:text="@string/filter"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
         android:layout_marginEnd="10dp"
-        android:text="Price"
+        android:text="@string/price"
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/textView6"
@@ -58,7 +58,7 @@
         android:layout_width="61dp"
         android:layout_height="41dp"
         android:layout_marginTop="10dp"
-        android:text="From"
+        android:text="@string/from"
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/textView7"
@@ -118,20 +118,20 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ACCESSORIES" />
+            android:text="@string/accessories" />
 
         <RadioButton
             android:id="@+id/shoes_rdb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SHOES" />
+            android:text="@string/shoes" />
 
         <RadioButton
             android:id="@+id/t_rdb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="T-SHIRTS" />
+            android:text="@string/t_shirts" />
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

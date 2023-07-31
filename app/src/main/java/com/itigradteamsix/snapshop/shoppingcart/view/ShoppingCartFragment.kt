@@ -1,5 +1,6 @@
 package com.itigradteamsix.snapshop.shoppingcart.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.itigradteamsix.snapshop.MyApplication
 import com.itigradteamsix.snapshop.R
+import com.itigradteamsix.snapshop.StartActivity
 import com.itigradteamsix.snapshop.database.ConcreteLocalSource
 import com.itigradteamsix.snapshop.databinding.FragmentShoppingCartBinding
 import com.itigradteamsix.snapshop.favorite.model.DraftOrder
@@ -28,6 +30,7 @@ import com.itigradteamsix.snapshop.network.ApiState
 import com.itigradteamsix.snapshop.settings.currency.CurrencyUtils
 import com.itigradteamsix.snapshop.settings.currency.CurrencyUtils.convertCurrency
 import com.itigradteamsix.snapshop.settings.data.CurrencyPreferences
+import com.itigradteamsix.snapshop.settings.data.UserPreferences
 
 import com.itigradteamsix.snapshop.shoppingcart.viewmodel.ShoppingCartViewModel
 import com.itigradteamsix.snapshop.shoppingcart.viewmodel.ShoppingCartViewModelFactory
@@ -43,6 +46,7 @@ class ShoppingCartFragment : Fragment() {
     lateinit var shoppingCartviewModelFactory: ShoppingCartViewModelFactory
     lateinit var cartAdapter: ShoppingCartAdapter
     lateinit var currencyPref: CurrencyPreferences
+    lateinit var userprefs : UserPreferences
 
     //    var discountPercentage = 0
     var draftOrder = DraftOrder()
@@ -64,6 +68,8 @@ class ShoppingCartFragment : Fragment() {
             MyApplication.appInstance.settingsStore.currencyPreferencesFlow.first().let {
                 currencyPref = it
             }
+            userprefs = MyApplication.appInstance.settingsStore.userPreferencesFlow.first()
+
         }
 
     }
@@ -78,9 +84,24 @@ class ShoppingCartFragment : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        shoppingCartViewModel.getCartDraftOrder()
-        setUpCartRecyclerView()
-        setUpCopounCode()
+        if (userprefs.isGuest){
+            binding.shoppingCartGroup.visibility = View.GONE
+            binding.emptyCartGroup.visibility = View.GONE
+            binding.loadingCartGroup.visibility = View.GONE
+            binding.loadingCartGroup.visibility = View.GONE
+            binding.groupGuest.visibility = View.VISIBLE
+            binding.cardGuestLoggedIn.goToLoginButton.setOnClickListener {
+                val intent = Intent(activity, StartActivity::class.java)
+                startActivity(intent)
+                activity?.finish()
+            }
+
+        }else{
+            shoppingCartViewModel.getCartDraftOrder()
+            setUpCartRecyclerView()
+            setUpCopounCode()
+        }
+
 
     }
 
@@ -170,11 +191,22 @@ class ShoppingCartFragment : Fragment() {
 
 //                        binding.totalItemsPriceTextview.text = cartDraftOrder.total_price.toString()
 //                        binding.totalPriceTextview.text = cartDraftOrder.total_price.toString()
+                        val isAddressAvailable = cartDraftOrder.customer?.default_address != null
+                        if (isAddressAvailable){
+                            binding.shoppingCartLocationNameTextview.text =
+                                "${cartDraftOrder.customer?.default_address?.address1?.trim()}, ${cartDraftOrder.customer?.default_address?.city}"
+                        }else{
+                            binding.shoppingCartLocationNameTextview.text = "No address available"
+                        }
 
                         binding.checkoutButton.setOnClickListener { view ->
-                            val action =
-                                ShoppingCartFragmentDirections.actionShoppingCartFragmentToOrderReview()
-                            Navigation.findNavController(view).navigate(action)
+                            if (isAddressAvailable){
+                                val action =
+                                    ShoppingCartFragmentDirections.actionShoppingCartFragmentToOrderReview()
+                                Navigation.findNavController(view).navigate(action)
+                            }else{
+                                Toast.makeText(requireContext(), "Please add your address in the profile page", Toast.LENGTH_SHORT).show()
+                            }
 
                         }
                     }
@@ -198,6 +230,7 @@ class ShoppingCartFragment : Fragment() {
                         ).show()
                         val totalItemsPrice = draftOrder.total_price?.toDouble()
 
+                        if(totalItemsPrice != null){}
                         val discountPrice =
                             calculateSavingAmount(totalItemsPrice!!, it)
                         val totalPrice = totalItemsPrice.times(1 - it / 100.0)

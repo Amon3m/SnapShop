@@ -297,40 +297,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             />
 
-<!--        another group for loggedIn as a guest, it should have a textview "You're a Guest" and below it is a button to go to login page-->
-        <TextView
-            android:id="@+id/tv_guest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/you_are_a_guest"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btn_go_to_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="8dp"
-            android:text="@string/go_to_login"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@id/tv_guest"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+        <include
+            android:id="@+id/cardGuestLoggedIn"
+            layout="@layout/cardview_guest_logged_in" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/group_guest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="tv_guest, btn_go_to_login" />
+            app:constraint_referenced_ids="cardGuestLoggedIn" />
 
 
 

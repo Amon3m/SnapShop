@@ -39,7 +39,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="next">Next</string>
     <string name="browse_nand_explore">Browse \nand Explore</string>
-    <string name="dive_into_our_vast_collection_nof_products_across_various_categories">Dive into our vast collection of \nproducts across various categories.</string>
+    <string name="dive_into_our_vast_collection_nof_products_across_various_categories">Dive into our vast collection of \nproducts across various \ncategories.</string>
     <string name="get_started">Get Started</string>
     <string name="category">Category</string>
     <string name="brands">Brands</string>
@@ -78,6 +78,20 @@
     <string name="order_success">Order Success</string>
     <string name="order_success_message">Your packet will be sent to your \n address, thanks for order</string>
     <string name="back_to_home">Back to home</string>
+    <string name="guest_text">You\'re a guest</string>
+    <string name="guest_text2">You can go create an account or login</string>
+    <string name="type">Type</string>
+    <string name="to">to</string>
+    <string name="filter">Filter</string>
+    <string name="price">Price</string>
+    <string name="from">From</string>
+    <string name="accessories">ACCESSORIES</string>
+    <string name="shoes">SHOES</string>
+    <string name="t_shirts">T-SHIRTS</string>
+    <string name="created_at">Created at</string>
+    <string name="your_addresses">Your Addresses :</string>
+    <string name="add_address">Add Address</string>
+    <string name="delete">Delete</string>
 
 
 </resources>

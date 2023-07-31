@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.itigradteamsix.snapshop.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
@@ -36,5 +35,6 @@ class StartActivity : AppCompatActivity() {
         }
 
     }
-}
+    }
+
 
