@@ -1,6 +1,19 @@
 # SnapShop M-Commerce Android App 
+![photo_5933553502347444118_y](https://github.com/Amon3m/shopify/assets/112562093/a49eb320-ec3c-4399-a884-deda255247be)
 
-![App Screenshot](app_screenshot.png)
+## App Screenshots
+
+![photo_5933553502347444104_y](https://github.com/Amon3m/shopify/assets/112562093/496370e3-86ca-4650-8d62-5b08bdb0b3bb)
+![photo_5933553502347444105_y](https://github.com/Amon3m/shopify/assets/112562093/57457564-2497-4b3d-a964-a448a07d06a5)
+![photo_5933553502347444106_y](https://github.com/Amon3m/shopify/assets/112562093/519299a2-ff2f-4cf1-85d8-281bbce7aedb)
+![photo_5933553502347444107_y](https://github.com/Amon3m/shopify/assets/112562093/85da51b5-33ff-4e02-82cd-a5d926bba221)
+![photo_5933553502347444108_y](https://github.com/Amon3m/shopify/assets/112562093/846257bb-53b1-4e8b-9ab7-2b414205715c)
+![photo_5933553502347444109_y](https://github.com/Amon3m/shopify/assets/112562093/890efddd-f022-42ed-a298-46cf84bcba48)
+![photo_5933553502347444110_y](https://github.com/Amon3m/shopify/assets/112562093/369e5159-fe47-44ff-ae08-bd9c6088b2c8)
+![photo_5933553502347444111_y](https://github.com/Amon3m/shopify/assets/112562093/77706154-c97f-414f-a504-ea797dd7d7ad)
+![photo_5933553502347444112_y](https://github.com/Amon3m/shopify/assets/112562093/334514b6-4c16-4826-8a6f-1c32a0a2acbb)
+![photo_5933553502347444103_y](https://github.com/Amon3m/shopify/assets/112562093/18f00eba-a437-4552-9097-bed5af7d880a)
+
 
 
 ## Introduction
